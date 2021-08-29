@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://effects/raw_assets/circle32.png" type="Texture" id=1]
 [ext_resource path="res://effects/raw_assets/gib.glb" type="PackedScene" id=2]
@@ -9,13 +9,19 @@ radius = 0.226736
 
 [sub_resource type="SpatialMaterial" id=2]
 flags_transparent = true
-flags_unshaded = true
 vertex_color_use_as_albedo = true
 params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 1 )
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.00775194, 0.984496 )
+colors = PoolColorArray( 1, 0, 0, 1, 0.584314, 0.0705882, 0.0705882, 0 )
+
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
 
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 0 ), 0.0, 3.92756, 0, 0, Vector2( 1, 0 ), -3.61853, 0.0, 0, 0 ]
@@ -27,10 +33,10 @@ curve = SubResource( 3 )
 trail_divisor = 3
 direction = Vector3( 0, 1, 0 )
 initial_velocity = 4.0
-scale = 0.2
-scale_random = 0.26
+scale = 0.0
+scale_random = 0.2
 scale_curve = SubResource( 4 )
-color = Color( 0.301961, 0.027451, 0, 1 )
+color_ramp = SubResource( 8 )
 
 [sub_resource type="QuadMesh" id=6]
 
@@ -47,7 +53,7 @@ transform = Transform( 0.216522, 0, 0, 0, 0.216522, 0, 0, 0, 0.216522, 0, 0, 0 )
 
 [node name="Particles" type="Particles" parent="."]
 material_override = SubResource( 2 )
-amount = 17
+amount = 100
 visibility_aabb = AABB( -25, -4, -31, 50, 8, 62 )
 local_coords = false
 process_material = SubResource( 5 )

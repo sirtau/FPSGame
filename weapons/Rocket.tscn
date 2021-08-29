@@ -9,7 +9,7 @@
 [sub_resource type="SphereShape" id=1]
 radius = 0.306321
 
-[sub_resource type="ArrayMesh" id=7]
+[sub_resource type="ArrayMesh" id=2]
 resource_name = "Rocket"
 surfaces/0 = {
 "aabb": AABB( -0.133104, 0.124226, -0.118197, 0.266209, 0.846027, 0.25318 ),
@@ -36,7 +36,7 @@ surfaces/1 = {
 "vertex_count": 72
 }
 
-[sub_resource type="ArrayMesh" id=8]
+[sub_resource type="ArrayMesh" id=3]
 resource_name = "MuzzleFlash3"
 surfaces/0 = {
 "aabb": AABB( -0.155057, -0.160037, -0.00122764, 0.291598, 0.329154, 0.962782 ),
@@ -51,7 +51,7 @@ surfaces/0 = {
 "vertex_count": 36
 }
 
-[sub_resource type="SpatialMaterial" id=2]
+[sub_resource type="SpatialMaterial" id=4]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -61,14 +61,14 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 3 )
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.116279, 0.503876, 1 )
 colors = PoolColorArray( 1, 0, 0, 0.930233, 0, 0, 0, 0.822066, 0.631616, 0.631616, 0.631616, 0.403822, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=7]
 emission_shape = 1
 emission_sphere_radius = 0.01
 spread = 180.0
@@ -77,9 +77,9 @@ radial_accel = 2.33
 radial_accel_random = 1.0
 scale = 0.5
 scale_random = 0.79
-color_ramp = SubResource( 4 )
+color_ramp = SubResource( 6 )
 
-[sub_resource type="QuadMesh" id=6]
+[sub_resource type="QuadMesh" id=8]
 
 [node name="Rocket" type="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0683095 )
@@ -96,7 +96,7 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0
 
 [node name="Rocket" type="MeshInstance" parent="Graphics/rocket"]
 cast_shadow = 0
-mesh = SubResource( 7 )
+mesh = SubResource( 2 )
 material/0 = null
 material/1 = null
 
@@ -105,15 +105,15 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0
 
 [node name="MuzzleFlash3" type="MeshInstance" parent="Graphics/rocket/muzzleflash3"]
 cast_shadow = 0
-mesh = SubResource( 8 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="SmokeTrail" type="Particles" parent="."]
-material_override = SubResource( 2 )
+material_override = SubResource( 4 )
 amount = 16
 local_coords = false
-process_material = SubResource( 5 )
-draw_pass_1 = SubResource( 6 )
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 8 )
 
 [node name="ShowAfterTimeTimer" type="Timer" parent="."]
 wait_time = 0.05

@@ -58,7 +58,7 @@ func switch_to_last_weapon():
 func switch_to_weapon_slot(slot_ind: int):
 	if slot_ind < 0 or slot_ind >= slots_unlocked.size():
 		return
-	if !slots_unlocked[cur_slot]:
+	if !slots_unlocked[slot_ind]:
 		return
 	disable_all_weapons()
 	cur_weapon = weapons[slot_ind]
