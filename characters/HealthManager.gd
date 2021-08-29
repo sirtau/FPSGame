@@ -12,7 +12,7 @@ signal gibbed
 export var max_health = 100
 var cur_health = 1
 
-export var gib_at = -10
+export var gib_at = -30
 
 func _ready():
 	init()
@@ -23,8 +23,6 @@ func init():
 
 func hurt(damage: int, dir: Vector3):
 	spawn_blood(dir)
-	if cur_health <= 0:
-		return
 	cur_health -= damage
 	if cur_health <= gib_at:
 		spawn_gibs()

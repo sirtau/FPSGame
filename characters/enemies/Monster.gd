@@ -2,11 +2,11 @@ extends KinematicBody
 
 onready var character_mover = $CharacterMover
 onready var anim_player = $Graphics/AnimationPlayer
-onready var health_mananger = $HealthManager
+onready var health_manager = $HealthManager
 onready var nav : Navigation = get_parent()
 onready var aimer = $AimAtObject
 
-enum STATES {IDLE, CHASE, ATTACK, DEAD}
+enum STATES {IDLE, CHASE, ATTACK, DEAD, GIBBED}
 var cur_state = STATES.IDLE
 
 var player = null
@@ -21,10 +21,14 @@ export var attack_rate = 0.5
 export var attack_anim_speed_mod = 0.5
 var attack_timer : Timer
 var can_attack = true
+var died = false
 
 signal attack
 
 func _ready():
+	for child in $AimAtObject.get_children():
+		if child.has_method("set_bodies_to_exclude"):
+			child.set_bodies_to_exclude([self])
 	attack_timer = Timer.new()
 	attack_timer.wait_time = attack_rate
 	attack_timer.connect("timeout", self, "finish_attack")
@@ -38,8 +42,8 @@ func _ready():
 			if child is HitBox:
 				child.connect("hurt", self, "hurt")
 	
-	health_mananger.connect("dead", self, "set_state_dead")
-	health_mananger.connect("gibbed", $Graphics, "hide")
+	health_manager.connect("dead", self, "set_state_dead")
+	health_manager.connect("gibbed", self, "queue_free")
 	character_mover.init(self)
 	set_state_idle()
 
@@ -53,6 +57,8 @@ func _process(delta):
 			process_state_attack(delta)
 		STATES.DEAD:
 			process_state_dead(delta)
+		STATES.GIBBED:
+			process_state_gibbed(delta)
 
 func set_state_idle():
 	cur_state = STATES.IDLE
@@ -67,9 +73,18 @@ func set_state_attack():
 
 func set_state_dead():
 	cur_state = STATES.DEAD
-	anim_player.play("die")
+	if !died:
+		anim_player.play("die")	
+	died = true
 	character_mover.freeze()
+	add_collision_exception_with(player)
+	
+	
+
+		
+func process_state_gibbed(delta):
 	$CollisionShape.disabled = true
+	
 
 func process_state_idle(delta):
 	if can_see_player():
@@ -103,10 +118,12 @@ func process_state_attack(delta):
 func process_state_dead(delta):
 	pass
 
+
 func hurt(damage: int, dir: Vector3):
 	if cur_state == STATES.IDLE:
 		set_state_chase()
-	health_mananger.hurt(damage, dir)
+	health_manager.hurt(damage, dir)
+	print(health_manager.cur_health)
 
 func start_attack():
 	can_attack = false

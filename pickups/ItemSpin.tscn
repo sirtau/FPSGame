@@ -1,9 +1,4 @@
-[gd_scene load_steps=5 format=2]
-
-[ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
-[ext_resource path="res://pickups/raw_assets/healthpack.glb" type="PackedScene" id=2]
-
-[sub_resource type="SphereShape" id=1]
+[gd_scene load_steps=2 format=2]
 
 [sub_resource type="Animation" id=2]
 resource_name = "spin"
@@ -34,23 +29,6 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.138, 0 ), Vector3( 0, -0.167, 0 ) ]
 }
 
-[node name="HealthPickup" type="Area"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-collision_layer = 8
-collision_mask = 0
-script = ExtResource( 1 )
-pickup_type = 6
-
-[node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer"]
 autoplay = "spin"
 anims/spin = SubResource( 2 )
-
-[node name="Graphics" type="Spatial" parent="."]
-transform = Transform( -0.208061, 0, 0.978115, 0, 1, 0, -0.978115, 0, -0.208061, 0, 0.130408, 0 )
-
-[node name="healthpack" parent="Graphics" instance=ExtResource( 2 )]
-
-[editable path="Graphics/healthpack"]

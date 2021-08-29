@@ -22,3 +22,7 @@ func _physics_process(delta):
 		var n = collision.normal
 		var r = d - 2 * d.dot(n) * n
 		velocity = r * velo_retained_on_bounce
+
+
+func destroy():
+	queue_free()

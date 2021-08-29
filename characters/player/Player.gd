@@ -13,7 +13,7 @@ var hotkeys = {
 	KEY_0: 9,
 }
 
-export var mouse_sens = 0.5
+export var mouse_sens = 0.1
 
 onready var camera = $Camera
 onready var character_mover = $CharacterMover
@@ -37,7 +37,7 @@ func _ready():
 
 func _process(_delta):
 	if Input.is_action_just_pressed("exit"):
-		get_tree().quit()
+		mouse_mode_toggle()
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
 	
@@ -76,6 +76,12 @@ func _input(event):
 
 func hurt(damage, dir):
 	health_manager.hurt(damage, dir)
+
+func mouse_mode_toggle():
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func heal(amount):
 	health_manager.heal(amount)

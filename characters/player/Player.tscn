@@ -397,11 +397,9 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135936, 0.0357596, 0.111642 )
 script = ExtResource( 10 )
 automatic = true
-damage = 100
 attack_rate = 0.1
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/MachineGun"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0689657 )
 
 [node name="machinegun" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics" instance=ExtResource( 6 )]
 transform = Transform( 0.149456, 0, 0, 0, 0.149456, 0, 0, 0, 0.149456, 0, 0, 0 )
@@ -469,18 +467,36 @@ anims/idle = SubResource( 7 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.019293, -0.246466 )
 
 [node name="HitScanBulletEmitter" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 0.99863, -0.052336, 0, 0.052336, 0.99863, 0, 0, 0 )
+
+[node name="HitScanBulletEmitter11" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
 
 [node name="HitScanBulletEmitter2" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
-transform = Transform( 0.999048, 0, -0.0436194, 0, 1, 0, 0.0436194, 0, 0.999048, 0, 0, 0 )
+transform = Transform( 0.999048, -0.0015223, -0.0435928, 0, 0.999391, -0.0348995, 0.0436194, 0.0348663, 0.998439, 0, 0, 0 )
 
 [node name="HitScanBulletEmitter3" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
-transform = Transform( 0.999048, 0, 0.0436194, 0, 1, 0, -0.0436194, 0, 0.999048, 0, 0, 0 )
+transform = Transform( 0.999048, 0.0015223, 0.0435928, 0, 0.999391, -0.0348995, -0.0436194, 0.0348663, 0.998439, 0, 0, 0 )
 
 [node name="HitScanBulletEmitter4" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
-transform = Transform( 0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, 0, 0, 0 )
+transform = Transform( 0.996195, -0.00152108, -0.0871424, 0, 0.999848, -0.0174524, 0.0871557, 0.017386, 0.996043, 0, 0, 0 )
 
 [node name="HitScanBulletEmitter5" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
-transform = Transform( 0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, 0, 0, 0 )
+transform = Transform( 0.996195, 0.00152108, 0.0871424, 0, 0.999848, -0.0174524, -0.0871557, 0.017386, 0.996043, 0, 0, 0 )
+
+[node name="HitScanBulletEmitter6" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 0.999848, 0.0174524, 0, -0.0174524, 0.999848, 0, 0, 0 )
+
+[node name="HitScanBulletEmitter7" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
+transform = Transform( 0.999048, 0.000761264, -0.0436128, 0, 0.999848, 0.0174524, 0.0436194, -0.0174358, 0.998896, 0, 0, 0 )
+
+[node name="HitScanBulletEmitter8" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
+transform = Transform( 0.999048, -0.0015223, 0.0435928, 0, 0.999391, 0.0348995, -0.0436194, -0.0348663, 0.998439, 0, 0, 0 )
+
+[node name="HitScanBulletEmitter9" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
+transform = Transform( 0.996195, 0.00304169, -0.0871026, 0, 0.999391, 0.0348995, 0.0871557, -0.0347667, 0.995588, 0, 0, 0 )
+
+[node name="HitScanBulletEmitter10" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
+transform = Transform( 0.996195, -0.00456138, 0.0870363, 0, 0.99863, 0.052336, -0.0871558, -0.0521368, 0.99483, 0, 0, 0 )
 
 [node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Shotgun"]
 anchor_left = 0.5
@@ -500,6 +516,7 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12835, 0.109043, 0.148012 )
 visible = false
 script = ExtResource( 10 )
+damage = 20
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
 
@@ -561,6 +578,9 @@ shape = SubResource( 13 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.111322 )
 
 [node name="CharacterMover" parent="." instance=ExtResource( 2 )]
+move_accel = 2
+max_speed = 20
+jump_force = 20
 
 [node name="HealthManager" parent="." instance=ExtResource( 3 )]
 
@@ -651,6 +671,7 @@ __meta__ = {
 
 [node name="RemoveInfoTimer" type="Timer" parent="CanvasLayer/PickupInfo"]
 wait_time = 2.0
+
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]

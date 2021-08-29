@@ -30,6 +30,11 @@ config/name="FPS Course"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+
 [importer_defaults]
 
 texture={

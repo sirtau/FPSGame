@@ -7,6 +7,7 @@
 
 [sub_resource type="Animation" id=2]
 resource_name = "spin"
+length = 2.0
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Graphics:rotation_degrees")
@@ -15,10 +16,22 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics:translation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.138, 0 ), Vector3( 0, -0.167, 0 ) ]
 }
 
 [node name="MachineGunPickup" type="Area"]
@@ -36,7 +49,7 @@ autoplay = "spin"
 anims/spin = SubResource( 2 )
 
 [node name="Graphics" type="Spatial" parent="."]
-transform = Transform( -0.562499, 0, -0.826797, 0, 1, 0, 0.826797, 0, -0.562499, 0, 0, 0 )
+transform = Transform( 0.999999, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 0.999999, 0, -2.98023e-08, 0 )
 
 [node name="machinegun" parent="Graphics" instance=ExtResource( 2 )]
 transform = Transform( 0.48007, 0, 0, 0, 0.48007, 0, 0, 0, 0.48007, 0, 0, 0 )
