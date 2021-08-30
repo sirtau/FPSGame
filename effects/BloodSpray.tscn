@@ -30,7 +30,7 @@ direction = Vector3( 0, 1, 0 )
 initial_velocity = 5.0
 scale = 0.2
 scale_curve = SubResource( 3 )
-color = Color( 1, 0.0901961, 0, 1 )
+color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="QuadMesh" id=7]
 

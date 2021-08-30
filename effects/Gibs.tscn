@@ -6,7 +6,6 @@
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
-flags_unshaded = true
 vertex_color_use_as_albedo = true
 params_billboard_mode = 3
 particles_anim_h_frames = 1
@@ -15,17 +14,18 @@ particles_anim_loop = false
 albedo_texture = ExtResource( 2 )
 
 [sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 3.92756, 0, 0, Vector2( 1, 0 ), -3.61853, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 1.86192, 0, 0, Vector2( 0.796053, 0.964325 ), -0.122828, -0.122828, 0, 0, Vector2( 1, 0 ), -3.61853, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=3]
 curve = SubResource( 2 )
 
 [sub_resource type="ParticlesMaterial" id=4]
+trail_divisor = 8
 direction = Vector3( 0, 1, 0 )
 initial_velocity = 5.0
 scale = 0.2
 scale_curve = SubResource( 3 )
-color = Color( 0.301961, 0.027451, 0, 1 )
+color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="QuadMesh" id=5]
 
@@ -47,7 +47,7 @@ transform = Transform( 0.61834, 0.187878, -0.763123, -0.118279, 0.982192, 0.1459
 [node name="Particles" type="Particles" parent="."]
 material_override = SubResource( 1 )
 emitting = false
-amount = 16
+amount = 32
 one_shot = true
 explosiveness = 0.78
 local_coords = false

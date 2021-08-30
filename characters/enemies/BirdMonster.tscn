@@ -183,7 +183,8 @@ shape = SubResource( 8 )
 
 [node name="HealthManager" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-max_health = 20
+max_health = 50
+gib_at = -20
 
 [node name="CharacterMover" parent="." instance=ExtResource( 5 )]
 move_accel = 2

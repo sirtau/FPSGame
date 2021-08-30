@@ -2,10 +2,10 @@ extends Spatial
 
 var body_to_move : KinematicBody = null
 
-export var move_accel = 4
-export var max_speed = 25
+export var move_accel = 1.0
+export var max_speed = 15
 var drag = 0.0
-export var jump_force = 30
+export var jump_force = 15
 export var gravity = 60
 
 var pressed_jump = false
