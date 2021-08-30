@@ -30,6 +30,11 @@ config/name="FPS Course"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Saved="*res://SaveGame/Saved.gd"
+Network="*res://Networking/Network.gd"
+
 [display]
 
 window/size/width=1920
