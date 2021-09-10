@@ -2,6 +2,7 @@ extends Spatial
 
 
 func _ready():
+	randomize()
 	hide()
 
 func enable_gibs():

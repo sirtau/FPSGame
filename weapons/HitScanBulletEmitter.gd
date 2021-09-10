@@ -21,7 +21,7 @@ func fire():
 		result.collider.hurt(damage, result.normal)
 	elif result:
 		var hit_effect_inst = hit_effect.instance()
-		get_tree().get_root().add_child(hit_effect_inst)
+		result.collider.get_parent().add_child(hit_effect_inst)
 		hit_effect_inst.global_transform.origin = result.position
 		
 		if result.normal.angle_to(Vector3.UP) < 0.00005:
@@ -35,3 +35,6 @@ func fire():
 		var z = x.cross(y)
 		
 		hit_effect_inst.global_transform.basis = Basis(x, y, z)
+		
+
+

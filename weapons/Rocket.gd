@@ -34,4 +34,5 @@ func explode():
 	explosion_inst.explode()
 	$SmokeTrail.emitting = false
 	$Graphics.hide()
+	$OmniLight.hide()
 	$DestroyAfterHitTimer.start()

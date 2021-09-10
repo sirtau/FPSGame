@@ -26,7 +26,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="FPS Course"
+config/name="FPS Game"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
@@ -37,8 +37,13 @@ Network="*res://Networking/Network.gd"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/fullscreen=true
+window/size/test_width=1920
+window/size/test_height=1080
+window/per_pixel_transparency/allowed=true
+window/per_pixel_transparency/enabled=true
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
 
 [importer_defaults]
 
@@ -105,6 +110,11 @@ restart={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"unicode":0,"echo":false,"script":null)
  ]
 }
+invert_mouse={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":73,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -115,4 +125,5 @@ restart={
 
 [rendering]
 
+quality/shadows/filter_mode=0
 environment/default_environment="res://default_env.tres"

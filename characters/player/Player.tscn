@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
@@ -16,8 +16,6 @@
 [ext_resource path="res://weapons/DamageArea.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/RocketSpawner.tscn" type="PackedScene" id=15]
 [ext_resource path="res://effects/raw_assets/muzzleflash2.glb" type="PackedScene" id=16]
-[ext_resource path="res://weapons/crosshairs/crosshair065.png" type="Texture" id=17]
-[ext_resource path="res://weapons/crosshairs/crosshair066.png" type="Texture" id=18]
 [ext_resource path="res://weapons/crosshairs/crosshair001.png" type="Texture" id=19]
 [ext_resource path="res://weapons/crosshairs/crosshair026.png" type="Texture" id=20]
 [ext_resource path="res://characters/player/PickupManager.gd" type="Script" id=21]
@@ -26,9 +24,11 @@
 [ext_resource path="res://characters/player/StatsDisplay.gd" type="Script" id=24]
 [ext_resource path="res://ui/KLEINTEN.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://characters/player/PickupInfo.gd" type="Script" id=26]
+[ext_resource path="res://characters/player/RayCast.gd" type="Script" id=27]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.45575
+radius = 0.406279
+height = 0.9592
 
 [sub_resource type="Animation" id=2]
 resource_name = "attack"
@@ -342,12 +342,14 @@ collision_mask = 3
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.856919, 0 )
+visible = false
 shape = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0 )
 current = true
+far = 400.0
 
 [node name="WeaponManager" type="Spatial" parent="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.96046e-08, -0.15642, -0.31398 )
@@ -359,9 +361,9 @@ script = ExtResource( 4 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.173936, -0.0278969, 0.0647341 )
 visible = false
 script = ExtResource( 10 )
-damage = 15
+damage = 50
 ammo = -1
-attack_rate = 0.4
+attack_rate = 0.3
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Machete"]
 
@@ -397,6 +399,7 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135936, 0.0357596, 0.111642 )
 script = ExtResource( 10 )
 automatic = true
+ammo = 500
 attack_rate = 0.1
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/MachineGun"]
@@ -412,7 +415,8 @@ script = ExtResource( 11 )
 transform = Transform( -0.238451, 0, -3.60051e-08, 0, 0.238451, 0, 3.60051e-08, 0, -0.238451, 0, 0, 0 )
 
 [node name="OmniLight" type="OmniLight" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00900432 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.316218 )
+light_color = Color( 1, 0.843137, 0.227451, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/MachineGun"]
 autoplay = "idle"
@@ -433,7 +437,7 @@ margin_left = -36.0
 margin_top = -36.0
 margin_right = 36.0
 margin_bottom = 36.0
-texture = ExtResource( 17 )
+texture = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -442,7 +446,9 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
 visible = false
 script = ExtResource( 10 )
-attack_rate = 0.8
+damage = 10
+ammo = 500
+attack_rate = 0.5
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Shotgun"]
 
@@ -454,6 +460,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0204415, -0.241044 )
 script = ExtResource( 11 )
 
 [node name="OmniLight" type="OmniLight" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00490379, -0.142777 )
+omni_shadow_detail = 0
 
 [node name="muzzleflash3" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" instance=ExtResource( 13 )]
 transform = Transform( -0.13922, 0, -4.53637e-08, 0, 0.13922, 0, 4.53637e-08, 0, -0.13922, 0, 0, 0 )
@@ -513,7 +521,7 @@ margin_left = -36.0
 margin_top = -36.0
 margin_right = 36.0
 margin_bottom = 36.0
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -523,6 +531,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12835, 0.109043, 0.148012 )
 visible = false
 script = ExtResource( 10 )
 damage = 20
+ammo = 500
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
 
@@ -583,11 +592,14 @@ shape = SubResource( 13 )
 [node name="FirePoint" type="Spatial" parent="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.111322 )
 
+[node name="Tween" type="Tween" parent="Camera"]
+
 [node name="CharacterMover" parent="." instance=ExtResource( 2 )]
 jump_force = 12
 gravity = 35
 
 [node name="HealthManager" parent="." instance=ExtResource( 3 )]
+max_health = 200
 
 [node name="PickupManager" type="Area" parent="."]
 collision_layer = 0
@@ -596,6 +608,7 @@ script = ExtResource( 21 )
 
 [node name="CollisionShape" type="CollisionShape" parent="PickupManager"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1, 0 )
+visible = false
 shape = SubResource( 14 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -630,13 +643,25 @@ texture = ExtResource( 23 )
 stretch_mode = 2
 
 [node name="StatsDisplay" type="Label" parent="CanvasLayer"]
-margin_left = 23.3508
-margin_top = 19.7584
-margin_right = 165.351
-margin_bottom = 94.7584
+margin_left = 46.0038
+margin_top = 480.369
+margin_right = 188.004
+margin_bottom = 555.369
 custom_fonts/font = ExtResource( 22 )
 text = "Health: 0
 Ammo: 0"
+script = ExtResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Label" parent="CanvasLayer"]
+margin_left = 750.829
+margin_top = 559.558
+margin_right = 1011.83
+margin_bottom = 634.558
+custom_fonts/font = ExtResource( 22 )
+text = "i to invert mouse"
 script = ExtResource( 24 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -657,10 +682,10 @@ anims/hurt = SubResource( 16 )
 anims/start = SubResource( 17 )
 
 [node name="PickupInfo" type="Label" parent="CanvasLayer"]
-margin_left = 26.9489
-margin_top = 123.203
-margin_right = 381.949
-margin_bottom = 354.203
+margin_left = 19.0917
+margin_top = 26.6713
+margin_right = 374.092
+margin_bottom = 257.671
 custom_fonts/font = SubResource( 18 )
 text = "Picked up Machine Gun
 Picked up Machine Gun
@@ -676,10 +701,17 @@ __meta__ = {
 [node name="RemoveInfoTimer" type="Timer" parent="CanvasLayer/PickupInfo"]
 wait_time = 2.0
 
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource( 27 )
+
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
+[connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
 [connection signal="dead" from="HealthManager" to="CanvasLayer/RestartMessage" method="show"]
 [connection signal="healed" from="HealthManager" to="CanvasLayer/HealthEffects/AnimationPlayer" method="play" binds= [ "heal" ]]
 [connection signal="health_changed" from="HealthManager" to="CanvasLayer/StatsDisplay" method="update_health"]

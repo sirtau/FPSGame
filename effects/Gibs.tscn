@@ -1,20 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://effects/Gib.tscn" type="PackedScene" id=1]
-[ext_resource path="res://effects/raw_assets/circle32.png" type="Texture" id=2]
 [ext_resource path="res://effects/Gibs.gd" type="Script" id=3]
 
-[sub_resource type="SpatialMaterial" id=1]
-flags_transparent = true
-vertex_color_use_as_albedo = true
-params_billboard_mode = 3
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-albedo_texture = ExtResource( 2 )
-
 [sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 1.86192, 0, 0, Vector2( 0.796053, 0.964325 ), -0.122828, -0.122828, 0, 0, Vector2( 1, 0 ), -3.61853, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 1.86192, 0, 0, Vector2( 0.596774, 0.724175 ), -0.122828, -0.122828, 0, 0, Vector2( 1, 0 ), -3.61853, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=3]
 curve = SubResource( 2 )
@@ -23,7 +13,7 @@ curve = SubResource( 2 )
 trail_divisor = 8
 direction = Vector3( 0, 1, 0 )
 initial_velocity = 5.0
-scale = 0.2
+scale = 0.0
 scale_curve = SubResource( 3 )
 color = Color( 1, 0, 0, 1 )
 
@@ -45,7 +35,6 @@ transform = Transform( 0.958973, -0.280389, 0.0418594, 0.283497, 0.948462, -0.14
 transform = Transform( 0.61834, 0.187878, -0.763123, -0.118279, 0.982192, 0.145974, 0.776959, -7.45058e-09, 0.629551, 0.353092, 0.247174, 0 )
 
 [node name="Particles" type="Particles" parent="."]
-material_override = SubResource( 1 )
 emitting = false
 amount = 32
 one_shot = true

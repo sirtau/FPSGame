@@ -14,14 +14,22 @@ var hotkeys = {
 }
 
 export var mouse_sens = 0.1
+var move_vec = Vector3()
+
+
 
 onready var camera = $Camera
 onready var character_mover = $CharacterMover
 onready var health_manager = $HealthManager
 onready var weapon_manager = $Camera/WeaponManager
 onready var pickup_manager = $PickupManager
-
+var is_on_floor = false
+var invert_mouse = 1
+var posLastFrame = Vector3.ZERO
 var dead = false
+var rotateDirection = 0
+
+
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -36,23 +44,33 @@ func _ready():
 	weapon_manager.init($Camera/FirePoint, [self])
 
 func _process(_delta):
+
 	if Input.is_action_just_pressed("exit"):
 		mouse_mode_toggle()
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
+	if Input.is_action_just_pressed("invert_mouse"):
+		if invert_mouse == 1:
+			invert_mouse = -1
+		else:
+			invert_mouse = 1
 	
 	if dead:
 		return
 	
-	var move_vec = Vector3()
+	move_vec = Vector3()
 	if Input.is_action_pressed("move_forwards"):
 		move_vec += Vector3.FORWARD
 	if Input.is_action_pressed("move_backwards"):
 		move_vec += Vector3.BACK
 	if Input.is_action_pressed("move_left"):
+		rotateDirection = -1
 		move_vec += Vector3.LEFT
-	if Input.is_action_pressed("move_right"):
+	elif Input.is_action_pressed("move_right"):
 		move_vec += Vector3.RIGHT
+		rotateDirection = 1
+	else:
+		rotateDirection = 0
 	character_mover.set_move_vec(move_vec)
 	if Input.is_action_just_pressed("jump"):
 		character_mover.jump()
@@ -60,10 +78,16 @@ func _process(_delta):
 	weapon_manager.attack(Input.is_action_just_pressed("attack"), 
 		Input.is_action_pressed("attack"))
 
+
+func _physics_process(delta):
+	pass
+#	camera.rotation_degrees.z = clamp(camera.rotation_degrees.z, -20, 20)
+
+	
 func _input(event):
 	if event is InputEventMouseMotion:
 		rotation_degrees.y -= mouse_sens * event.relative.x
-		camera.rotation_degrees.x -= mouse_sens * event.relative.y
+		camera.rotation_degrees.x += mouse_sens * event.relative.y * invert_mouse
 		camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
 	if event is InputEventKey and event.pressed:
 		if event.scancode in hotkeys:
@@ -73,7 +97,7 @@ func _input(event):
 			weapon_manager.switch_to_next_weapon()
 		if event.button_index == BUTTON_WHEEL_UP:
 			weapon_manager.switch_to_last_weapon()
-
+		
 func hurt(damage, dir):
 	health_manager.hurt(damage, dir)
 
@@ -89,3 +113,18 @@ func heal(amount):
 func kill():
 	dead = true
 	character_mover.freeze()
+
+func jump_timer_start():
+	print("pinging!")
+
+
+func _on_CharacterMover_movement_info(vel : Vector3, info):
+	
+	
+	
+#	rotation_degrees.x = vel.z
+	camera.rotation_degrees.z = -vel.x * .5
+	 
+	
+
+

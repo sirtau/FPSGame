@@ -4,7 +4,7 @@ extends Spatial
 var fireball = preload("res://weapons/Fireball.tscn")
 
 var bodies_to_exclude = []
-var damage = 1
+var damage = 20
 
 func set_damage(_damage: int):
 	damage = _damage

@@ -69,6 +69,7 @@ shape = SubResource( 1 )
 
 [node name="Sprite3D" type="Sprite3D" parent="Graphics"]
 transform = Transform( 2.85205, 0, 0, 0, 2.85205, 0, 0, 0, 2.85205, 0, 0, 0 )
+modulate = Color( 0.956863, 0.776471, 1, 1 )
 billboard = 1
 texture = ExtResource( 1 )
 hframes = 2
@@ -79,7 +80,7 @@ autoplay = "flicker"
 anims/flicker = SubResource( 2 )
 
 [node name="DestroyAfterHitTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 0.5
 one_shot = true
 
 [node name="ShowAfterTimer" type="Timer" parent="."]
@@ -96,6 +97,22 @@ explosiveness = 0.87
 visibility_aabb = AABB( -3, -4, -4, 8, 8, 8 )
 process_material = SubResource( 8 )
 draw_pass_1 = SubResource( 9 )
+
+[node name="fireballLight" type="OmniLight" parent="."]
+light_color = Color( 0.568627, 0, 1, 1 )
+light_energy = 6.35
+light_specular = 0.0
+shadow_enabled = true
+shadow_color = Color( 0, 0.0392157, 1, 1 )
+omni_range = 6.8
+
+[node name="fireballLight2" type="OmniLight" parent="."]
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 1.54
+light_specular = 0.0
+shadow_enabled = true
+shadow_color = Color( 0, 0.0392157, 1, 1 )
+omni_range = 2.85122
 
 [connection signal="timeout" from="DestroyAfterHitTimer" to="." method="queue_free"]
 [connection signal="timeout" from="ShowAfterTimer" to="." method="show"]

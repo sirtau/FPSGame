@@ -40,6 +40,7 @@ collision_layer = 8
 collision_mask = 0
 script = ExtResource( 1 )
 pickup_type = 6
+ammo = 25
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
@@ -49,7 +50,7 @@ autoplay = "spin"
 anims/spin = SubResource( 2 )
 
 [node name="Graphics" type="Spatial" parent="."]
-transform = Transform( -0.208061, 0, 0.978115, 0, 1, 0, -0.978115, 0, -0.208061, 0, 0.130408, 0 )
+transform = Transform( -0.542708, 0, -0.83992, 0, 1, 0, 0.83992, 0, -0.542708, 0, -0.168418, 0 )
 
 [node name="healthpack" parent="Graphics" instance=ExtResource( 2 )]
 

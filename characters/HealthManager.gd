@@ -2,7 +2,7 @@ extends Spatial
 
 var blood_spray = preload("res://effects/BloodSpray.tscn")
 var gibs = preload("res://effects/Gibs.tscn")
-
+var gibs_spawned = false
 signal dead
 signal hurt
 signal healed
@@ -24,8 +24,10 @@ func init():
 func hurt(damage: int, dir: Vector3):
 	spawn_blood(dir)
 	cur_health -= damage
-	if cur_health <= gib_at:
+	if cur_health <= gib_at and !gibs_spawned:
+		gibs_spawned = true
 		spawn_gibs()
+		
 		emit_signal("gibbed")
 	if cur_health <= 0:
 		emit_signal("dead")

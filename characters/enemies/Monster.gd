@@ -1,5 +1,6 @@
 extends KinematicBody
 
+
 onready var character_mover = $CharacterMover
 onready var anim_player = $Graphics/AnimationPlayer
 onready var health_manager = $HealthManager
@@ -16,7 +17,7 @@ export var sight_angle = 45.0
 export var turn_speed = 360.0
 
 export var attack_angle = 5.0
-export var attack_range = 2.0
+export var attack_range = 3.0
 export var attack_rate = 0.5
 export var attack_anim_speed_mod = 0.5
 var attack_timer : Timer
@@ -48,6 +49,7 @@ func _ready():
 	set_state_idle()
 
 func _process(delta):
+	
 	match cur_state:
 		STATES.IDLE:
 			process_state_idle(delta)
@@ -77,7 +79,7 @@ func set_state_dead():
 		anim_player.play("die")	
 	died = true
 	character_mover.freeze()
-	add_collision_exception_with(player)
+
 	
 	
 
@@ -97,7 +99,7 @@ func process_state_chase(delta):
 	var our_pos = global_transform.origin
 	path = nav.get_simple_path(our_pos, player_pos)
 	var goal_pos = player_pos
-	if path.size() > 1:
+	if path.size() > 0:
 		goal_pos = path[1]
 	var dir = goal_pos - our_pos
 	dir.y = 0
@@ -105,7 +107,12 @@ func process_state_chase(delta):
 	face_dir(dir, delta)
 
 func process_state_attack(delta):
-	character_mover.set_move_vec(Vector3.ZERO)
+	
+
+	var dir = player.global_transform.origin - global_transform.origin
+	dir.y = 0
+	character_mover.set_move_vec(dir)
+	face_dir(dir, delta)
 	
 	if can_attack:
 		if !within_dis_of_player(attack_range) or !can_see_player():
@@ -118,11 +125,11 @@ func process_state_attack(delta):
 func process_state_dead(delta):
 	pass
 
-
 func hurt(damage: int, dir: Vector3):
 	if cur_state == STATES.IDLE:
 		set_state_chase()
 	health_manager.hurt(damage, dir)
+	print(dir)
 	print(health_manager.cur_health)
 
 func start_attack():
@@ -172,3 +179,7 @@ func alert(check_los=true):
 
 func within_dis_of_player(dis: float):
 	return global_transform.origin.distance_to(player.global_transform.origin) < attack_range
+	
+	
+	
+
