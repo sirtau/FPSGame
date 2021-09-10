@@ -90,7 +90,7 @@ func alert_nearby_enemies():
 	nearby_enemies = alert_area_hearing.get_overlapping_bodies()
 	for nearby_enemy in nearby_enemies:
 		if nearby_enemy.has_method("alert"):
-			nearby_enemy.alert(false)
+			nearby_enemy.alert()
 
 func get_pickup(pickup_type, ammo):
 	match pickup_type:

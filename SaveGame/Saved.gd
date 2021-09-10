@@ -1,5 +1,8 @@
 extends Node
 
+var invert_mouse = 1
+
+
 var save_data = {}
 const SAVEGAME = "user://Savegame.json"
 
@@ -23,3 +26,4 @@ func save_game():
 	save_game.open(SAVEGAME, File.WRITE)
 	save_game.store_line(to_json(save_data))
 	
+

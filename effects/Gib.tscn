@@ -15,6 +15,9 @@ particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 1 )
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
 
 [sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0.00775194, 0.693252, 1 )
@@ -57,7 +60,7 @@ transform = Transform( 0.216522, 0, 0, 0, 0.216522, 0, 0, 0, 0.216522, 0, 0, 0 )
 
 [node name="Particles" type="Particles" parent="."]
 material_override = SubResource( 2 )
-amount = 50
+amount = 30
 visibility_aabb = AABB( -25, -4, -31, 50, 8, 62 )
 local_coords = false
 process_material = SubResource( 7 )

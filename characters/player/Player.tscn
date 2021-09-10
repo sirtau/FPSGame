@@ -343,12 +343,12 @@ script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.856919, 0 )
-visible = false
 shape = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0 )
 current = true
+fov = 65.0
 far = 400.0
 
 [node name="WeaponManager" type="Spatial" parent="Camera"]
@@ -594,6 +594,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.111322 )
 
 [node name="Tween" type="Tween" parent="Camera"]
 
+[node name="InteractRay" type="RayCast" parent="Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0447669, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -20 )
+collision_mask = 130055
+collide_with_areas = true
+script = ExtResource( 27 )
+
 [node name="CharacterMover" parent="." instance=ExtResource( 2 )]
 jump_force = 12
 gravity = 35
@@ -700,12 +708,6 @@ __meta__ = {
 
 [node name="RemoveInfoTimer" type="Timer" parent="CanvasLayer/PickupInfo"]
 wait_time = 2.0
-
-[node name="RayCast" type="RayCast" parent="."]
-enabled = true
-collide_with_areas = true
-collide_with_bodies = false
-script = ExtResource( 27 )
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]

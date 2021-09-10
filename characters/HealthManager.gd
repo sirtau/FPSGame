@@ -22,7 +22,6 @@ func init():
 	emit_signal("health_changed", cur_health)
 
 func hurt(damage: int, dir: Vector3):
-	spawn_blood(dir)
 	cur_health -= damage
 	if cur_health <= gib_at and !gibs_spawned:
 		gibs_spawned = true
@@ -44,22 +43,7 @@ func heal(amount: int):
 	emit_signal("healed")
 	emit_signal("health_changed", cur_health)
 
-func spawn_blood(dir):
-	var blood_spray_inst = blood_spray.instance()
-	get_tree().get_root().add_child(blood_spray_inst)
-	blood_spray_inst.global_transform.origin = global_transform.origin
-	
-	if dir.angle_to(Vector3.UP) < 0.00005:
-		return
-	if dir.angle_to(Vector3.DOWN) < 0.00005:
-		blood_spray_inst.rotate(Vector3.RIGHT, PI)
-		return
-	
-	var y = dir
-	var x = y.cross(Vector3.UP)
-	var z = x.cross(y)
-	
-	blood_spray_inst.global_transform.basis = Basis(x, y, z)
+
 
 func spawn_gibs():
 	var gibs_inst = gibs.instance()

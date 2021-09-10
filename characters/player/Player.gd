@@ -23,8 +23,9 @@ onready var character_mover = $CharacterMover
 onready var health_manager = $HealthManager
 onready var weapon_manager = $Camera/WeaponManager
 onready var pickup_manager = $PickupManager
+onready var interactRay : RayCast = $Camera/InteractRay
 var is_on_floor = false
-var invert_mouse = 1
+
 var posLastFrame = Vector3.ZERO
 var dead = false
 var rotateDirection = 0
@@ -44,16 +45,20 @@ func _ready():
 	weapon_manager.init($Camera/FirePoint, [self])
 
 func _process(_delta):
+	if Input.is_action_just_pressed("use"):
+		handle_use()
+	
+		
 
 	if Input.is_action_just_pressed("exit"):
 		mouse_mode_toggle()
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("invert_mouse"):
-		if invert_mouse == 1:
-			invert_mouse = -1
+		if Saved.invert_mouse == 1:
+			Saved.invert_mouse = -1
 		else:
-			invert_mouse = 1
+			Saved.invert_mouse = 1
 	
 	if dead:
 		return
@@ -74,6 +79,8 @@ func _process(_delta):
 	character_mover.set_move_vec(move_vec)
 	if Input.is_action_just_pressed("jump"):
 		character_mover.jump()
+		if is_on_wall():
+			character_mover.wall_jump_pressed = true
 	
 	weapon_manager.attack(Input.is_action_just_pressed("attack"), 
 		Input.is_action_pressed("attack"))
@@ -87,7 +94,7 @@ func _physics_process(delta):
 func _input(event):
 	if event is InputEventMouseMotion:
 		rotation_degrees.y -= mouse_sens * event.relative.x
-		camera.rotation_degrees.x += mouse_sens * event.relative.y * invert_mouse
+		camera.rotation_degrees.x += mouse_sens * event.relative.y * Saved.invert_mouse
 		camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
 	if event is InputEventKey and event.pressed:
 		if event.scancode in hotkeys:
@@ -125,6 +132,14 @@ func _on_CharacterMover_movement_info(vel : Vector3, info):
 #	rotation_degrees.x = vel.z
 	camera.rotation_degrees.z = -vel.x * .5
 	 
+	
+func handle_use():
+	var collidingWith = interactRay.get_collider()
+	print(collidingWith)
+	if collidingWith != null:
+		if collidingWith.has_method("hurt"):
+			collidingWith.hurt(500, Vector3.UP)
+	pass
 	
 
 

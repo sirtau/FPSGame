@@ -10,8 +10,8 @@
 [ext_resource path="res://Shaders/PSX Shaders/psx_lit.shader" type="Shader" id=8]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.20148
-height = 1.63607
+radius = 0.627774
+height = 0.818152
 
 [sub_resource type="Image" id=13]
 data = {
@@ -74,7 +74,7 @@ attack_rate = 1.0
 attack_anim_speed_mod = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.920315, 0.179534 )
 shape = SubResource( 1 )
 
 [node name="Graphics" parent="." instance=ExtResource( 1 )]

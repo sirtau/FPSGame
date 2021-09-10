@@ -9,6 +9,7 @@ export var jump_force = 15
 export var gravity = 60
 export var jump_buffer := 2.0
 
+var wall_jump_pressed = false
 var pressed_jump = false
 var force_forward = false
 var move_vec : Vector3
@@ -56,19 +57,22 @@ func _physics_process(delta):
 	if grounded:
 		velocity.y = -0.001
 
-	if grounded and pressed_jump:
+	if (grounded and pressed_jump) or wall_jump_pressed:
 		velocity.y = jump_force
 		snap_vec = Vector3.ZERO
+		
 	else:
 		snap_vec = Vector3.UP
 	
+
+
 	
 	if force_forward:
 		velocity -= Vector3.FORWARD * 60
-	velocity = body_to_move.move_and_slide_with_snap(velocity, snap_vec, Vector3.UP)
+	velocity = body_to_move.move_and_slide(velocity, Vector3.UP)
 	force_forward = false
 	pressed_jump = false
-	
+	wall_jump_pressed = false
 	
 	emit_signal("movement_info", unrotatedMoveVelocity, grounded)
 

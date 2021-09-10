@@ -1,6 +1,6 @@
-extends Spatial
+extends OmniLight
 
-onready var lightEffect = $OmniLight
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -16,9 +16,5 @@ func _ready():
 #	pass
 
 
-func _on_queue_Free_Timer_timeout():
-	queue_free()
-
-
 func _on_Timer_timeout():
-	lightEffect.queue_free()
+	queue_free()

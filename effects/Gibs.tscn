@@ -1,29 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://effects/Gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/Gibs.gd" type="Script" id=3]
-
-[sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 1.86192, 0, 0, Vector2( 0.596774, 0.724175 ), -0.122828, -0.122828, 0, 0, Vector2( 1, 0 ), -3.61853, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=3]
-curve = SubResource( 2 )
-
-[sub_resource type="ParticlesMaterial" id=4]
-trail_divisor = 8
-direction = Vector3( 0, 1, 0 )
-initial_velocity = 5.0
-scale = 0.0
-scale_curve = SubResource( 3 )
-color = Color( 1, 0, 0, 1 )
-
-[sub_resource type="QuadMesh" id=5]
 
 [node name="Gibs" type="Spatial"]
 script = ExtResource( 3 )
 
 [node name="Gib" parent="." instance=ExtResource( 1 )]
 transform = Transform( 0.352258, 0.142236, -0.594087, -0.264022, 0.653872, 7.86847e-09, 0.550874, 0.222433, 0.37989, 0, 0, 0.362807 )
+
+[node name="Gib5" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.252268, 0.22426, -0.619132, 0.170612, 0.61811, 0.293406, 0.636009, -0.254762, 0.166866, 0.241776, 0.000942767, 0.213612 )
 
 [node name="Gib2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 0.611057, 4.56891e-09, -0.051559, 0.0218542, 0.555416, 0.259007, 0.0466982, -0.259928, 0.553449, 0.170434, 0.0192807, -0.352591 )
@@ -34,11 +21,14 @@ transform = Transform( 0.958973, -0.280389, 0.0418594, 0.283497, 0.948462, -0.14
 [node name="Gib4" parent="." instance=ExtResource( 1 )]
 transform = Transform( 0.61834, 0.187878, -0.763123, -0.118279, 0.982192, 0.145974, 0.776959, -7.45058e-09, 0.629551, 0.353092, 0.247174, 0 )
 
-[node name="Particles" type="Particles" parent="."]
-emitting = false
-amount = 32
-one_shot = true
-explosiveness = 0.78
-local_coords = false
-process_material = SubResource( 4 )
-draw_pass_1 = SubResource( 5 )
+[node name="Gib6" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, -0.999742, -0.0226873, 0, 0.0226873, -0.999742, 0.165624, 0.668732, -0.00956649 )
+
+[node name="Gib7" parent="." instance=ExtResource( 1 )]
+transform = Transform( -0.107564, -0.364345, -0.594087, 0.676306, -0.199664, 4.33788e-07, -0.168213, -0.569775, 0.379891, 0, 0.305479, 0.362807 )
+
+[node name="Gib8" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.0188432, -0.337011, -0.619132, 0.378108, -0.517883, 0.293406, -0.594924, -0.339818, 0.166866, 0.241776, 0.306421, 0.213612 )
+
+[node name="Gib9" parent="." instance=ExtResource( 1 )]
+transform = Transform( -0.379857, -0.478643, -0.0515589, 0.421473, -0.362387, 0.259007, -0.232632, 0.125003, 0.553449, 0.170434, 0.324759, -0.352591 )

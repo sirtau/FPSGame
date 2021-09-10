@@ -72,8 +72,8 @@ material = SubResource( 13 )
 size = Vector3( 0.086, 0.025, 0.041 )
 
 [sub_resource type="CapsuleShape" id=15]
-radius = 0.237955
-height = 1.57914
+radius = 0.59603
+height = 0.848799
 
 [node name="ReptileMonster" type="KinematicBody"]
 collision_layer = 2
@@ -217,7 +217,7 @@ material/0 = null
 autoplay = "idle_loop"
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.01719, 0 )
 shape = SubResource( 15 )
 
 [node name="HealthManager" parent="." instance=ExtResource( 4 )]
@@ -226,7 +226,7 @@ max_health = 40
 gib_at = -20
 
 [node name="CharacterMover" parent="." instance=ExtResource( 5 )]
-max_speed = 10
+max_speed = 5
 
 [node name="AimAtObject" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.428923 )

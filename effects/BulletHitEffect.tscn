@@ -28,8 +28,9 @@ curve = SubResource( 4 )
 
 [sub_resource type="ParticlesMaterial" id=6]
 initial_velocity = 6.0
+damping = 0.3
 scale = 0.01
-scale_random = 0.05
+scale_random = 0.1
 scale_curve = SubResource( 5 )
 color_ramp = SubResource( 3 )
 
@@ -53,6 +54,7 @@ script = ExtResource( 2 )
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
 material_override = SubResource( 1 )
 emitting = false
+amount = 16
 one_shot = true
 explosiveness = 0.94
 local_coords = false
@@ -73,5 +75,17 @@ autostart = true
 wait_time = 4.0
 autostart = true
 
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.229487, 0 )
+light_energy = 10.0
+light_specular = 0.0
+omni_range = 0.42621
+
+[node name="Timer" type="Timer" parent="OmniLight"]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
 [connection signal="timeout" from="Timer" to="Particles" method="set_emitting" binds= [ true ]]
 [connection signal="timeout" from="queue_Free_Timer" to="." method="_on_queue_Free_Timer_timeout"]
+[connection signal="timeout" from="OmniLight/Timer" to="." method="_on_Timer_timeout"]

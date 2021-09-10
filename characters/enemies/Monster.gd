@@ -67,6 +67,7 @@ func set_state_idle():
 	anim_player.play("idle_loop")
 
 func set_state_chase():
+	
 	cur_state = STATES.CHASE
 	anim_player.play("walk_loop", 0.2)
 
@@ -95,6 +96,7 @@ func process_state_idle(delta):
 func process_state_chase(delta):
 	if within_dis_of_player(attack_range) and has_los_player():
 		set_state_attack()
+		
 	var player_pos = player.global_transform.origin
 	var our_pos = global_transform.origin
 	path = nav.get_simple_path(our_pos, player_pos)
@@ -107,6 +109,7 @@ func process_state_chase(delta):
 	face_dir(dir, delta)
 
 func process_state_attack(delta):
+	
 	
 
 	var dir = player.global_transform.origin - global_transform.origin
@@ -182,4 +185,5 @@ func within_dis_of_player(dis: float):
 	
 	
 	
-
+func keep_walking():
+	anim_player.play("walk_loop", 0.2)
