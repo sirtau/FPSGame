@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://weapons/DamageArea.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/RocketSpawner.tscn" type="PackedScene" id=15]
 [ext_resource path="res://effects/raw_assets/muzzleflash2.glb" type="PackedScene" id=16]
+[ext_resource path="res://Sounds/DSSHOTGN.wav" type="AudioStream" id=17]
 [ext_resource path="res://weapons/crosshairs/crosshair001.png" type="Texture" id=19]
 [ext_resource path="res://weapons/crosshairs/crosshair026.png" type="Texture" id=20]
 [ext_resource path="res://characters/player/PickupManager.gd" type="Script" id=21]
@@ -526,6 +527,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Shotgun"]
+stream = ExtResource( 17 )
+bus = "SFX"
+
 [node name="RocketLauncher" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12835, 0.109043, 0.148012 )
 visible = false
@@ -711,6 +716,7 @@ wait_time = 2.0
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
