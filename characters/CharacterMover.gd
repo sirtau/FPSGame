@@ -8,7 +8,8 @@ var drag = 0.0
 export var jump_force = 15
 export var gravity = 60
 export var jump_buffer := 2.0
-
+var dir
+var cur_move_vec
 var wall_jump_pressed = false
 var pressed_jump = false
 var force_forward = false
@@ -41,10 +42,10 @@ func set_move_vec(_move_vec: Vector3):
 
 func _physics_process(delta):
 	if !body_to_move.is_on_floor() and body_to_move.has_method("jump_timer_start"):
-		pass #is not on floor and jump timer? Why a jump timer again?
+		pass 
 	if frozen:
 		return
-	var cur_move_vec = move_vec
+	cur_move_vec = move_vec
 
 
 
@@ -68,8 +69,8 @@ func _physics_process(delta):
 
 	
 	if force_forward:
-		velocity -= Vector3.FORWARD * 60
-	velocity = body_to_move.move_and_slide(velocity, Vector3.UP)
+		velocity += cur_move_vec * 60 
+	velocity = body_to_move.move_and_slide(velocity, Vector3.UP, false, 4, PI/4, false)
 	force_forward = false
 	pressed_jump = false
 	wall_jump_pressed = false

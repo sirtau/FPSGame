@@ -1,21 +1,26 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://effects/raw_assets/circle32.png" type="Texture" id=1]
 [ext_resource path="res://effects/BulletHitEffect.gd" type="Script" id=2]
+[ext_resource path="res://effects/LightFlash.gd" type="Script" id=3]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_depth_draw_mode = 3
 params_billboard_mode = 3
+params_use_alpha_scissor = true
+params_alpha_scissor_threshold = 0.98
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 1 )
 
 [sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.503704, 0.637037, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0.87451, 0.501961, 1, 1, 0.87451, 0.501961, 1, 0.480469, 0.0675659, 0, 1 )
+offsets = PoolRealArray( 0.00529101, 0.354497, 0.637037, 1 )
+colors = PoolColorArray( 6.93, 5.23, 4.05, 1, 1, 0.87451, 0.501961, 1, 1, 0.87451, 0.501961, 1, 0.480469, 0.0675659, 0, 1 )
 
 [sub_resource type="GradientTexture" id=3]
 gradient = SubResource( 2 )
@@ -27,7 +32,12 @@ _data = [ Vector2( 0, 0 ), 0.0, 4.95745, 0, 0, Vector2( 1, 0 ), -2.59443, 0.0, 0
 curve = SubResource( 4 )
 
 [sub_resource type="ParticlesMaterial" id=6]
-initial_velocity = 6.0
+trail_divisor = 2
+direction = Vector3( 0, 1, 0 )
+spread = 15.95
+gravity = Vector3( 0, -9, 0 )
+initial_velocity = 5.0
+initial_velocity_random = 1.0
 damping = 0.3
 scale = 0.01
 scale_random = 0.1
@@ -51,18 +61,19 @@ albedo_texture = SubResource( 9 )
 script = ExtResource( 2 )
 
 [node name="Particles" type="Particles" parent="."]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0, 0 )
 material_override = SubResource( 1 )
 emitting = false
-amount = 16
+amount = 36
 one_shot = true
-explosiveness = 0.94
+explosiveness = 0.93
+randomness = 1.0
 local_coords = false
 process_material = SubResource( 6 )
 draw_pass_1 = SubResource( 7 )
 
 [node name="BulletDecal" type="MeshInstance" parent="."]
-transform = Transform( 0.104888, 0, 0, 0, -4.58481e-09, 0.104888, 0, -0.104888, -4.58481e-09, 0, 0.00512531, 0 )
+transform = Transform( 0.104888, 0, 0, 0, -4.5848e-09, 0.104888, 0, -0.104888, -4.5848e-09, 0, 0.00512531, 0 )
 mesh = SubResource( 8 )
 material/0 = SubResource( 10 )
 
@@ -75,17 +86,14 @@ autostart = true
 wait_time = 4.0
 autostart = true
 
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.229487, 0 )
-light_energy = 10.0
+[node name="LightFlash" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0246115, 0 )
+light_energy = 16.0
 light_specular = 0.0
-omni_range = 0.42621
-
-[node name="Timer" type="Timer" parent="OmniLight"]
-wait_time = 0.1
-one_shot = true
-autostart = true
+omni_range = 0.501765
+omni_shadow_detail = 0
+script = ExtResource( 3 )
+speed_multiplier = 1.5
 
 [connection signal="timeout" from="Timer" to="Particles" method="set_emitting" binds= [ true ]]
 [connection signal="timeout" from="queue_Free_Timer" to="." method="_on_queue_Free_Timer_timeout"]
-[connection signal="timeout" from="OmniLight/Timer" to="." method="_on_Timer_timeout"]

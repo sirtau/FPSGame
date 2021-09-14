@@ -7,7 +7,7 @@ onready var timer = $Timer
 
 var space_state
 var results
-export var damage = 10
+export var damage = 13
 var damage_counter = 0
 var hits = 0
 

@@ -8,9 +8,13 @@ colors = PoolColorArray( 1, 0, 0, 0.6, 0.481567, 0.186695, 0, 1, 0.487427, 0.241
 gradient = SubResource( 1 )
 
 [resource]
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3( 0, 1, 0 )
 spread = 180.0
 gravity = Vector3( 0, 15, 0 )
-initial_velocity = 2.0
+initial_velocity = 6.0
 linear_accel = 2.86
 tangential_accel = -2.86
+damping = 0.1
 color_ramp = SubResource( 2 )

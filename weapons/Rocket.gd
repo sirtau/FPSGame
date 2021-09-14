@@ -1,7 +1,7 @@
 extends KinematicBody
 
 var explosion = preload("res://weapons/Explosion.tscn")
-
+onready var explodeSound = $ProjectileHitsound
 var speed = 40
 var impact_damage = 20
 var exploded = false
@@ -26,6 +26,7 @@ func explode():
 	if exploded:
 		return
 	exploded = true
+	explodeSound.play()
 	speed = 0
 	$CollisionShape.disabled = true
 	var explosion_inst = explosion.instance()

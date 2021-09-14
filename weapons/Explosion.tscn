@@ -2,6 +2,7 @@
 
 [ext_resource path="res://environment/explosion_particles_2.tscn" type="PackedScene" id=1]
 [ext_resource path="res://weapons/Explosion.gd" type="Script" id=2]
+[ext_resource path="res://effects/LightFlash.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
 radius = 2.68031
@@ -31,44 +32,23 @@ gradient = SubResource( 5 )
 direction = Vector3( 0, -1, 0 )
 spread = 70.0
 gravity = Vector3( 0, 15, 0 )
-initial_velocity = 10.0
+initial_velocity = 5.0
 tangential_accel = 10.0
 scale = 0.5
 scale_random = 1.0
 color_ramp = SubResource( 6 )
 
-[sub_resource type="SphereMesh" id=12]
-
-[sub_resource type="Animation" id=10]
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:light_energy")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 1.0, 3.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:omni_range")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 5.0, 9.97277, 0.0 ]
-}
+[sub_resource type="SphereMesh" id=8]
 
 [node name="Explosion" type="Area"]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 2 )
+
+[node name="LightFlash" parent="." instance=ExtResource( 3 )]
+light_color = Color( 1, 0.701961, 0, 1 )
+omni_range = 9.77207
+speed_multiplier = 0.6
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
@@ -81,36 +61,23 @@ shape = SubResource( 3 )
 
 [node name="Particles" type="Particles" parent="."]
 material_override = SubResource( 4 )
-cast_shadow = 0
 emitting = false
-amount = 16
+amount = 32
 lifetime = 0.37
 one_shot = true
 speed_scale = 0.7
-explosiveness = 0.9
+explosiveness = 1.0
 visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
 process_material = SubResource( 7 )
-draw_pass_1 = SubResource( 12 )
+draw_pass_1 = SubResource( 8 )
 
 [node name="Particles2" parent="." instance=ExtResource( 1 )]
+cast_shadow = 1
+amount = 32
 
 [node name="DeathTimer" type="Timer" parent="."]
-wait_time = 5.0
 one_shot = true
 autostart = true
-
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79907, 1.27606 )
-light_color = Color( 1, 0.513726, 0, 1 )
-light_energy = 9.33
-light_specular = 1.0
-shadow_enabled = true
-shadow_color = Color( 0, 0.0156863, 1, 1 )
-omni_range = 9.97277
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="OmniLight"]
-autoplay = "ExplosionLight"
-anims/ExplosionLight = SubResource( 10 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

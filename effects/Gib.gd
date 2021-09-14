@@ -10,6 +10,7 @@ var initialized = false
 func init():
 	initialized = true
 	velocity = -global_transform.basis.y * start_move_speed
+	$Particles.emitting = true
 
 func _physics_process(delta):
 	if !initialized:

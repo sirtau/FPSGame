@@ -6,12 +6,20 @@ onready var anim_player = $Graphics/AnimationPlayer
 onready var health_manager = $HealthManager
 onready var nav : Navigation = get_parent()
 onready var aimer = $AimAtObject
+var dir
+onready var alertGrunt = $AlertGrunt
+
 
 enum STATES {IDLE, CHASE, ATTACK, DEAD, GIBBED}
 var cur_state = STATES.IDLE
 
 var player = null
 var path = []
+var pathProcessDelay = 5
+var pathProcessOffset = randi() % pathProcessDelay
+var pathFound = false
+var goal_pos 
+var default_speed_exported
 
 export var sight_angle = 45.0
 export var turn_speed = 360.0
@@ -23,10 +31,12 @@ export var attack_anim_speed_mod = 0.5
 var attack_timer : Timer
 var can_attack = true
 var died = false
+var updating_direction = true
 
 signal attack
 
 func _ready():
+	default_speed_exported = character_mover.max_speed
 	for child in $AimAtObject.get_children():
 		if child.has_method("set_bodies_to_exclude"):
 			child.set_bodies_to_exclude([self])
@@ -67,7 +77,8 @@ func set_state_idle():
 	anim_player.play("idle_loop")
 
 func set_state_chase():
-	
+	if alertGrunt != null and !alertGrunt.is_playing():
+		alertGrunt.play()
 	cur_state = STATES.CHASE
 	anim_player.play("walk_loop", 0.2)
 
@@ -81,8 +92,8 @@ func set_state_dead():
 	died = true
 	character_mover.freeze()
 
-	
-	
+
+
 
 		
 func process_state_gibbed(delta):
@@ -93,29 +104,41 @@ func process_state_idle(delta):
 	if can_see_player():
 		set_state_chase()
 
+
 func process_state_chase(delta):
+
 	if within_dis_of_player(attack_range) and has_los_player():
 		set_state_attack()
 		
 	var player_pos = player.global_transform.origin
 	var our_pos = global_transform.origin
+	
 	path = nav.get_simple_path(our_pos, player_pos)
-	var goal_pos = player_pos
-	if path.size() > 0:
-		goal_pos = path[1]
-	var dir = goal_pos - our_pos
-	dir.y = 0
-	character_mover.set_move_vec(dir)
-	face_dir(dir, delta)
+	if !pathFound or pathProcessOffset == 0:
+		goal_pos = player_pos
+		if path.size() > 0:
+			pathFound = true
+			goal_pos = path[1]
+
+		dir = goal_pos - our_pos
+		
+		dir.y = 0
+		character_mover.set_move_vec(dir)
+		
+		face_dir(dir, delta)
+		
+		character_mover.dir = dir
+	if pathFound:
+		pathProcessOffset += 1
+	if pathProcessOffset == pathProcessDelay:
+		pathProcessOffset = 0
+
+
+	
 
 func process_state_attack(delta):
-	
-	
-
 	var dir = player.global_transform.origin - global_transform.origin
 	dir.y = 0
-	character_mover.set_move_vec(dir)
-	face_dir(dir, delta)
 	
 	if can_attack:
 		if !within_dis_of_player(attack_range) or !can_see_player():
@@ -125,6 +148,11 @@ func process_state_attack(delta):
 		else:
 			start_attack()
 
+	character_mover.set_move_vec(dir)
+	face_dir(dir, delta)
+		
+
+
 func process_state_dead(delta):
 	pass
 
@@ -132,11 +160,11 @@ func hurt(damage: int, dir: Vector3):
 	if cur_state == STATES.IDLE:
 		set_state_chase()
 	health_manager.hurt(damage, dir)
-	print(dir)
-	print(health_manager.cur_health)
+
 
 func start_attack():
 	can_attack = false
+	
 	anim_player.play("attack", -1, attack_anim_speed_mod)
 	attack_timer.start()
 	aimer.aim_at_pos(player.global_transform.origin + Vector3.UP)
@@ -146,6 +174,7 @@ func emit_attack_signal():
 
 func finish_attack():
 	can_attack = true
+	character_mover.max_speed = default_speed_exported
 
 func can_see_player():
 	return player_within_angle(sight_angle) and has_los_player()
@@ -185,5 +214,13 @@ func within_dis_of_player(dis: float):
 	
 	
 	
-func keep_walking():
-	anim_player.play("walk_loop", 0.2)
+func keep_facing():
+	anim_player.play("Walk")
+	character_mover.max_speed = 5
+
+
+func processDelay():
+	pathProcessOffset += 1
+
+func interact():
+	print("INTERACTINg")

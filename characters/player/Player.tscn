@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://weapons/RocketSpawner.tscn" type="PackedScene" id=15]
 [ext_resource path="res://effects/raw_assets/muzzleflash2.glb" type="PackedScene" id=16]
 [ext_resource path="res://Sounds/DSSHOTGN.wav" type="AudioStream" id=17]
+[ext_resource path="res://Sounds/DSRLAUNC.wav" type="AudioStream" id=18]
 [ext_resource path="res://weapons/crosshairs/crosshair001.png" type="Texture" id=19]
 [ext_resource path="res://weapons/crosshairs/crosshair026.png" type="Texture" id=20]
 [ext_resource path="res://characters/player/PickupManager.gd" type="Script" id=21]
@@ -26,10 +27,11 @@
 [ext_resource path="res://ui/KLEINTEN.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://characters/player/PickupInfo.gd" type="Script" id=26]
 [ext_resource path="res://characters/player/RayCast.gd" type="Script" id=27]
+[ext_resource path="res://characters/Popuptest.tscn" type="PackedScene" id=28]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.406279
-height = 0.9592
+radius = 0.635682
+height = 0.69318
 
 [sub_resource type="Animation" id=2]
 resource_name = "attack"
@@ -343,7 +345,7 @@ collision_mask = 3
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.856919, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0 )
 shape = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
@@ -452,6 +454,7 @@ ammo = 500
 attack_rate = 0.5
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Shotgun"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.154344 )
 
 [node name="shotgun" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics" instance=ExtResource( 7 )]
 transform = Transform( 0.137906, 0, 0, 0, 0.137906, 0, 0, 0, 0.137906, 0, -0.000802144, 0.0218236 )
@@ -539,6 +542,7 @@ damage = 20
 ammo = 500
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0361248 )
 
 [node name="rocketlauncher" parent="Camera/WeaponManager/Weapons/RocketLauncher/Graphics" instance=ExtResource( 8 )]
 transform = Transform( 0.109183, 0, 0, 0, 0.109183, 0, 0, 0, 0.109183, 0, 0, 0 )
@@ -574,6 +578,11 @@ texture = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002341, -0.0679184, -0.008339 )
+stream = ExtResource( 18 )
+bus = "SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager"]
 autoplay = "idle"
@@ -669,10 +678,10 @@ __meta__ = {
 }
 
 [node name="info" type="Label" parent="CanvasLayer"]
-margin_left = 750.829
-margin_top = 559.558
-margin_right = 1011.83
-margin_bottom = 634.558
+margin_left = 529.886
+margin_top = 557.776
+margin_right = 790.887
+margin_bottom = 632.776
 custom_fonts/font = ExtResource( 22 )
 text = "i to invert mouse"
 script = ExtResource( 24 )
@@ -714,10 +723,14 @@ __meta__ = {
 [node name="RemoveInfoTimer" type="Timer" parent="CanvasLayer/PickupInfo"]
 wait_time = 2.0
 
+[node name="Popup" parent="." instance=ExtResource( 28 )]
+transform = Transform( 0.969484, -0.00354663, 0.245127, 0.00064157, 0.999929, 0.01193, -0.245152, -0.0114087, 0.969417, -0.228461, 1.88792, -0.802997 )
+
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
 [connection signal="dead" from="HealthManager" to="CanvasLayer/RestartMessage" method="show"]

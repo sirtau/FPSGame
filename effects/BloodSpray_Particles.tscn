@@ -1,0 +1,63 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Shaders/StylizedFire/FireMask.png" type="Texture" id=1]
+[ext_resource path="res://Shaders/StylizedFire/HoleNoise.png" type="Texture" id=2]
+[ext_resource path="res://Shaders/StylizedFire/stylized_fire.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+render_priority = 1
+shader = ExtResource( 3 )
+shader_param/emission_intensity = 0.0
+shader_param/time_scale = 0.1
+shader_param/texture_scale = Vector2( 0.4, 0.4 )
+shader_param/edge_softness = 0.4
+shader_param/noise_texture = ExtResource( 2 )
+shader_param/texture_mask = ExtResource( 1 )
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.867725, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 0.624339, 1, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+width = 128
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0 ), 0.0, 3.65289, 0, 0, Vector2( 0.556561, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+width = 128
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3( 0, 1, 0 )
+spread = 64.44
+gravity = Vector3( 0, -20, 0 )
+initial_velocity = 15.0
+initial_velocity_random = 1.0
+linear_accel = 4.0
+scale = 10.0
+scale_random = 1.0
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[sub_resource type="QuadMesh" id=7]
+size = Vector2( 0.5, 0.5 )
+
+[node name="Particles" type="Particles"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26708, 0 )
+material_override = SubResource( 1 )
+emitting = false
+amount = 10
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.87
+randomness = 0.74
+visibility_aabb = AABB( -12.1393, -7.81666, -13.1763, 24.2787, 15.6333, 26.3526 )
+local_coords = false
+draw_order = 1
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )

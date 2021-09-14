@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="SpatialMaterial" id=14]
+flags_transparent = true
+flags_vertex_lighting = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0.015873, 0.15873, 0.253968, 0.539683, 0.994709, 1 )
+colors = PoolColorArray( 1, 0, 0, 0.827451, 1, 0.482353, 0, 0.733333, 0.770642, 0.371722, 0, 0.665264, 0, 0, 0, 0.121569, 0.349693, 0.349693, 0.349693, 0.650307, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0 ), 0.0, 6.5125, 0, 0, Vector2( 1, 0 ), -0.331966, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3( 0, 1, 0 )
+spread = 50.0
+gravity = Vector3( 5, 9, 0 )
+initial_velocity = 5.0
+linear_accel = 18.96
+linear_accel_random = 1.0
+radial_accel_random = 1.0
+scale_random = 1.0
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+anim_offset = 1.0
+anim_offset_random = 1.0
+
+[sub_resource type="SphereMesh" id=8]
+radial_segments = 6
+rings = 3
+
+[node name="Particles" type="Particles"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3339, 0 )
+material_override = SubResource( 14 )
+cast_shadow = 0
+amount = 15
+lifetime = 1.22
+preprocess = 1.0
+explosiveness = 0.07
+randomness = 0.08
+visibility_aabb = AABB( -6, -10, -4, 12, 20, 8 )
+draw_order = 2
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 8 )

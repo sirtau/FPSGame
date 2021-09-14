@@ -38,7 +38,8 @@ GameManager="*res://Scripts/GameManager.gd"
 
 [display]
 
-window/size/width=800
+window/size/width=320
+window/size/height=240
 window/size/fullscreen=true
 window/size/test_width=1920
 window/size/test_height=1080

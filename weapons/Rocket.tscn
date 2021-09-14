@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://effects/raw_assets/muzzleflash.material" type="Material" id=1]
 [ext_resource path="res://weapons/raw_assets/BlackMetal.material" type="Material" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://weapons/raw_assets/GreenPlating.material" type="Material" id=5]
 [ext_resource path="res://Shaders/ps1MaterialBase.tres" type="Material" id=6]
 [ext_resource path="res://Shaders/PSX Shaders/psx_lit.shader" type="Shader" id=7]
+[ext_resource path="res://Sounds/DSBAREXP.wav" type="AudioStream" id=8]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.306321
@@ -67,7 +68,7 @@ shader_param/albedoTex = SubResource( 4 )
 shader = ExtResource( 7 )
 shader_param/color = Color( 1, 1, 1, 1 )
 shader_param/specular_intensity = 0.0
-shader_param/resolution = 128.0
+shader_param/resolution = 100.0
 shader_param/cull_distance = 200.0
 shader_param/uv_scale = Vector2( 1, 1 )
 shader_param/uv_offset = Vector2( 0, 0 )
@@ -101,7 +102,6 @@ shape = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )
 
 [node name="Rocket" type="MeshInstance" parent="Graphics/rocket"]
-cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = SubResource( 5 )
 material/1 = ExtResource( 6 )
@@ -110,6 +110,14 @@ material/1 = ExtResource( 6 )
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
 
 [node name="MuzzleFlash3" type="MeshInstance" parent="Graphics/rocket/muzzleflash3"]
+transform = Transform( 3.11396, 0, 0, 0, 0.285072, 0, 0, 0, 1.60483, 0, 0, 0 )
+material_override = SubResource( 6 )
+cast_shadow = 0
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="MuzzleFlash4" type="MeshInstance" parent="Graphics/rocket/muzzleflash3"]
+transform = Transform( -1.36116e-07, 0.285072, 0, -3.11396, -1.24609e-08, 0, 0, 0, 1.60483, 0, 0, 0 )
 material_override = SubResource( 6 )
 cast_shadow = 0
 mesh = SubResource( 7 )
@@ -120,7 +128,9 @@ wait_time = 0.05
 one_shot = true
 autostart = true
 
-[node name="ExplodeAfterTime" type="Timer" parent="."]
+[node name="ExplodeAfterTime" type="Timer" parent="." groups=[
+"Rockets",
+]]
 wait_time = 3.0
 one_shot = true
 autostart = true
@@ -130,17 +140,25 @@ wait_time = 0.75
 one_shot = true
 
 [node name="OmniLight" type="OmniLight" parent="."]
-light_color = Color( 1, 0, 0, 1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0458968 )
+light_color = Color( 1, 0.537255, 0, 1 )
 light_energy = 2.61
 shadow_enabled = true
 shadow_color = Color( 0, 0.0156863, 1, 1 )
 omni_range = 9.17162
 
 [node name="SmokeTrail" parent="." instance=ExtResource( 3 )]
+visible = false
 emitting = true
 one_shot = false
 explosiveness = 0.0
 local_coords = false
+
+[node name="ProjectileHitsound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 8 )
+unit_size = 16.0
+bus = "Impacts"
+doppler_tracking = 2
 
 [connection signal="timeout" from="ShowAfterTimeTimer" to="." method="show"]
 [connection signal="timeout" from="ExplodeAfterTime" to="." method="explode"]

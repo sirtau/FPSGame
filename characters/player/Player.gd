@@ -1,5 +1,7 @@
 extends KinematicBody
 
+
+
 var hotkeys = {
 	KEY_1: 0,
 	KEY_2: 1,
@@ -33,6 +35,7 @@ var rotateDirection = 0
 
 
 func _ready():
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	character_mover.init(self)
 	
@@ -42,6 +45,7 @@ func _ready():
 	pickup_manager.connect("got_pickup", health_manager, "get_pickup")
 	health_manager.init()
 	health_manager.connect("dead", self, "kill")
+	health_manager.connect("dead", GameManager, "player_dead")
 	weapon_manager.init($Camera/FirePoint, [self])
 
 func _process(_delta):
@@ -87,6 +91,7 @@ func _process(_delta):
 
 
 func _physics_process(delta):
+	
 	pass
 #	camera.rotation_degrees.z = clamp(camera.rotation_degrees.z, -20, 20)
 
@@ -107,6 +112,7 @@ func _input(event):
 		
 func hurt(damage, dir):
 	health_manager.hurt(damage, dir)
+	
 
 func mouse_mode_toggle():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -135,10 +141,12 @@ func _on_CharacterMover_movement_info(vel : Vector3, info):
 	
 func handle_use():
 	var collidingWith = interactRay.get_collider()
-	print(collidingWith)
+
 	if collidingWith != null:
 		if collidingWith.has_method("hurt"):
 			collidingWith.hurt(500, Vector3.UP)
+		elif collidingWith.is_in_group("Doors"):
+			collidingWith.interact()
 	pass
 	
 

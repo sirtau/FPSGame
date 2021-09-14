@@ -1,10 +1,12 @@
 extends KinematicBody
 var explosion = preload("res://weapons/Explosion.tscn")
 
-var speed = 20
+onready var fireballHitSound = $FireballHit
+
+var speed = 10
 var impact_damage = 10
 var exploded = false
-var explosion_damage = 2
+var explosion_damage = 5
 func _ready():
 	hide()
 
@@ -27,6 +29,9 @@ func _physics_process(delta):
 func explode():
 	if exploded:
 		return
+	
+	
+	fireballHitSound.play()
 	exploded = true
 	speed = 0
 	$CollisionShape.disabled = true

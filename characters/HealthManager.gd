@@ -26,6 +26,7 @@ func hurt(damage: int, dir: Vector3):
 	if cur_health <= gib_at and !gibs_spawned:
 		gibs_spawned = true
 		spawn_gibs()
+	
 		
 		emit_signal("gibbed")
 	if cur_health <= 0:
