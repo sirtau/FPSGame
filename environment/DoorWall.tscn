@@ -130,7 +130,7 @@ tracks/0/keys = {
 extents = Vector3( 2.03278, 1.4498, 0.322666 )
 
 [sub_resource type="BoxShape" id=7]
-extents = Vector3( 1.79639, 0.437761, 0.0451692 )
+extents = Vector3( 1.79639, 0.437761, 0.169779 )
 
 [node name="Spatial" type="Spatial"]
 

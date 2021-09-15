@@ -866,9 +866,12 @@ tracks/21/loop_wrap = true
 tracks/21/imported = false
 tracks/21/enabled = true
 tracks/21/keys = {
-"times": PoolRealArray( 3.33 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.71, 3.33 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "stop_facing"
+}, {
 "args": [  ],
 "method": "keep_facing"
 } ]
@@ -1111,7 +1114,6 @@ extents = Vector3( 0.195, 0.199538, 0.210937 )
 
 [sub_resource type="SpatialMaterial" id=36]
 flags_transparent = true
-albedo_color = Color( 1, 1, 1, 0.00684929 )
 
 [sub_resource type="Curve" id=37]
 _data = [ Vector2( 0, 0.0143228 ), 0.0, 0.910489, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -1192,17 +1194,17 @@ bones/1/name = "Torso"
 bones/1/parent = 0
 bones/1/rest = Transform( 0.94837, -0.303465, -0.0922132, 0.3051, 0.952313, 0.00383699, 0.0866513, -0.0317731, 0.995732, -2.22627e-08, 0.709589, -6.19579e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [ NodePath("Torso") ]
+bones/1/bound_children = [  ]
 bones/2/name = "Head"
 bones/2/parent = 1
 bones/2/rest = Transform( 0.998267, -0.0538249, -0.0237978, 0.0584589, 0.953532, 0.295567, 0.00678304, -0.296446, 0.955026, -1.05666e-08, 0.552916, -4.88238e-08 )
 bones/2/enabled = true
-bones/2/bound_children = [ NodePath("Head") ]
+bones/2/bound_children = [  ]
 bones/3/name = "Upper_Arm_L"
 bones/3/parent = 0
 bones/3/rest = Transform( -0.931864, 0.188776, -0.309825, -0.348178, -0.22528, 0.909957, 0.10198, 0.955831, 0.275658, 0.220287, 1.21243, 0.02838 )
 bones/3/enabled = true
-bones/3/bound_children = [ NodePath("BoneAttachment") ]
+bones/3/bound_children = [  ]
 bones/4/name = "Lower_Arm_L"
 bones/4/parent = 3
 bones/4/rest = Transform( -0.045598, 0.995322, -0.0851829, -0.944453, -0.0151708, 0.328298, 0.32547, 0.0954209, 0.940725, 7.82588e-08, 0.566994, -6.3614e-08 )
@@ -1212,7 +1214,7 @@ bones/5/name = "Hand_L"
 bones/5/parent = 4
 bones/5/rest = Transform( 0.8249, 0.564088, -0.0366649, -0.563954, 0.825672, 0.0148882, 0.0386715, 0.008396, 0.999217, -3.58243e-08, 0.483058, -5.42659e-09 )
 bones/5/enabled = true
-bones/5/bound_children = [ NodePath("Shield") ]
+bones/5/bound_children = [  ]
 bones/6/name = "Upper_Leg_L"
 bones/6/parent = 0
 bones/6/rest = Transform( -0.940005, 0.280183, 0.194633, 0.337796, 0.844237, 0.416119, -0.0477271, 0.456901, -0.888236, 0.265294, -0.0792795, 0.0382642 )
@@ -1222,7 +1224,7 @@ bones/7/name = "Lower_Leg_R"
 bones/7/parent = 6
 bones/7/rest = Transform( 0.848671, -0.450052, 0.27787, -0.523691, -0.641277, 0.560813, -0.0742033, -0.621464, -0.779921, 2.4925e-08, 0.633682, 1.70665e-09 )
 bones/7/enabled = true
-bones/7/bound_children = [ NodePath("BoneAttachment4") ]
+bones/7/bound_children = [  ]
 bones/8/name = "Foot_R"
 bones/8/parent = 7
 bones/8/rest = Transform( 0.98997, -0.0380773, -0.136048, -0.140052, -0.137964, -0.980485, 0.0185645, 0.989705, -0.141913, 4.0127e-08, 0.9239, 7.74729e-08 )
@@ -1232,7 +1234,7 @@ bones/9/name = "Upper_Arm_R"
 bones/9/parent = 0
 bones/9/rest = Transform( -0.752397, -0.272601, -0.599654, 0.594315, -0.6735, -0.43953, -0.284051, -0.687085, 0.668751, -0.493605, 1.12738, -0.166876 )
 bones/9/enabled = true
-bones/9/bound_children = [ NodePath("BoneAttachment2") ]
+bones/9/bound_children = [  ]
 bones/10/name = "Lower_Arm_R"
 bones/10/parent = 9
 bones/10/rest = Transform( 0.580039, 0.619897, -0.528472, -0.79169, 0.276257, -0.544893, -0.191783, 0.734445, 0.651006, 1.31678e-07, 0.566994, -1.47128e-09 )
@@ -1242,7 +1244,7 @@ bones/11/name = "Hand_R"
 bones/11/parent = 10
 bones/11/rest = Transform( 0.449933, 0.179788, 0.874778, 0.0631309, 0.970673, -0.231967, -0.890828, 0.159595, 0.425388, 9.84053e-08, 0.483058, 4.76683e-09 )
 bones/11/enabled = true
-bones/11/bound_children = [ NodePath("Weapon") ]
+bones/11/bound_children = [  ]
 bones/12/name = "Upper_Leg_R"
 bones/12/parent = 0
 bones/12/rest = Transform( -0.841323, -0.539442, -0.0342723, 0.257548, -0.455807, 0.852002, -0.475227, 0.707982, 0.522415, -0.257485, 0.0126814, -0.0256366 )
@@ -1252,7 +1254,7 @@ bones/13/name = "Lower_Leg_L"
 bones/13/parent = 12
 bones/13/rest = Transform( 0.966668, -0.0037631, -0.256005, 0.201588, -0.605253, 0.770085, -0.157846, -0.796024, -0.58432, 1.74615e-08, 0.633682, -2.13281e-08 )
 bones/13/enabled = true
-bones/13/bound_children = [ NodePath("BoneAttachment3") ]
+bones/13/bound_children = [  ]
 bones/14/name = "Foot_L"
 bones/14/parent = 13
 bones/14/rest = Transform( 0.984566, -0.0268355, 0.172942, 0.161127, -0.246739, -0.955593, 0.0683153, 0.96871, -0.238608, 4.78015e-08, 0.923899, 1.1032e-07 )
@@ -1260,7 +1262,7 @@ bones/14/enabled = true
 bones/14/bound_children = [  ]
 
 [node name="Shield" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.509814, 0.417656, 0.752099, -0.0881478, -0.895005, 0.437263, 0.855757, 0.156626, 0.493101, 0.831908, 0.17721, -0.129701 )
+transform = Transform( 0.205045, -0.978734, -0.00599122, 0.81527, 0.167406, 0.554356, -0.541564, -0.118553, 0.832258, 0.159477, 0.705754, 1.05943 )
 bone_name = "Hand_L"
 
 [node name="Cube004" type="MeshInstance" parent="Graphics/Armature/Skeleton/Shield"]
@@ -1299,7 +1301,7 @@ collision_layer = 4
 shape = SubResource( 5 )
 
 [node name="Weapon" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.669702, -0.196804, 0.716076, 0.527758, -0.804504, 0.272476, 0.522462, 0.560393, 0.642643, -0.619446, 0.116755, 0.184025 )
+transform = Transform( 0.227226, -0.450789, -0.863224, 0.932603, -0.154487, 0.326163, -0.280389, -0.879159, 0.385303, -1.11945, 1.39234, -0.0449795 )
 bone_name = "Hand_R"
 
 [node name="Cube001" type="MeshInstance" parent="Graphics/Armature/Skeleton/Weapon"]
@@ -1321,7 +1323,7 @@ skin = SubResource( 13 )
 material/0 = null
 
 [node name="Torso" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.999502, 0.0224102, -0.0222496, -0.0203587, 0.995868, 0.0885057, 0.0241407, -0.0880088, 0.995827, 0.00265726, 0.659706, 0.0447294 )
+transform = Transform( 0.980271, -0.161574, 0.113856, 0.192003, 0.915199, -0.354325, -0.0469509, 0.369195, 0.928165, 0.029668, 0.681558, 0.477488 )
 bone_name = "Torso"
 
 [node name="HitBox" type="Area" parent="Graphics/Armature/Skeleton/Torso"]
@@ -1332,7 +1334,7 @@ transform = Transform( 0.990593, -0.0218775, -0.135081, -0.136319, -0.0715627, -
 shape = SubResource( 14 )
 
 [node name="Head" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.998437, 0.025793, 0.0496041, -0.0149478, 0.978077, -0.207712, -0.0538745, 0.206646, 0.976932, 0.0150482, 1.21034, -0.00393209 )
+transform = Transform( 0.969904, -0.240506, 0.0380154, 0.24272, 0.967394, -0.0723653, -0.0193719, 0.0794143, 0.996654, -0.0596691, 1.18759, 0.681622 )
 bone_name = "Head"
 
 [node name="Area2" type="Area" parent="Graphics/Armature/Skeleton/Head"]
@@ -1362,7 +1364,7 @@ process_material = SubResource( 23 )
 draw_pass_1 = SubResource( 24 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.879003, 0.476543, -0.0161247, -0.475466, -0.878558, -0.0454944, -0.035847, -0.0323227, 0.998834, 0.415409, 1.13561, -0.101218 )
+transform = Transform( -0.901576, 0.373277, -0.218688, -0.395789, -0.507581, 0.765319, 0.174674, 0.776548, 0.605361, 0.394121, 1.14484, 0.512917 )
 bone_name = "Upper_Arm_L"
 
 [node name="HitBox" type="Area" parent="Graphics/Armature/Skeleton/BoneAttachment"]
@@ -1374,7 +1376,7 @@ transform = Transform( 0.990593, -0.0218775, -0.135081, -0.136319, -0.0715627, -
 shape = SubResource( 25 )
 
 [node name="BoneAttachment2" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.928058, -0.36676, 0.0647597, 0.371569, -0.923634, 0.0939981, 0.0253395, 0.111299, 0.993463, -0.354763, 1.11907, 0.0885385 )
+transform = Transform( -0.340836, -0.416713, -0.842721, 0.836761, 0.274154, -0.473993, 0.428554, -0.866711, 0.255248, -0.437271, 1.11925, 0.590206 )
 bone_name = "Upper_Arm_R"
 
 [node name="HitBox" type="Area" parent="Graphics/Armature/Skeleton/BoneAttachment2"]
@@ -1386,7 +1388,7 @@ transform = Transform( 0.935323, -0.0825416, 0.344033, 0.339665, -0.0625705, -0.
 shape = SubResource( 25 )
 
 [node name="BoneAttachment3" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.994333, -0.101709, -0.0308344, 0.105756, -0.975634, -0.192228, -0.0105316, -0.194402, 0.980863, -0.453181, -0.635703, -0.051869 )
+transform = Transform( -0.971747, -0.0393972, -0.232705, 0.167366, -0.810209, -0.561734, -0.166408, -0.584814, 0.793913, -0.527085, 0.0681253, 0.799453 )
 bone_name = "Lower_Leg_L"
 
 [node name="HitBox" type="Area" parent="Graphics/Armature/Skeleton/BoneAttachment3"]
@@ -1398,7 +1400,7 @@ transform = Transform( 0.994671, -0.103059, 0.00279645, -0.00262131, -0.0524027,
 shape = SubResource( 26 )
 
 [node name="BoneAttachment4" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.994342, 0.104556, 0.0185709, -0.106153, -0.983438, -0.146899, 0.00290474, -0.148039, 0.988977, 0.452089, -0.64067, -0.0292506 )
+transform = Transform( -0.994944, -0.00628552, 0.100187, -0.0869316, -0.445107, -0.891246, 0.0501957, -0.895453, 0.442314, 0.520687, -0.571432, -0.0600616 )
 bone_name = "Lower_Leg_R"
 
 [node name="HitBox" type="Area" parent="Graphics/Armature/Skeleton/BoneAttachment4"]

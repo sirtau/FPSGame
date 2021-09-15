@@ -195,12 +195,13 @@ func has_los_player():
 	return true
 
 func face_dir(dir: Vector3, delta):
-	var angle_diff = global_transform.basis.z.angle_to(dir)
-	var turn_right = sign(global_transform.basis.x.dot(dir))
-	if abs(angle_diff) < deg2rad(turn_speed) * delta:
-		rotation.y = atan2(dir.x, dir.z)
-	else:
-		rotation.y += deg2rad(turn_speed) * delta * turn_right
+	if updating_direction:
+		var angle_diff = global_transform.basis.z.angle_to(dir)
+		var turn_right = sign(global_transform.basis.x.dot(dir))
+		if abs(angle_diff) < deg2rad(turn_speed) * delta:
+			rotation.y = atan2(dir.x, dir.z)
+		else:
+			rotation.y += deg2rad(turn_speed) * delta * turn_right
 
 func alert(check_los=true):
 	if cur_state != STATES.IDLE:
@@ -215,6 +216,7 @@ func within_dis_of_player(dis: float):
 	
 	
 func keep_facing():
+	updating_direction = true
 	anim_player.play("Walk")
 	character_mover.max_speed = 5
 
@@ -224,3 +226,6 @@ func processDelay():
 
 func interact():
 	print("INTERACTINg")
+
+func stop_facing():
+	updating_direction = false

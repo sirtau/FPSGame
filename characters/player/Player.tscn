@@ -445,6 +445,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/MachineGun"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005245, 0.00536501, 0.028031 )
+stream = ExtResource( 17 )
+bus = "SFX"
+
 [node name="Shotgun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
 visible = false
@@ -454,7 +459,7 @@ ammo = 500
 attack_rate = 0.5
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Shotgun"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.154344 )
+transform = Transform( 1, 0, 0, 0, 0.872083, -0.489357, 0, 0.489357, 0.872083, 0, 0, 0 )
 
 [node name="shotgun" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics" instance=ExtResource( 7 )]
 transform = Transform( 0.137906, 0, 0, 0, 0.137906, 0, 0, 0, 0.137906, 0, -0.000802144, 0.0218236 )
@@ -665,10 +670,10 @@ texture = ExtResource( 23 )
 stretch_mode = 2
 
 [node name="StatsDisplay" type="Label" parent="CanvasLayer"]
-margin_left = 46.0038
-margin_top = 480.369
-margin_right = 188.004
-margin_bottom = 555.369
+margin_left = 8.58598
+margin_top = 401.97
+margin_right = 150.586
+margin_bottom = 476.97
 custom_fonts/font = ExtResource( 22 )
 text = "Health: 0
 Ammo: 0"
@@ -678,10 +683,10 @@ __meta__ = {
 }
 
 [node name="info" type="Label" parent="CanvasLayer"]
-margin_left = 529.886
-margin_top = 557.776
-margin_right = 790.887
-margin_bottom = 632.776
+margin_left = 483.559
+margin_top = 449.086
+margin_right = 744.56
+margin_bottom = 524.086
 custom_fonts/font = ExtResource( 22 )
 text = "i to invert mouse"
 script = ExtResource( 24 )
@@ -724,9 +729,10 @@ __meta__ = {
 wait_time = 2.0
 
 [node name="Popup" parent="." instance=ExtResource( 28 )]
-transform = Transform( 0.969484, -0.00354663, 0.245127, 0.00064157, 0.999929, 0.01193, -0.245152, -0.0114087, 0.969417, -0.228461, 1.88792, -0.802997 )
+transform = Transform( 0.969484, -0.00354663, 0.245127, 0.00064157, 0.999929, 0.01193, -0.245152, -0.0114087, 0.969417, -0.0397218, 1.88792, -0.802997 )
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
