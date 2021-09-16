@@ -80,6 +80,8 @@ func _process(_delta):
 		rotateDirection = 1
 	else:
 		rotateDirection = 0
+	
+	
 	character_mover.set_move_vec(move_vec)
 	if Input.is_action_just_pressed("jump"):
 		character_mover.jump()
@@ -89,11 +91,6 @@ func _process(_delta):
 	weapon_manager.attack(Input.is_action_just_pressed("attack"), 
 		Input.is_action_pressed("attack"))
 
-
-func _physics_process(delta):
-	
-	pass
-#	camera.rotation_degrees.z = clamp(camera.rotation_degrees.z, -20, 20)
 
 	
 func _input(event):

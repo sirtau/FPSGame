@@ -60,7 +60,7 @@ func _physics_process(delta):
 	
 	var grounded = body_to_move.is_on_floor()
 	if grounded:
-		velocity.y = -0.001
+		velocity.y = -1
 
 	if (grounded and pressed_jump) or wall_jump_pressed:
 		velocity.y = jump_force
@@ -68,6 +68,7 @@ func _physics_process(delta):
 		
 	else:
 		snap_vec = Vector3.UP
+		
 
 	if knockback_force:
 		knockback_force.y = 0
@@ -75,13 +76,13 @@ func _physics_process(delta):
 #		velocity  = knockback_force
 ##		velocity.y  = knockback_force.y
 #
-#
+		
 		
 		
 	
 	if force_forward:
 		velocity += cur_move_vec * 60 
-	velocity = body_to_move.move_and_slide(velocity + knockback_force, Vector3.UP, false, 4, PI/4, false)
+	velocity = body_to_move.move_and_slide(velocity + knockback_force, Vector3.UP, true, 4, PI/4, false)
 	force_forward = false
 	pressed_jump = false
 	wall_jump_pressed = false
@@ -98,4 +99,5 @@ func unfreeze():
 	
 func leap():
 	velocity
+
 
