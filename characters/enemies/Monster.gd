@@ -8,11 +8,11 @@ onready var nav : Navigation = get_parent()
 onready var aimer = $AimAtObject
 var dir
 onready var alertGrunt = $AlertGrunt
-
+onready var directionBox = $CSGBox
 
 enum STATES {IDLE, CHASE, ATTACK, DEAD, GIBBED}
 var cur_state = STATES.IDLE
-
+var target = null
 var player = null
 var path = []
 var pathProcessDelay = 5
@@ -46,7 +46,7 @@ func _ready():
 	attack_timer.one_shot = true
 	add_child(attack_timer)
 	
-	player = get_tree().get_nodes_in_group("player")[0]
+	target = get_tree().get_nodes_in_group("player")[0]
 	var bone_attachments = $Graphics/Armature/Skeleton.get_children()
 	for bone_attachment in bone_attachments:
 		for child in bone_attachment.get_children():
@@ -101,16 +101,17 @@ func process_state_gibbed(delta):
 	
 
 func process_state_idle(delta):
+	
 	if can_see_player():
 		set_state_chase()
 
 
 func process_state_chase(delta):
-
+	
 	if within_dis_of_player(attack_range) and has_los_player():
 		set_state_attack()
 		
-	var player_pos = player.global_transform.origin
+	var player_pos = target.global_transform.origin
 	var our_pos = global_transform.origin
 	
 	path = nav.get_simple_path(our_pos, player_pos)
@@ -119,6 +120,7 @@ func process_state_chase(delta):
 		if path.size() > 0:
 			pathFound = true
 			goal_pos = path[1]
+
 
 		dir = goal_pos - our_pos
 		
@@ -137,14 +139,15 @@ func process_state_chase(delta):
 	
 
 func process_state_attack(delta):
-	var dir = player.global_transform.origin - global_transform.origin
+	
+	var dir = target.global_transform.origin - global_transform.origin
 	dir.y = 0
 	
 	if can_attack:
 		if !within_dis_of_player(attack_range) or !can_see_player():
 			set_state_chase()
 		elif !player_within_angle(attack_angle):
-			face_dir(global_transform.origin.direction_to(player.global_transform.origin), delta)
+			face_dir(global_transform.origin.direction_to(target.global_transform.origin), delta)
 		else:
 			start_attack()
 
@@ -160,6 +163,9 @@ func hurt(damage: int, dir: Vector3):
 	if cur_state == STATES.IDLE:
 		set_state_chase()
 	health_manager.hurt(damage, dir)
+	character_mover.knockback_force = -dir
+
+	
 
 
 func start_attack():
@@ -167,7 +173,7 @@ func start_attack():
 	
 	anim_player.play("attack", -1, attack_anim_speed_mod)
 	attack_timer.start()
-	aimer.aim_at_pos(player.global_transform.origin + Vector3.UP)
+	aimer.aim_at_pos(target.global_transform.origin + Vector3.UP)
 
 func emit_attack_signal():
 	emit_signal("attack")
@@ -180,13 +186,13 @@ func can_see_player():
 	return player_within_angle(sight_angle) and has_los_player()
 
 func player_within_angle(angle: float):
-	var dir_to_player = global_transform.origin.direction_to(player.global_transform.origin)
+	var dir_to_player = global_transform.origin.direction_to(target.global_transform.origin)
 	var forwards = global_transform.basis.z
 	return rad2deg(forwards.angle_to(dir_to_player)) < angle 
 
 func has_los_player():
 	var our_pos = global_transform.origin + Vector3.UP
-	var player_pos = player.global_transform.origin + Vector3.UP
+	var player_pos = target.global_transform.origin + Vector3.UP
 	
 	var space_state = get_world().get_direct_space_state()
 	var result = space_state.intersect_ray(our_pos, player_pos, [], 1)
@@ -211,7 +217,7 @@ func alert(check_los=true):
 	set_state_chase()
 
 func within_dis_of_player(dis: float):
-	return global_transform.origin.distance_to(player.global_transform.origin) < attack_range
+	return global_transform.origin.distance_to(target.global_transform.origin) < attack_range
 	
 	
 	

@@ -16,6 +16,10 @@ var force_forward = false
 var move_vec : Vector3
 var velocity : Vector3
 var snap_vec : Vector3
+var knockback_force = Vector3.ZERO
+var knockback_multiplier = 20
+
+
 export var ignore_rotation = false
 var unrotatedMoveVelocity
 var parental = get_parent()
@@ -64,16 +68,24 @@ func _physics_process(delta):
 		
 	else:
 		snap_vec = Vector3.UP
-	
 
-
+	if knockback_force:
+		knockback_force.y = 0
+		knockback_force = knockback_force * knockback_multiplier
+#		velocity  = knockback_force
+##		velocity.y  = knockback_force.y
+#
+#
+		
+		
 	
 	if force_forward:
 		velocity += cur_move_vec * 60 
-	velocity = body_to_move.move_and_slide(velocity, Vector3.UP, false, 4, PI/4, false)
+	velocity = body_to_move.move_and_slide(velocity + knockback_force, Vector3.UP, false, 4, PI/4, false)
 	force_forward = false
 	pressed_jump = false
 	wall_jump_pressed = false
+	knockback_force = Vector3.ZERO
 	
 	emit_signal("movement_info", unrotatedMoveVelocity, grounded)
 

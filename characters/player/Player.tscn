@@ -382,7 +382,7 @@ anims/idle = SubResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.128213, 0, -0.441101 )
 
 [node name="DamageArea" parent="Camera/WeaponManager/Weapons/Machete/BulletEmitters" instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.190304, 0.0280994 )
+transform = Transform( 3.4608, 0, 0, 0, 3.58728, 0, 0, 0, 1.97329, 0, -0.484261, 0.0280994 )
 
 [node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Machete"]
 anchor_left = 0.5
@@ -732,12 +732,12 @@ wait_time = 2.0
 transform = Transform( 0.969484, -0.00354663, 0.245127, 0.00064157, 0.999929, 0.01193, -0.245152, -0.0114087, 0.969417, -0.0397218, 1.88792, -0.802997 )
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
 [connection signal="dead" from="HealthManager" to="CanvasLayer/RestartMessage" method="show"]
 [connection signal="healed" from="HealthManager" to="CanvasLayer/HealthEffects/AnimationPlayer" method="play" binds= [ "heal" ]]

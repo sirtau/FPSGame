@@ -31,7 +31,7 @@ func damageSphere(query, collider, dmg_multiplier, space_state, results):
 	results = space_state.intersect_shape(query)
 	for data in results:
 		if data.collider.has_method("hurt"):
-			data.collider.hurt(outputDamage, global_transform.origin.direction_to(data.collider.global_transform.origin))
+			data.collider.hurt(outputDamage, -global_transform.origin.direction_to(data.collider.global_transform.origin))
 			damage_counter += outputDamage
 			hits += 1
 			print("Damage Counter: " + str(damage_counter))
