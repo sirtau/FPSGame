@@ -37,8 +37,8 @@ func damageSphere(query, collider, dmg_multiplier, space_state, results):
 			data.collider.hurt(outputDamage, global_transform.origin.direction_to(data.collider.global_transform.origin))
 			damage_counter += outputDamage
 			hits += 1
-			print("Damage Counter: " + str(damage_counter))
-			print("Hits: " + str(hits))
+#			print("Damage Counter: " + str(damage_counter))
+#			print("Hits: " + str(hits))
 			
 			
 

@@ -110,7 +110,7 @@ material/1 = ExtResource( 6 )
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
 
 [node name="MuzzleFlash3" type="MeshInstance" parent="Graphics/rocket/muzzleflash3"]
-transform = Transform( 3.11396, 0, 0, 0, 0.285072, 0, 0, 0, 1.60483, 0, 0, 0 )
+transform = Transform( 3.11275, -0.00640662, 0.026486, 0.0697415, 0.284997, 0.0077884, -0.0517186, -0.00127757, 1.60459, 0, 0, 0 )
 material_override = SubResource( 6 )
 cast_shadow = 0
 mesh = SubResource( 7 )
@@ -136,7 +136,7 @@ one_shot = true
 autostart = true
 
 [node name="DestroyAfterHitTimer" type="Timer" parent="."]
-wait_time = 0.75
+wait_time = 5.0
 one_shot = true
 
 [node name="OmniLight" type="OmniLight" parent="."]

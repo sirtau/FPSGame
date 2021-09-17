@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://effects/Gib.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sounds/Flesh_And_Blood_01.wav" type="AudioStream" id=2]
 [ext_resource path="res://effects/Gibs.gd" type="Script" id=3]
+[ext_resource path="res://Sounds/Flesh_And_Blood_06.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Flesh_And_Blood_07.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sounds/Flesh_And_Blood_08.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sounds/Flesh_And_Blood_04.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/Flesh_And_Blood_02.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sounds/Flesh_And_Blood_03.wav" type="AudioStream" id=9]
+[ext_resource path="res://Sounds/Flesh_And_Blood_05.wav" type="AudioStream" id=10]
 
 [node name="Gibs" type="Spatial"]
 script = ExtResource( 3 )
@@ -32,3 +40,66 @@ transform = Transform( 0.0188432, -0.337011, -0.619132, 0.378108, -0.517883, 0.2
 
 [node name="Gib9" parent="." instance=ExtResource( 1 )]
 transform = Transform( -0.379857, -0.478643, -0.0515589, 0.421473, -0.362387, 0.259007, -0.232632, 0.125003, 0.553449, 0.170434, 0.324759, -0.352591 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="Splat1" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 2 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 8 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat3" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 9 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat4" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 7 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat5" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 10 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat6" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat7" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 5 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[node name="Splat8" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 6 )
+unit_size = 15.0
+max_db = 1.0
+pitch_scale = 0.8
+bus = "Impacts"
+
+[connection signal="timeout" from="Timer" to="." method="queue_free"]

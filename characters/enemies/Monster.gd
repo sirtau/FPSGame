@@ -1,6 +1,6 @@
 extends KinematicBody
 
-
+onready var graphics = $Graphics
 onready var character_mover = $CharacterMover
 onready var anim_player = $Graphics/AnimationPlayer
 onready var health_manager = $HealthManager
@@ -8,14 +8,15 @@ onready var nav : Navigation = get_parent()
 onready var aimer = $AimAtObject
 var dir
 onready var alertGrunt = $AlertGrunt
-onready var directionBox = $CSGBox
+onready var bodyCollider = $BodyColliderShape
+onready var footColliderRay = $FootColliderRay
 
 enum STATES {IDLE, CHASE, ATTACK, DEAD, GIBBED}
 var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 5
+var pathProcessDelay = 10
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
@@ -23,7 +24,7 @@ var default_speed_exported
 
 export var sight_angle = 45.0
 export var turn_speed = 360.0
-
+var landingSound
 
 export var attack_angle = 5.0
 export var attack_range = 3.0
@@ -31,23 +32,28 @@ export var attack_rate = 0.5
 export var attack_anim_speed_mod = 0.5
 var attack_timer : Timer
 var can_attack = true
-var died = false
+var dead = false
 var updating_direction = true
 
 signal attack
 
 func _ready():
+	if is_in_group("knight"):
+		landingSound = $LandingSound
+	player = get_tree().get_nodes_in_group("player")[0]
+	target = player
 	default_speed_exported = character_mover.max_speed
 	for child in $AimAtObject.get_children():
 		if child.has_method("set_bodies_to_exclude"):
 			child.set_bodies_to_exclude([self])
+			child.setSource(self)
 	attack_timer = Timer.new()
 	attack_timer.wait_time = attack_rate
 	attack_timer.connect("timeout", self, "finish_attack")
 	attack_timer.one_shot = true
 	add_child(attack_timer)
 	
-	target = get_tree().get_nodes_in_group("player")[0]
+	
 	var bone_attachments = $Graphics/Armature/Skeleton.get_children()
 	for bone_attachment in bone_attachments:
 		for child in bone_attachment.get_children():
@@ -55,7 +61,7 @@ func _ready():
 				child.connect("hurt", self, "hurt")
 	
 	health_manager.connect("dead", self, "set_state_dead")
-	health_manager.connect("gibbed", self, "queue_free")
+	health_manager.connect("gibbed", self, "set_state_gibbed")
 	character_mover.init(self)
 	set_state_idle()
 
@@ -76,9 +82,10 @@ func _process(delta):
 func set_state_idle():
 	cur_state = STATES.IDLE
 	anim_player.play("idle_loop")
+	character_mover.set_move_vec(Vector3.ZERO)
 
 func set_state_chase():
-	if alertGrunt != null and !alertGrunt.is_playing():
+	if alertGrunt != null and !alertGrunt.is_playing() and !pathFound:
 		alertGrunt.play()
 	cur_state = STATES.CHASE
 	anim_player.play("walk_loop", 0.2)
@@ -88,28 +95,35 @@ func set_state_attack():
 
 func set_state_dead():
 	cur_state = STATES.DEAD
-	if !died:
+	if !dead:
 		anim_player.play("die")	
-	died = true
+	dead = true
 	character_mover.freeze()
 
-
+func set_state_gibbed():
+	cur_state = STATES.GIBBED
+	bodyCollider.disabled = true
+	footColliderRay.disabled = true
+	timer_queue_free()
 
 
 		
 func process_state_gibbed(delta):
-	$CollisionShape.disabled = true
+	pass
+	
 	
 
 func process_state_idle(delta):
-	
-	if can_see_player():
-		set_state_chase()
+	if !target == null:
+		if can_see_player():
+			set_state_chase()
 
 
 func process_state_chase(delta):
-	
-	if within_dis_of_player(attack_range) and has_los_player():
+	if target == null or !target:
+		target = player
+		
+	if within_dis_of_target(attack_range) and has_los_player():
 		set_state_attack()
 		
 	var player_pos = target.global_transform.origin
@@ -140,12 +154,17 @@ func process_state_chase(delta):
 	
 
 func process_state_attack(delta):
-	
-	var dir = target.global_transform.origin - global_transform.origin
+	if target == null or target.dead:
+		target = player
+
+
+
+
+	dir = target.global_transform.origin - global_transform.origin
 	dir.y = 0
 	
 	if can_attack:
-		if !within_dis_of_player(attack_range) or !can_see_player():
+		if !within_dis_of_target(attack_range) or !can_see_player():
 			set_state_chase()
 		elif !player_within_angle(attack_angle):
 			face_dir(global_transform.origin.direction_to(target.global_transform.origin), delta)
@@ -154,22 +173,30 @@ func process_state_attack(delta):
 
 	character_mover.set_move_vec(dir)
 	face_dir(dir, delta)
+
 		
 
 
 func process_state_dead(delta):
 	pass
 
-func hurt(damage: int, dir: Vector3):
+func hurt(damage: int, dir: Vector3, source):
 	if cur_state == STATES.IDLE:
 		set_state_chase()
-	health_manager.hurt(damage, dir)
+	health_manager.hurt(damage, dir, source)
 	character_mover.knockback_force = -dir
+	if source != self:
+		target = source
+	
+
 
 	
 
 
 func start_attack():
+	if target.dead:
+		set_state_idle()
+		return
 	can_attack = false
 	
 	anim_player.play("attack", -1, attack_anim_speed_mod)
@@ -217,7 +244,12 @@ func alert(check_los=true):
 		return
 	set_state_chase()
 
-func within_dis_of_player(dis: float):
+func within_dis_of_target(dis: float):
+	if !target:
+		target = player
+	if target == null or global_transform == null:
+		return false
+	
 	return global_transform.origin.distance_to(target.global_transform.origin) < attack_range
 	
 	
@@ -236,3 +268,14 @@ func interact():
 
 func stop_facing():
 	updating_direction = false
+
+func switch_to_player():
+	target = player
+
+
+func timer_queue_free():
+	graphics.hide()
+	$DestroyTimer.start()
+	
+func play_landing():
+	landingSound.play()

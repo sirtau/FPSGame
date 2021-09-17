@@ -2,7 +2,7 @@ extends KinematicBody
 var explosion = preload("res://weapons/Explosion.tscn")
 
 onready var fireballHitSound = $FireballHit
-
+var source
 var speed = 10
 var impact_damage = 10
 var exploded = false
@@ -20,7 +20,8 @@ func _physics_process(delta):
 	if collision:
 		var collider = collision.collider
 		if collider.has_method("hurt"):
-			collider.hurt(impact_damage, -global_transform.basis.z)
+			collider.hurt(impact_damage, -global_transform.basis.z, source)
+
 		$SmokeParticles.emitting = true
 		speed = 0
 		explode()
@@ -39,7 +40,11 @@ func explode():
 	explosion_inst.damage = explosion_damage
 	get_tree().get_root().add_child(explosion_inst)
 	explosion_inst.global_transform.origin = global_transform.origin
+	if source == null:
+		print("ERROR NULL FK")
+	explosion_inst.source = source
 	explosion_inst.explode()
+	
 	$fireballLight.queue_free()
 	$Graphics.hide()
 

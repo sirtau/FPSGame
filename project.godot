@@ -30,6 +30,10 @@ config/name="FPS Game"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
+[audio]
+
+output_latency=50
+
 [autoload]
 
 Saved="*res://SaveGame/Saved.gd"
@@ -40,6 +44,7 @@ GameManager="*res://Scripts/GameManager.gd"
 
 window/size/width=640
 window/size/height=480
+window/size/fullscreen=true
 window/size/test_width=1920
 window/size/test_height=1080
 window/per_pixel_transparency/allowed=true
@@ -138,6 +143,8 @@ shield={
 
 [rendering]
 
-threads/thread_model=2
+quality/shadows/filter_mode=0
+quality/reflections/texture_array_reflections=false
 quality/filters/anisotropic_filter_level=1
 environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

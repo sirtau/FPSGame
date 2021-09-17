@@ -5,6 +5,7 @@ onready var explodeSound = $ProjectileHitsound
 var speed = 40
 var impact_damage = 20
 var exploded = false
+var source
 
 func _ready():
 	hide()
@@ -19,7 +20,7 @@ func _physics_process(delta):
 	if collision:
 		var collider = collision.collider
 		if collider.has_method("hurt"):
-			collider.hurt(impact_damage, -global_transform.basis.z)
+			collider.hurt(impact_damage, -global_transform.basis.z, source)
 		explode()
 
 func explode():
@@ -33,7 +34,13 @@ func explode():
 	get_tree().get_root().add_child(explosion_inst)
 	explosion_inst.global_transform.origin = global_transform.origin
 	explosion_inst.explode()
+	explosion_inst.setSource(source)
 	$SmokeTrail.emitting = false
 	$Graphics.hide()
 	$OmniLight.hide()
 	$DestroyAfterHitTimer.start()
+
+
+func setSource(_source):
+	source = _source
+	

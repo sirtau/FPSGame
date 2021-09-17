@@ -2,6 +2,7 @@ extends Spatial
 
 
 var fireball = preload("res://weapons/Fireball.tscn")
+var source
 
 var bodies_to_exclude = []
 var damage = 20
@@ -19,3 +20,10 @@ func fire():
 	get_tree().get_root().add_child(fireball_inst)
 	fireball_inst.global_transform = global_transform
 	fireball_inst.impact_damage = damage
+	fireball_inst.source = source
+
+
+func setSource(_source):
+	source = _source
+
+	

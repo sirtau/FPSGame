@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
@@ -28,13 +28,15 @@
 [ext_resource path="res://characters/player/PickupInfo.gd" type="Script" id=26]
 [ext_resource path="res://characters/player/RayCast.gd" type="Script" id=27]
 [ext_resource path="res://characters/Popuptest.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Sounds/DSPLPAIN.wav" type="AudioStream" id=29]
+[ext_resource path="res://Sounds/DSPISTOL.wav" type="AudioStream" id=30]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.635682
 height = 0.469689
 
 [sub_resource type="RayShape" id=20]
-length = 0.218825
+length = 0.344817
 
 [sub_resource type="Animation" id=2]
 resource_name = "attack"
@@ -341,6 +343,7 @@ size = 24
 font_data = ExtResource( 25 )
 
 [node name="Player" type="KinematicBody" groups=[
+"characters",
 "player",
 ]]
 collision_layer = 6
@@ -454,7 +457,8 @@ __meta__ = {
 
 [node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/MachineGun"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005245, 0.00536501, 0.028031 )
-stream = ExtResource( 17 )
+stream = ExtResource( 30 )
+max_db = 1.0
 bus = "SFX"
 
 [node name="Shotgun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
@@ -544,6 +548,7 @@ __meta__ = {
 
 [node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Shotgun"]
 stream = ExtResource( 17 )
+max_db = 1.0
 bus = "SFX"
 
 [node name="RocketLauncher" type="Spatial" parent="Camera/WeaponManager/Weapons"]
@@ -629,6 +634,7 @@ collide_with_areas = true
 script = ExtResource( 27 )
 
 [node name="CharacterMover" parent="." instance=ExtResource( 2 )]
+max_speed = 20
 jump_force = 12
 gravity = 35
 
@@ -736,6 +742,11 @@ wait_time = 2.0
 
 [node name="Popup" parent="." instance=ExtResource( 28 )]
 transform = Transform( 0.969484, -0.00354663, 0.245127, 0.00064157, 0.999929, 0.01193, -0.245152, -0.0114087, 0.969417, -0.0397218, 1.88792, -0.802997 )
+
+[node name="DamageSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 29 )
+volume_db = 2.0
+bus = "Grunts"
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]

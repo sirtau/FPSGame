@@ -5,6 +5,7 @@ var rocket = preload("res://weapons/Rocket.tscn")
 
 var bodies_to_exclude = []
 var damage = 1
+var source
 
 func set_damage(_damage: int):
 	damage = _damage
@@ -18,3 +19,9 @@ func fire():
 	get_tree().get_root().add_child(rocket_inst)
 	rocket_inst.global_transform = global_transform
 	rocket_inst.impact_damage = damage
+	rocket_inst.source = source
+
+
+func setSource(_source):
+	source = _source
+	

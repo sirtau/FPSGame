@@ -8,6 +8,7 @@ export var automatic = false
 
 var fire_point : Spatial
 var bodies_to_exclude : Array = []
+var source
 
 export var damage = 5
 export var ammo = 30
@@ -32,6 +33,7 @@ func init(_fire_point: Spatial, _bodies_to_exclude: Array):
 	for bullet_emitter in bullet_emitters:
 		bullet_emitter.set_damage(damage)
 		bullet_emitter.set_bodies_to_exclude(bodies_to_exclude)
+
 
 func attack(attack_input_just_pressed: bool, attack_input_held: bool):
 	if !can_attack:
@@ -77,3 +79,6 @@ func is_idle():
 
 
 
+func setSource(_source):
+	source = _source
+	

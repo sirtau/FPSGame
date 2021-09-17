@@ -4,7 +4,7 @@ onready var collider1 = $CollisionShape
 onready var collider2 = $CollisionShape2
 onready var collider3 = $CollisionShape3
 onready var timer = $Timer
-
+var source
 var space_state
 var results
 export var damage = 13
@@ -31,11 +31,12 @@ func damageSphere(query, collider, dmg_multiplier, space_state, results):
 	results = space_state.intersect_shape(query)
 	for data in results:
 		if data.collider.has_method("hurt"):
-			data.collider.hurt(outputDamage, -global_transform.origin.direction_to(data.collider.global_transform.origin))
+			data.collider.hurt(outputDamage, -global_transform.origin.direction_to(data.collider.global_transform.origin), source)
 			damage_counter += outputDamage
 			hits += 1
-			print("Damage Counter: " + str(damage_counter))
-			print("Hits: " + str(hits))
+#			print("Damage Counter: " + str(damage_counter))
+#			print("Hits: " + str(hits))
+
 			timer.start()
 			
 
@@ -43,3 +44,8 @@ func damageSphere(query, collider, dmg_multiplier, space_state, results):
 func reset_damage_counter():
 	damage_counter = 0
 	hits = 0
+
+
+func setSource(_source):
+	source = _source
+	

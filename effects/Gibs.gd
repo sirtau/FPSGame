@@ -2,6 +2,9 @@ extends Spatial
 
 
 func _ready():
+	var randomSound = randi() % 8 + 1
+	var soundToPlay = "Splat" + str(randomSound)
+	get_node(soundToPlay).play()
 	randomize()
 	hide()
 

@@ -14,9 +14,10 @@
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.627774
-height = 0.276469
+height = 0.358803
 
 [sub_resource type="RayShape" id=13]
+length = 0.155409
 
 [sub_resource type="Image" id=14]
 data = {
@@ -70,22 +71,23 @@ radius = 0.105477
 extents = Vector3( 0.208037, 0.208729, 0.208019 )
 
 [node name="BirdMonster" type="KinematicBody" groups=[
+"characters",
 "enemies",
 ]]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 3 )
-attack_angle = 20.0
+attack_angle = 90.0
 attack_range = 4.0
 attack_rate = 1.0
 attack_anim_speed_mod = 1.0
 
 [node name="BodyColliderShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.05172, 0.147553 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.945205, 0.147553 )
 shape = SubResource( 1 )
 
 [node name="FootColliderRay" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.140809, 0 )
 shape = SubResource( 13 )
 
 [node name="Graphics" parent="." instance=ExtResource( 1 )]
@@ -227,6 +229,7 @@ shape = SubResource( 11 )
 
 [node name="HealthManager" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+starting_health = 50
 gib_at = -20
 
 [node name="CharacterMover" parent="." instance=ExtResource( 5 )]
@@ -253,5 +256,10 @@ bus = "Grunts"
 
 [node name="Popup" parent="." instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.50661, 0 )
+visible = false
+
+[node name="DestroyTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="DestroyTimer" to="." method="queue_free"]
 
 [editable path="Graphics"]

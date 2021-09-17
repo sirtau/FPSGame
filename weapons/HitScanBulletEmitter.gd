@@ -2,10 +2,12 @@ extends Spatial
 
 var hit_effect = preload("res://effects/BulletHitEffect.tscn")
 var blood_spray = preload("res://effects/BloodSpray.tscn")
+var source
 
 export var distance = 10000
 var bodies_to_exclude = []
 var damage = 1
+
 
 func set_damage(_damage: int):
 	damage = _damage
@@ -19,10 +21,10 @@ func fire():
 	var result = space_state.intersect_ray(our_pos, our_pos - global_transform.basis.z * distance, 
 		bodies_to_exclude, 1 + 4, true, true)
 	if result and result.collider.has_method("hurt"):
-		result.collider.hurt(damage, result.normal)
+		result.collider.hurt(damage, result.normal, source)
 		
 		var parent = result.collider.get_parent()
-		print (parent.name)
+
 		var blood_spray_inst = blood_spray.instance()
 		parent.add_child(blood_spray_inst)
 		blood_spray_inst.global_transform.origin = result.position
@@ -45,4 +47,7 @@ func fire():
 		hit_effect_inst.global_transform.basis = Basis(x, y, z)
 		
 
+func setSource(_source):
+	source = _source
+	
 

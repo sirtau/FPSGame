@@ -26,6 +26,7 @@ onready var health_manager = $HealthManager
 onready var weapon_manager = $Camera/WeaponManager
 onready var pickup_manager = $PickupManager
 onready var interactRay : RayCast = $Camera/InteractRay
+onready var damageSound = $DamageSound
 var is_on_floor = false
 
 var posLastFrame = Vector3.ZERO
@@ -47,6 +48,7 @@ func _ready():
 	health_manager.connect("dead", self, "kill")
 	health_manager.connect("dead", GameManager, "player_dead")
 	weapon_manager.init($Camera/FirePoint, [self])
+	
 
 func _process(_delta):
 	if Input.is_action_just_pressed("use"):
@@ -57,7 +59,11 @@ func _process(_delta):
 	if Input.is_action_just_pressed("exit"):
 		mouse_mode_toggle()
 	if Input.is_action_just_pressed("restart"):
+		var projectiles = get_tree().get_nodes_in_group("projectiles")
+		for projectile in projectiles:
+			projectile.queue_free()
 		get_tree().reload_current_scene()
+		
 	if Input.is_action_just_pressed("invert_mouse"):
 		if Saved.invert_mouse == 1:
 			Saved.invert_mouse = -1
@@ -107,8 +113,10 @@ func _input(event):
 		if event.button_index == BUTTON_WHEEL_UP:
 			weapon_manager.switch_to_last_weapon()
 		
-func hurt(damage, dir):
-	health_manager.hurt(damage, dir)
+func hurt(damage, dir, source):
+	damageSound.play()
+	health_manager.hurt(damage, dir, source)
+
 	
 
 func mouse_mode_toggle():
@@ -141,7 +149,7 @@ func handle_use():
 
 	if collidingWith != null:
 		if collidingWith.has_method("hurt"):
-			collidingWith.hurt(500, Vector3.UP)
+			collidingWith.hurt(500, Vector3.UP, self)
 		elif collidingWith.is_in_group("Doors"):
 			collidingWith.interact()
 	pass

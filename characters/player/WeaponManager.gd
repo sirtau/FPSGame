@@ -22,11 +22,13 @@ var bodies_to_exclude : Array = []
 signal ammo_changed
 
 func init(_fire_point: Spatial, _bodies_to_exclude: Array):
+	
 	fire_point = _fire_point
 	bodies_to_exclude = _bodies_to_exclude
 	for weapon in weapons:
 		if weapon.has_method("init"):
 			weapon.init(_fire_point, _bodies_to_exclude)
+			
 	
 	weapons[WEAPON_SLOTS.MACHINE_GUN].connect("fired", self, "alert_nearby_enemies")
 	weapons[WEAPON_SLOTS.SHOTGUN].connect("fired", self, "alert_nearby_enemies")
@@ -34,6 +36,7 @@ func init(_fire_point: Spatial, _bodies_to_exclude: Array):
 	
 	for weapon in weapons:
 		weapon.connect("fired", self, "emit_ammo_changed_signal")
+		weapon.source = self
 	
 	switch_to_weapon_slot(WEAPON_SLOTS.MACHETE)
 
