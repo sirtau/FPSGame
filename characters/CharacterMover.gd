@@ -8,8 +8,8 @@ var drag = 0.0
 export var jump_force = 15
 export var gravity = 60
 export var jump_buffer := 2.0
-var dir
-var cur_move_vec
+var dir : Vector3
+var cur_move_vec : Vector3
 var wall_jump_pressed = false
 var pressed_jump = false
 var force_forward = false
@@ -18,7 +18,7 @@ var velocity : Vector3
 var snap_vec : Vector3
 var knockback_force = Vector3.ZERO
 var knockback_multiplier = 20
-
+var grounded : bool
 
 export var ignore_rotation = false
 var unrotatedMoveVelocity
@@ -58,7 +58,7 @@ func _physics_process(delta):
 	velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag) + gravity * Vector3.DOWN * delta
 	unrotatedMoveVelocity = velocity.rotated(Vector3.UP, -body_to_move.rotation.y)
 	
-	var grounded = body_to_move.is_on_floor()
+	grounded = body_to_move.is_on_floor()
 	if grounded:
 		velocity.y = -1
 

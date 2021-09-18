@@ -2,7 +2,7 @@
 
 [ext_resource path="res://environment/raw_assets/brickwall.glb" type="PackedScene" id=1]
 
-[sub_resource type="ConcavePolygonShape" id=2]
+[sub_resource type="ConcavePolygonShape" id=1]
 data = PoolVector3Array( -2, 3, -0.3, -2, 0, 0.3, -2, 0, -0.3, -2, 3, -0.3, -2, 3, 0.3, -2, 0, 0.3, 2, 3, -0.3, -2, 0, -0.3, 2, 0, -0.3, 2, 3, -0.3, -2, 3, -0.3, -2, 0, -0.3, 2, 3, 0.3, 2, 0, -0.3, 2, 0, 0.3, 2, 3, 0.3, 2, 3, -0.3, 2, 0, -0.3, -2, 3, 0.3, 2, 0, 0.3, -2, 0, 0.3, -2, 3, 0.3, 2, 3, 0.3, 2, 0, 0.3, -2, 0, 0.3, 2, 0, -0.3, -2, 0, -0.3, -2, 0, 0.3, 2, 0, 0.3, 2, 0, -0.3, 2, 3, 0.3, -2, 3, -0.3, 2, 3, -0.3, 2, 3, 0.3, -2, 3, 0.3, -2, 3, -0.3 )
 
 [node name="brickwall" instance=ExtResource( 1 )]
@@ -12,4 +12,4 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="brickwall/StaticBody" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )

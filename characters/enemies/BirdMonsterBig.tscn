@@ -260,6 +260,7 @@ bus = "Grunts"
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.50661, 0 )
 
 [node name="DestroyTimer" type="Timer" parent="."]
+wait_time = 10.0
 
 [connection signal="timeout" from="DestroyTimer" to="." method="queue_free"]
 

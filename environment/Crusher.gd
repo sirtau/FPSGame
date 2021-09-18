@@ -10,6 +10,8 @@ var damage_counter = 0
 var hits = 0
 var crushing = false
 
+signal crushed_something
+
 func start_crushing():
 	damageTimer.start()
 
@@ -34,9 +36,10 @@ func damageSphere(query, collider, dmg_multiplier, space_state, results):
 	results = space_state.intersect_shape(query)
 	for data in results:
 		if data.collider.has_method("hurt"):
-			data.collider.hurt(outputDamage, global_transform.origin.direction_to(data.collider.global_transform.origin))
+			data.collider.hurt(outputDamage, global_transform.origin.direction_to(data.collider.global_transform.origin), self)
 			damage_counter += outputDamage
 			hits += 1
+			emit_signal("crushed_something")
 #			print("Damage Counter: " + str(damage_counter))
 #			print("Hits: " + str(hits))
 			

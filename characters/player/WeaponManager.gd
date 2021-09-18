@@ -40,6 +40,8 @@ func init(_fire_point: Spatial, _bodies_to_exclude: Array):
 	
 	switch_to_weapon_slot(WEAPON_SLOTS.MACHETE)
 
+	
+
 func attack(attack_input_just_pressed: bool, attack_input_held: bool):
 	if cur_weapon.has_method("attack"):
 		cur_weapon.attack(attack_input_just_pressed, attack_input_held)
@@ -81,7 +83,7 @@ func disable_all_weapons():
 func update_animation(velocity: Vector3, grounded: bool):
 	if cur_weapon.has_method("is_idle") and !cur_weapon.is_idle():
 		anim_player.play("idle")
-	if !grounded or velocity.length() < 15.0:
+	if !grounded or velocity.length() < 1.0:
 		anim_player.play("idle", 0.05)
 	anim_player.play("moving")
 

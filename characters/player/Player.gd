@@ -51,6 +51,9 @@ func _ready():
 	
 
 func _process(_delta):
+	
+	weapon_manager.update_animation(move_vec, character_mover.grounded)
+	
 	if Input.is_action_just_pressed("use"):
 		handle_use()
 	
@@ -156,3 +159,7 @@ func handle_use():
 	
 
 
+
+
+func _on_HealthManager_gibbed():
+	weapon_manager.visible = false

@@ -68,12 +68,6 @@ use_collision = true
 collision_layer = 31
 mesh = SubResource( 2 )
 
-[node name="CSGMesh2" type="CSGMesh" parent="Navigation/NavigationMeshInstance/Environment"]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.2, -4.6, 4, -18.6 )
-use_collision = true
-collision_layer = 31
-mesh = SubResource( 2 )
-
 [node name="CSGMesh3" type="CSGMesh" parent="Navigation/NavigationMeshInstance/Environment"]
 transform = Transform( 0.1, 0, 0, 0, -0.575, 0, 0, 0, 0.2, -4.6, 3.3, -18.6 )
 use_collision = true
@@ -123,7 +117,7 @@ transform = Transform( -0.998818, 0, -0.0486058, 0, 1, 0, 0.0486058, 0, -0.99881
 transform = Transform( -0.998818, 0, -0.0486058, 0, 1, 0, 0.0486058, 0, -0.998818, -4.18713, 6.95794, -19.8793 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.9, 5.7 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 17.3 )
 mouse_sens = 0.08
 
 [node name="Lights" type="Spatial" parent="."]
