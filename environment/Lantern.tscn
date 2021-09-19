@@ -59,7 +59,7 @@ material/0 = null
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.38389, -0.0425186 )
 light_color = Color( 1, 0.537255, 0, 1 )
-light_energy = 1.69
+light_energy = 0.8
 light_indirect_energy = 16.0
 light_specular = 0.0
 shadow_enabled = true

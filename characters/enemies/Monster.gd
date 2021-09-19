@@ -22,6 +22,7 @@ var pathFound = false
 var goal_pos 
 var default_speed_exported
 var target_pos
+var forward_or_backward = 1
 
 var our_pos
 var player_pos
@@ -48,6 +49,7 @@ func _ready():
 	player = get_tree().get_nodes_in_group("player")[0]
 	target = player
 	default_speed_exported = character_mover.max_speed
+	character_mover.update_drag()
 	for child in $AimAtObject.get_children():
 		if child.has_method("set_bodies_to_exclude"):
 			child.set_bodies_to_exclude([self])
@@ -100,9 +102,11 @@ func set_state_attack():
 
 func set_state_dead():
 	cur_state = STATES.DEAD
-	if !dead:
-		anim_player.play("die")	
+
+	anim_player.play("die")	
 	dead = true
+	add_collision_exception_with(player)
+		
 	character_mover.freeze()
 
 func set_state_gibbed():
@@ -175,7 +179,7 @@ func process_state_attack(delta):
 	else:
 		target = player
 
-	character_mover.set_move_vec(dir)
+	character_mover.set_move_vec(dir  * forward_or_backward)
 	face_dir(dir, delta)
 
 		
@@ -267,7 +271,10 @@ func within_dis_of_target(dis: float):
 func keep_facing():
 	updating_direction = true
 	anim_player.play("Walk")
-	character_mover.max_speed = 5
+	character_mover.max_speed = 4
+	forward_or_backward = - 1
+	character_mover.update_drag()
+	
 
 
 func processDelay():
@@ -293,3 +300,5 @@ func play_landing():
 
 func reset_move_speed():
 	character_mover.max_speed = default_speed_exported
+	forward_or_backward = 1
+	character_mover.update_drag()

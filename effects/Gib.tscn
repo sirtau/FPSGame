@@ -1,11 +1,61 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://effects/BloodSpray_Particles.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Shaders/StylizedFire/HoleNoise.png" type="Texture" id=1]
 [ext_resource path="res://effects/raw_assets/gib.glb" type="PackedScene" id=2]
 [ext_resource path="res://effects/Gib.gd" type="Script" id=3]
+[ext_resource path="res://Shaders/StylizedFire/FireMask.png" type="Texture" id=4]
+[ext_resource path="res://Shaders/StylizedFire/stylized_fire.shader" type="Shader" id=5]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.226736
+
+[sub_resource type="ShaderMaterial" id=2]
+render_priority = 1
+shader = ExtResource( 5 )
+shader_param/emission_intensity = 0.0
+shader_param/time_scale = 0.1
+shader_param/texture_scale = Vector2( 0.4, 0.4 )
+shader_param/edge_softness = 0.4
+shader_param/noise_texture = ExtResource( 1 )
+shader_param/texture_mask = ExtResource( 4 )
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.867725, 1 )
+colors = PoolColorArray( 1, 0, 0, 0.698039, 1, 0, 0, 0.380392, 1, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+width = 128
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0 ), 0.0, 3.65289, 0, 0, Vector2( 0.556561, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+width = 128
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 0.2
+direction = Vector3( 0, 1, 0 )
+spread = 64.44
+gravity = Vector3( 0, -20, 0 )
+initial_velocity = 15.0
+initial_velocity_random = 1.0
+linear_accel = 4.0
+scale = 8.0
+scale_random = 0.55
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_use_shadow_to_opacity = true
+
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
+size = Vector2( 0.5, 0.5 )
 
 [node name="Gib" type="KinematicBody"]
 collision_layer = 0
@@ -29,11 +79,18 @@ wait_time = 15.0
 one_shot = true
 autostart = true
 
-[node name="Particles" parent="." instance=ExtResource( 1 )]
-amount = 20
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26708, 0 )
+material_override = SubResource( 2 )
+emitting = false
+amount = 30
 lifetime = 3.0
-explosiveness = 1.0
+one_shot = true
+explosiveness = 0.86
+randomness = 0.39
 visibility_aabb = AABB( -234.697, -76.935, -288.625, 469.395, 153.87, 577.251 )
-local_coords = true
+draw_order = 1
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 9 )
 
 [connection signal="timeout" from="DestroyAfterTime" to="." method="destroy"]

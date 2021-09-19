@@ -18,7 +18,7 @@ var hotkeys = {
 export var mouse_sens = 0.1
 var move_vec = Vector3()
 
-
+export var camera_roll_multiplier := .3
 
 onready var camera = $Camera
 onready var character_mover = $CharacterMover
@@ -93,6 +93,9 @@ func _process(_delta):
 	
 	
 	character_mover.set_move_vec(move_vec)
+	if Input.is_action_pressed("jump"):
+		character_mover.glide(_delta)
+
 	if Input.is_action_just_pressed("jump"):
 		character_mover.jump()
 		if is_on_wall():
@@ -145,7 +148,7 @@ func _on_CharacterMover_movement_info(vel : Vector3, info):
 	
 	
 #	rotation_degrees.x = vel.z
-	camera.rotation_degrees.z = -vel.x * .5
+	camera.rotation_degrees.z = -vel.x * camera_roll_multiplier
 	 
 	
 func handle_use():

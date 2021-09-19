@@ -31,8 +31,9 @@ func hurt(damage: int, dir: Vector3, source):
 		emit_signal("gibbed")
 	if cur_health <= 0:
 		emit_signal("dead")
-		if !source == null and source.has_method("switch_to_player"):
-			source.switch_to_player()
+		if is_instance_valid(source):
+			if source.has_method("switch_to_player"):
+				source.switch_to_player()
 	else:
 		emit_signal("hurt")
 	emit_signal("health_changed", cur_health)

@@ -88,7 +88,9 @@ script = ExtResource( 6 )
 [node name="Particles2" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26708, 0 )
 material_override = SubResource( 1 )
+emitting = false
 amount = 10
+one_shot = true
 explosiveness = 0.87
 randomness = 0.74
 visibility_aabb = AABB( -12.1393, -7.81666, -13.1763, 24.2787, 15.6333, 26.3526 )

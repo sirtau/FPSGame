@@ -484,10 +484,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00490379, -0.142777 )
 omni_shadow_detail = 0
 
 [node name="muzzleflash3" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" instance=ExtResource( 13 )]
-transform = Transform( -0.13922, 0, -4.53637e-08, -1.07363e-08, 0.13627, 0.0329493, 5.13245e-08, 0.0285056, -0.157514, 0.0119665, 0.0143448, -0.019298 )
+transform = Transform( -0.13922, -1.09687e-08, -2.42987e-08, -1.09687e-08, 0.13922, 0, 2.10216e-08, 1.65622e-15, -0.160923, 0.0119665, 0.0143448, -0.019298 )
 
 [node name="muzzleflash4" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" instance=ExtResource( 13 )]
-transform = Transform( -0.13922, 0, -4.53637e-08, -1.07363e-08, 0.13627, 0.0329493, 5.13245e-08, 0.0285056, -0.157514, -0.0191647, 0.0143448, -0.019298 )
+transform = Transform( -0.13922, -1.09687e-08, -2.42987e-08, -1.09687e-08, 0.13922, 0, 2.10216e-08, 1.65622e-15, -0.160923, -0.0191647, 0.0143448, -0.019298 )
 
 [node name="Cube" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics" instance=ExtResource( 33 )]
 transform = Transform( -1.35713e-09, 0, 0.0310476, 0, 0.0310476, 0, -0.0310476, 0, -1.35713e-09, -0.00109771, 0.0183747, -0.161232 )
@@ -764,10 +764,10 @@ volume_db = 2.0
 bus = "Grunts"
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]

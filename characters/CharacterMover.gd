@@ -7,8 +7,14 @@ export var max_speed = 15
 var drag = 0.0
 export var jump_force = 15
 export var gravity = 60
+
 export var max_buffer := 20.0
 var jump_buffer = max_buffer
+
+export var max_glide_time := 1.0
+var glide_time_left = max_glide_time
+
+
 var dir : Vector3
 var cur_move_vec : Vector3
 var wall_jump_pressed = false
@@ -37,6 +43,7 @@ func _ready():
 	drag = float(move_accel) / max_speed
 	jumps_left = max_jumps
 	jump_buffer = max_buffer
+	glide_time_left = max_glide_time
 
 func init(_body_to_move: KinematicBody):
 	body_to_move = _body_to_move
@@ -44,6 +51,7 @@ func init(_body_to_move: KinematicBody):
 
 func jump():
 	pressed_jump = true
+	
 
 func forward_push():
 	force_forward = true
@@ -78,6 +86,7 @@ func _physics_process(delta):
 
 	if pressed_jump:
 		if can_jump():
+			reset_glide_time_left()
 			velocity.y = jump_force
 			snap_vec = Vector3.ZERO
 			jumps_left -= 1
@@ -147,5 +156,20 @@ func bounce_pad():
 func reset_jumps_and_buffer():
 	jump_buffer = max_buffer
 	jumps_left = max_jumps
+	
 
 
+func glide(delta):
+	if glide_time_left < 0:
+		return
+	if velocity.y <= 0.01:
+		velocity.y = 0
+		glide_time_left -= delta
+	
+
+func reset_glide_time_left():
+	glide_time_left = max_glide_time
+
+
+func update_drag():
+	drag = float(move_accel) / max_speed
