@@ -30,7 +30,7 @@ one_shot = true
 autostart = true
 
 [node name="Particles" parent="." instance=ExtResource( 1 )]
-amount = 40
+amount = 20
 lifetime = 3.0
 explosiveness = 1.0
 visibility_aabb = AABB( -234.697, -76.935, -288.625, 469.395, 153.87, 577.251 )

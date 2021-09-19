@@ -10,10 +10,10 @@ onready var animPlayer = $AnimationPlayer
 
 func _process(delta):
 	if reset == true:
-		print("resetting")
+#		print("resetting")
 		print(animPlayer.current_animation_position)
 		if animPlayer.current_animation_position == 0:
-			print("Reset Position")
+#			print("Reset Position")
 			
 			animPlayer.playback_speed = 1
 			set_can_close()

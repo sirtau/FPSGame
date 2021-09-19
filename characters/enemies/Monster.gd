@@ -21,6 +21,10 @@ var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
 var default_speed_exported
+var target_pos
+
+var our_pos
+var player_pos
 
 export var sight_angle = 45.0
 export var turn_speed = 360.0
@@ -34,6 +38,7 @@ var attack_timer : Timer
 var can_attack = true
 var dead = false
 var updating_direction = true
+
 
 signal attack
 
@@ -125,16 +130,16 @@ func process_state_chase(delta):
 		
 	if within_dis_of_target(attack_range) and has_los_player():
 		set_state_attack()
-		
-	var target_pos = target.global_transform.origin
-	var our_pos = global_transform.origin
+	if is_instance_valid(target):	
+		target_pos = target.global_transform.origin
+		our_pos = global_transform.origin
 	
-	path = nav.get_simple_path(our_pos, target_pos)
-	if !pathFound or pathProcessOffset == 0:
-		goal_pos = target_pos
-		if path.size() > 0:
-			pathFound = true
-			goal_pos = path[1]
+		path = nav.get_simple_path(our_pos, target_pos)
+		if !pathFound or pathProcessOffset == 0:
+			goal_pos = target_pos
+			if path.size() > 0:
+				pathFound = true
+				goal_pos = path[1]
 
 
 	dir = goal_pos - our_pos
@@ -154,22 +159,21 @@ func process_state_chase(delta):
 	
 
 func process_state_attack(delta):
-	if target == null or target.dead:
+	if !is_instance_valid(target):
 		target = player
-
-
-
 
 	dir = target.global_transform.origin - global_transform.origin
 	dir.y = 0
-	
-	if can_attack:
-		if !within_dis_of_target(attack_range) or !can_see_player():
-			set_state_chase()
-		elif !player_within_angle(attack_angle):
-			face_dir(global_transform.origin.direction_to(target.global_transform.origin), delta)
-		else:
-			start_attack()
+	if is_instance_valid(target):
+		if can_attack:
+			if !within_dis_of_target(attack_range) or !can_see_player():
+				set_state_chase()
+			elif !player_within_angle(attack_angle):
+				face_dir(global_transform.origin.direction_to(target.global_transform.origin), delta)
+			else:
+				start_attack()
+	else:
+		target = player
 
 	character_mover.set_move_vec(dir)
 	face_dir(dir, delta)
@@ -184,7 +188,7 @@ func hurt(damage: int, dir: Vector3, source):
 	if cur_state == STATES.IDLE:
 		set_state_chase()
 	health_manager.hurt(damage, dir, source)
-	character_mover.knockback_force = -dir
+	character_mover.knockback_force = -dir * 2
 	if source != self:
 		target = source
 	
@@ -194,9 +198,11 @@ func hurt(damage: int, dir: Vector3, source):
 
 
 func start_attack():
-	if target.dead:
-		set_state_idle()
-		return
+	if is_instance_valid(target):
+		if target.dead:
+			set_state_chase()
+			target = player
+			return
 	can_attack = false
 	
 	anim_player.play("attack", -1, attack_anim_speed_mod)
@@ -208,19 +214,23 @@ func emit_attack_signal():
 
 func finish_attack():
 	can_attack = true
-	character_mover.max_speed = default_speed_exported
+	reset_move_speed()
 
 func can_see_player():
 	return player_within_angle(sight_angle) and has_los_player()
 
 func player_within_angle(angle: float):
+	if !is_instance_valid(target) or !is_instance_valid(self):
+		return false
 	var dir_to_player = global_transform.origin.direction_to(target.global_transform.origin)
 	var forwards = global_transform.basis.z
 	return rad2deg(forwards.angle_to(dir_to_player)) < angle 
 
 func has_los_player():
-	var our_pos = global_transform.origin + Vector3.UP
-	var player_pos = target.global_transform.origin + Vector3.UP
+	if !is_instance_valid(target):
+		return false
+	our_pos = global_transform.origin + Vector3.UP
+	player_pos = target.global_transform.origin + Vector3.UP
 	
 	var space_state = get_world().get_direct_space_state()
 	var result = space_state.intersect_ray(our_pos, player_pos, [], 1)
@@ -247,7 +257,7 @@ func alert(check_los=true):
 func within_dis_of_target(dis: float):
 	if !target:
 		target = player
-	if target == null or global_transform == null:
+	if !is_instance_valid(target):
 		return false
 	
 	return global_transform.origin.distance_to(target.global_transform.origin) < attack_range
@@ -279,3 +289,7 @@ func timer_queue_free():
 	
 func play_landing():
 	landingSound.play()
+
+
+func reset_move_speed():
+	character_mover.max_speed = default_speed_exported

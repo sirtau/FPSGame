@@ -18,5 +18,6 @@ func _ready():
 
 func _on_Area_body_entered(body):
 	if body.is_in_group("player") or body.is_in_group("enemies"):
-		body.character_mover.jump()
-		body.character_mover.velocity.y = 30
+		body.character_mover.bounce_pad()
+
+		

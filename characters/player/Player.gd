@@ -58,9 +58,10 @@ func _process(_delta):
 		handle_use()
 	
 		
-
+	
 	if Input.is_action_just_pressed("exit"):
-		mouse_mode_toggle()
+#		mouse_mode_toggle()
+		get_tree().quit()
 	if Input.is_action_just_pressed("restart"):
 		var projectiles = get_tree().get_nodes_in_group("projectiles")
 		for projectile in projectiles:

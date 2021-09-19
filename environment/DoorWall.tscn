@@ -140,7 +140,6 @@ extents = Vector3( 1.79639, 0.437761, 0.227342 )
 [node name="DoorWall" type="StaticBody" parent="." groups=[
 "Doors",
 ]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 0 )
 script = ExtResource( 2 )
 
 [node name="brickwall" type="MeshInstance" parent="DoorWall"]

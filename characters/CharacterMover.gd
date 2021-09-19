@@ -7,10 +7,15 @@ export var max_speed = 15
 var drag = 0.0
 export var jump_force = 15
 export var gravity = 60
-export var jump_buffer := 2.0
+export var max_buffer := 20.0
+var jump_buffer = max_buffer
 var dir : Vector3
 var cur_move_vec : Vector3
 var wall_jump_pressed = false
+export var max_jumps = 2
+var jumps_left = max_jumps
+
+
 var pressed_jump = false
 var force_forward = false
 var move_vec : Vector3
@@ -30,9 +35,12 @@ var frozen = false
 
 func _ready():
 	drag = float(move_accel) / max_speed
+	jumps_left = max_jumps
+	jump_buffer = max_buffer
 
 func init(_body_to_move: KinematicBody):
 	body_to_move = _body_to_move
+	
 
 func jump():
 	pressed_jump = true
@@ -44,9 +52,14 @@ func forward_push():
 func set_move_vec(_move_vec: Vector3):
 	move_vec = _move_vec.normalized()
 
+func _process(delta):
+	pass
+	
+	
+
+
 func _physics_process(delta):
-	if !body_to_move.is_on_floor() and body_to_move.has_method("jump_timer_start"):
-		pass 
+	handle_jump_buffer_decrease(delta)
 	if frozen:
 		return
 	cur_move_vec = move_vec
@@ -60,11 +73,15 @@ func _physics_process(delta):
 	
 	grounded = body_to_move.is_on_floor()
 	if grounded:
+		reset_jump_counter()
 		velocity.y = -1
 
-	if (grounded and pressed_jump) or wall_jump_pressed:
-		velocity.y = jump_force
-		snap_vec = Vector3.ZERO
+	if pressed_jump:
+		if can_jump():
+			velocity.y = jump_force
+			snap_vec = Vector3.ZERO
+			jumps_left -= 1
+			
 		
 	else:
 		snap_vec = Vector3.UP
@@ -96,8 +113,39 @@ func freeze():
 func unfreeze():
 	frozen = false
 	
+
+func can_jump():
+	if jumps_left > 0:
+		return true
+	else:
+		return false
 	
-func leap():
-	velocity
+
+func handle_jump_buffer_decrease(delta):
+	if grounded:
+		if jump_buffer < max_buffer:
+			jump_buffer = max_buffer
+	else:
+		jump_buffer -= delta
+		
+	if jump_buffer <= 0:
+		jumps_left -= 1
+		
+		
+
+func reset_jump_counter():
+	if jumps_left < max_jumps:
+			jumps_left = max_jumps
+
+
+func bounce_pad():
+	if grounded:
+		jump()
+	velocity.y = 30
+	reset_jumps_and_buffer()
+
+func reset_jumps_and_buffer():
+	jump_buffer = max_buffer
+	jumps_left = max_jumps
 
 
