@@ -26,6 +26,8 @@ var forward_or_backward = 1
 
 var our_pos
 var player_pos
+var dir_to_player
+
 
 export var sight_angle = 45.0
 export var turn_speed = 360.0
@@ -39,7 +41,7 @@ var attack_timer : Timer
 var can_attack = true
 var dead = false
 var updating_direction = true
-
+var forwards
 
 signal attack
 
@@ -134,16 +136,17 @@ func process_state_chase(delta):
 		
 	if within_dis_of_target(attack_range) and has_los_player():
 		set_state_attack()
-	if is_instance_valid(target):	
-		target_pos = target.global_transform.origin
-		our_pos = global_transform.origin
-	
-		path = nav.get_simple_path(our_pos, target_pos)
-		if !pathFound or pathProcessOffset == 0:
-			goal_pos = target_pos
-			if path.size() > 0:
-				pathFound = true
-				goal_pos = path[1]
+	if !is_instance_valid(target):
+		target = player
+	target_pos = target.global_transform.origin
+	our_pos = global_transform.origin
+
+	path = nav.get_simple_path(our_pos, target_pos)
+	if !pathFound or pathProcessOffset == 0:
+		goal_pos = target_pos
+		if path.size() > 0:
+			pathFound = true
+			goal_pos = path[1]
 
 
 	dir = goal_pos - our_pos
@@ -202,11 +205,9 @@ func hurt(damage: int, dir: Vector3, source):
 
 
 func start_attack():
-	if is_instance_valid(target):
-		if target.dead:
-			set_state_chase()
-			target = player
-			return
+	if !is_instance_valid(target):	
+		target = player
+		
 	can_attack = false
 	
 	anim_player.play("attack", -1, attack_anim_speed_mod)
@@ -224,15 +225,17 @@ func can_see_player():
 	return player_within_angle(sight_angle) and has_los_player()
 
 func player_within_angle(angle: float):
-	if !is_instance_valid(target) or !is_instance_valid(self):
+	if !is_instance_valid(self):
 		return false
-	var dir_to_player = global_transform.origin.direction_to(target.global_transform.origin)
-	var forwards = global_transform.basis.z
+	if !is_instance_valid(target):
+		target = player
+	dir_to_player = global_transform.origin.direction_to(target.global_transform.origin)
+	forwards = global_transform.basis.z
 	return rad2deg(forwards.angle_to(dir_to_player)) < angle 
 
 func has_los_player():
 	if !is_instance_valid(target):
-		return false
+		target = player
 	our_pos = global_transform.origin + Vector3.UP
 	player_pos = target.global_transform.origin + Vector3.UP
 	

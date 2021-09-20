@@ -898,7 +898,6 @@ transform = Transform( 0.998818, 0, 0.0486057, 0, 1, 0, -0.0486057, 0, 0.998818,
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
 transform = Transform( -0.087159, 0, 0.996194, 0, 1, 0, -0.996194, 0, -0.087159, 3.2, 11.36, -25.39 )
-mouse_sens = 0.08
 
 [node name="Lights" type="Spatial" parent="."]
 

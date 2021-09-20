@@ -764,10 +764,10 @@ volume_db = 2.0
 bus = "Grunts"
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
