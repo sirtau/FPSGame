@@ -1,0 +1,99 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://characters/enemies/BirdMonster.tscn" type="PackedScene" id=1]
+[ext_resource path="res://characters/enemies/BirdMonsterBig.tscn" type="PackedScene" id=2]
+[ext_resource path="res://characters/enemies/KnightMonster.tscn" type="PackedScene" id=3]
+[ext_resource path="res://characters/enemies/ReptileMonster.tscn" type="PackedScene" id=4]
+[ext_resource path="res://characters/enemies/CatMonster.tscn" type="PackedScene" id=5]
+[ext_resource path="res://characters/enemies/Monster.gd" type="Script" id=6]
+
+[node name="EnemyGroup" type="Spatial"]
+
+[node name="BirdMonster" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+] instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+attack_angle = 45.0
+attack_range = 4.0
+attack_rate = 1.0
+attack_anim_speed_mod = 1.0
+
+[node name="BigBirdMonster" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+] instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, -20 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+attack_angle = 45.0
+attack_range = 4.0
+attack_rate = 1.0
+attack_anim_speed_mod = 1.0
+
+[node name="CatMonster" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+] instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+attack_angle = 45.0
+attack_range = 15.0
+attack_rate = 4.0
+
+[node name="CatMonster2" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+] instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -12 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+attack_angle = 45.0
+attack_range = 15.0
+attack_rate = 4.0
+
+[node name="CatMonster3" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+] instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -12 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+attack_angle = 45.0
+attack_range = 15.0
+attack_rate = 4.0
+
+[node name="KnightMonster" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+"knight",
+] instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -29 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+sight_angle = 30.0
+attack_angle = 45.0
+attack_range = 25.0
+attack_rate = 4.0
+attack_anim_speed_mod = 2.0
+
+[node name="ReptileMonster" type="KinematicBody" parent="." groups=[
+"characters",
+"enemies",
+] instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5 )
+collision_layer = 2
+collision_mask = 3
+script = ExtResource( 6 )
+attack_angle = 45.0
+attack_range = 100.0
+attack_rate = 4.0

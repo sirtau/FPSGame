@@ -16,7 +16,7 @@ var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 10
+var pathProcessDelay = 100
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
@@ -131,34 +131,37 @@ func process_state_idle(delta):
 
 
 func process_state_chase(delta):
-	if target == null:
-		target = player
-		
-	if within_dis_of_target(attack_range) and has_los_player():
-		set_state_attack()
-	if !is_instance_valid(target):
-		target = player
-	target_pos = target.global_transform.origin
-	our_pos = global_transform.origin
+	if pathProcessOffset == 0:
+		if target == null:
+			target = player
+		if within_dis_of_target(attack_range) and has_los_player():
+			set_state_attack()
+		if !is_instance_valid(target):
+			target = player
+		target_pos = target.global_transform.origin
+		our_pos = global_transform.origin
 
-	path = nav.get_simple_path(our_pos, target_pos)
-	if !pathFound or pathProcessOffset == 0:
+	
+	
+		path = nav.get_simple_path(our_pos, target_pos)
 		goal_pos = target_pos
 		if path.size() > 0:
 			pathFound = true
 			goal_pos = path[1]
 
 
-	dir = goal_pos - our_pos
+			dir = goal_pos - our_pos
+			
+			dir.y = 0
+		if dir == null:
+			return
+		character_mover.set_move_vec(dir)
+
+		face_dir(dir, delta)
+
+		character_mover.dir = dir
 	
-	dir.y = 0
-	character_mover.set_move_vec(dir)
-	
-	face_dir(dir, delta)
-	
-	character_mover.dir = dir
-	if pathFound:
-		pathProcessOffset += 1
+	pathProcessOffset += 1
 	if pathProcessOffset == pathProcessDelay:
 		pathProcessOffset = 0
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://characters/enemies/raw_assets/birdmonster/birdmonster.glb" type="PackedScene" id=1]
 [ext_resource path="res://characters/HitBox.tscn" type="PackedScene" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Shaders/PSX Shaders/psx_lit.shader" type="Shader" id=8]
 [ext_resource path="res://effects/SoundEffects/AlertGrunt.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sounds/DSSKLATK.wav" type="AudioStream" id=10]
-[ext_resource path="res://characters/Popuptest.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.627774
@@ -74,11 +73,11 @@ extents = Vector3( 0.208037, 0.208729, 0.208019 )
 "characters",
 "enemies",
 ]]
-transform = Transform( 2.41162, 0, 0, 0, 2.41162, 0, 0, 0, 2.41162, 0, 0, 0 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 3 )
-attack_angle = 90.0
+attack_angle = 45.0
 attack_range = 4.0
 attack_rate = 1.0
 attack_anim_speed_mod = 1.0
@@ -255,9 +254,6 @@ shape = SubResource( 13 )
 [node name="AlertGrunt" parent="." instance=ExtResource( 9 )]
 stream = ExtResource( 10 )
 bus = "Grunts"
-
-[node name="Popup" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.50661, 0 )
 
 [node name="DestroyTimer" type="Timer" parent="."]
 wait_time = 10.0

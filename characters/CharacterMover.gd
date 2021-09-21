@@ -11,7 +11,7 @@ export var gravity = 60
 export var max_buffer := 20.0
 var jump_buffer = max_buffer
 
-export var max_glide_time := 1.0
+export var max_glide_time := 3.0
 var glide_time_left = max_glide_time
 
 
@@ -20,7 +20,7 @@ var cur_move_vec : Vector3
 var wall_jump_pressed = false
 export var max_jumps = 2
 var jumps_left = max_jumps
-
+export var isPlayer = false
 
 var pressed_jump = false
 var force_forward = false
@@ -33,7 +33,7 @@ var grounded : bool
 
 export var ignore_rotation = false
 var unrotatedMoveVelocity
-var parental = get_parent()
+onready var parental = get_parent()
 signal movement_info
 
 var frozen = false
@@ -44,6 +44,8 @@ func _ready():
 	jumps_left = max_jumps
 	jump_buffer = max_buffer
 	glide_time_left = max_glide_time
+
+		
 
 func init(_body_to_move: KinematicBody):
 	body_to_move = _body_to_move
@@ -61,35 +63,41 @@ func set_move_vec(_move_vec: Vector3):
 	move_vec = _move_vec.normalized()
 
 func _process(delta):
-	pass
+	if isPlayer:
+		handle_jump_buffer_decrease(delta)
+
 	
 	
 
 
 func _physics_process(delta):
-	handle_jump_buffer_decrease(delta)
+
 	if frozen:
 		return
+	
 	cur_move_vec = move_vec
-
-
 
 	if !ignore_rotation:
 		cur_move_vec = cur_move_vec.rotated(Vector3.UP, body_to_move.rotation.y)
 	velocity += move_accel * cur_move_vec - velocity * Vector3(drag, 0, drag) + gravity * Vector3.DOWN * delta
 	unrotatedMoveVelocity = velocity.rotated(Vector3.UP, -body_to_move.rotation.y)
 	
+
 	grounded = body_to_move.is_on_floor()
+	
 	if grounded:
-		reset_jump_counter()
 		velocity.y = -1
+		if jumps_left < max_jumps:
+			reset_jump_counter()
+
 
 	if pressed_jump:
 		if can_jump():
-			reset_glide_time_left()
 			velocity.y = jump_force
 			snap_vec = Vector3.ZERO
 			jumps_left -= 1
+			if isPlayer:
+				reset_glide_time_left()
 			
 		
 	else:
@@ -110,11 +118,13 @@ func _physics_process(delta):
 		velocity += cur_move_vec * 60 
 	velocity = body_to_move.move_and_slide(velocity + knockback_force, Vector3.UP, true, 4, PI/4, false)
 	force_forward = false
-	pressed_jump = false
-	wall_jump_pressed = false
+	
+	
 	knockback_force = Vector3.ZERO
 	
-	emit_signal("movement_info", unrotatedMoveVelocity, grounded)
+	if isPlayer:
+		emit_signal("movement_info", unrotatedMoveVelocity, grounded)
+		pressed_jump = false
 
 func freeze():
 	frozen = true
@@ -150,14 +160,18 @@ func reset_jump_counter():
 func bounce_pad():
 	if grounded:
 		jump()
-	velocity.y = 30
-	reset_jumps_and_buffer()
+	velocity.y = 50
+	if isPlayer:
+		reset_jumps_and_buffer()
+	else:
+		reset_jumps()
 
 func reset_jumps_and_buffer():
 	jump_buffer = max_buffer
 	jumps_left = max_jumps
-	
 
+func reset_jumps():
+	jumps_left = max_jumps
 
 func glide(delta):
 	if glide_time_left < 0:

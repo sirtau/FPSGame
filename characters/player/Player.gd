@@ -59,17 +59,14 @@ func _process(_delta):
 	
 		
 	
-	if Input.is_action_just_pressed("exit"):
+	if Input.is_action_just_pressed("escape"):
 		mouse_mode_toggle()
 		
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 	
 	if Input.is_action_just_pressed("restart"):
-		var projectiles = get_tree().get_nodes_in_group("projectiles")
-		for projectile in projectiles:
-			projectile.queue_free()
-		get_tree().reload_current_scene()
+		GameManager.restart_game()
 		
 	if Input.is_action_just_pressed("invert_mouse"):
 		if Saved.invert_mouse == 1:
@@ -101,8 +98,6 @@ func _process(_delta):
 
 	if Input.is_action_just_pressed("jump"):
 		character_mover.jump()
-		if is_on_wall():
-			character_mover.wall_jump_pressed = true
 	
 	weapon_manager.attack(Input.is_action_just_pressed("attack"), 
 		Input.is_action_pressed("attack"))

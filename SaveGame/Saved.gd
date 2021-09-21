@@ -1,6 +1,6 @@
 extends Node
 
-var invert_mouse = 1
+var invert_mouse = -1
 
 
 var save_data = {}

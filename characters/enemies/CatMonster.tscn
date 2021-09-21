@@ -2318,7 +2318,7 @@ tracks/47/keys = PoolRealArray( 0, 1, 0.000632614, -0.0398494, -0.137425, 0.0589
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 3 )
-attack_angle = 180.0
+attack_angle = 45.0
 attack_range = 15.0
 attack_rate = 4.0
 
@@ -2361,7 +2361,7 @@ bones/4/name = "Torso"
 bones/4/parent = 3
 bones/4/rest = Transform( 0.0418878, -0.99524, 0.0879975, -0.412759, -0.0974451, -0.905613, 0.909877, 0.00161237, -0.414876, -4.65954e-09, 0.161927, 7.64397e-09 )
 bones/4/enabled = true
-bones/4/bound_children = [ NodePath("BoneAttachment2") ]
+bones/4/bound_children = [  ]
 bones/5/name = "Butt_L"
 bones/5/parent = 4
 bones/5/rest = Transform( 0.80471, 0.552917, -0.216159, 0.195513, 0.0969723, 0.975895, 0.56055, -0.827574, -0.0300677, -8.33656e-08, 0.655962, 5.03104e-09 )
@@ -2461,7 +2461,7 @@ bones/24/name = "Head"
 bones/24/parent = 23
 bones/24/rest = Transform( 1, -1.21743e-08, -2.59309e-08, 1.23799e-08, 0.999969, 0.007945, 2.58334e-08, -0.00794499, 0.999969, -6.1676e-10, 0.163577, -2.11399e-08 )
 bones/24/enabled = true
-bones/24/bound_children = [ NodePath("BoneAttachment") ]
+bones/24/bound_children = [  ]
 bones/25/name = "EarLower_L"
 bones/25/parent = 24
 bones/25/rest = Transform( 0.719025, -0.666068, -0.198384, 0.554677, 0.721974, -0.413627, 0.418731, 0.187369, 0.88857, -3.48079e-08, 0.184077, -1.19768e-07 )
@@ -2585,7 +2585,7 @@ skin = SubResource( 4 )
 material/0 = null
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.993471, -0.102772, -0.0495428, -0.113888, 0.867563, 0.484111, -0.00677113, 0.486593, -0.873603, 0.00261971, 0.211787, 0.281066 )
+transform = Transform( -0.952291, 0.0291449, -0.303802, -0.126512, 0.868181, 0.479851, 0.277739, 0.495391, -0.823072, 0.0456993, 0.920304, -0.620511 )
 bone_name = "Head"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment" instance=ExtResource( 2 )]
@@ -2596,7 +2596,7 @@ weak_spot = true
 shape = SubResource( 5 )
 
 [node name="BoneAttachment2" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.999702, 4.33181e-07, 0.0244508, -0.0244054, 0.0609113, 0.997845, -0.00148931, -0.998144, 0.0608933, 0.0206616, 0.0731055, -0.0334623 )
+transform = Transform( 0.999703, -0.0238345, 0.00530621, -0.0233998, -0.873037, 0.487094, -0.00697741, -0.487073, -0.873334, 0.035023, 0.590829, -0.807196 )
 bone_name = "Torso"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment2" instance=ExtResource( 2 )]

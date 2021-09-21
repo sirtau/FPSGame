@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://environment/BouncePad.tscn" type="PackedScene" id=1]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="BouncePad44" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 13, -4 )
+
+[node name="BouncePad45" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 43, -4 )
+
+[node name="BouncePad46" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 63, -4 )
+
+[node name="BouncePad47" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 83, -4 )
+
+[node name="BouncePad48" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 103, -4 )
+
+[node name="BouncePad49" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 123, -4 )
+
+[node name="BouncePad50" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 143, -4 )
+
+[node name="BouncePad51" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 163, -4 )
+
+[node name="BouncePad52" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 193, -4 )
+
+[node name="BouncePad53" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 223, -4 )
+
+[node name="BouncePad54" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 243, -4 )
+
+[node name="BouncePad55" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 263, -4 )
+
+[node name="BouncePad56" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 283, -4 )
+
+[node name="BouncePad57" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 303, -4 )
+
+[node name="BouncePad58" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 323, -4 )
+
+[node name="BouncePad59" parent="." instance=ExtResource( 1 )]
+transform = Transform( 7.4, 0, 0, 0, 1.85, 0, 0, 0, 2.22, -21, 343, -4 )
