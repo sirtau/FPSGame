@@ -16,13 +16,14 @@ var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 100
+var pathProcessDelay = 20
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
 var default_speed_exported
 var target_pos
 var forward_or_backward = 1
+var infight_counter = 0
 
 var our_pos
 var player_pos
@@ -153,13 +154,14 @@ func process_state_chase(delta):
 			dir = goal_pos - our_pos
 			
 			dir.y = 0
-		if dir == null:
-			return
-		character_mover.set_move_vec(dir)
+	if dir == null:
+		dir = player.global_transform.origin - global_transform.origin
+	character_mover.set_move_vec(dir)
+	
 
-		face_dir(dir, delta)
+	face_dir(dir, delta)
 
-		character_mover.dir = dir
+	character_mover.dir = dir
 	
 	pathProcessOffset += 1
 	if pathProcessOffset == pathProcessDelay:
@@ -199,8 +201,22 @@ func hurt(damage: int, dir: Vector3, source):
 		set_state_chase()
 	health_manager.hurt(damage, dir, source)
 	character_mover.knockback_force = -dir * 2
-	if source != self:
+	
+
+	if source != self and infight_counter == 0:
 		target = source
+	elif source == player:
+		target = player
+		infight_counter = 0
+	elif infight_counter >= 10:
+		target = source
+		infight_counter = 0
+	
+		
+		
+	infight_counter += 1	
+
+		
 	
 
 
@@ -276,7 +292,7 @@ func within_dis_of_target(dis: float):
 	
 func keep_facing():
 	updating_direction = true
-	anim_player.play("Walk")
+	anim_player.play("backingup")
 	character_mover.max_speed = 4
 	forward_or_backward = - 1
 	character_mover.update_drag()

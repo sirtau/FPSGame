@@ -9,6 +9,7 @@ signal healed
 signal health_changed
 signal gibbed
 
+var alive = true
 export var max_health = 200
 export var starting_health = 100
 var cur_health = 1
@@ -29,11 +30,14 @@ func hurt(damage: int, dir: Vector3, source):
 		spawn_gibs()
 		
 		emit_signal("gibbed")
-	if cur_health <= 0:
+		
+	if cur_health <= 0 and alive:
+		
 		emit_signal("dead")
-		if is_instance_valid(source):
-			if source.has_method("switch_to_player"):
-				source.switch_to_player()
+		alive = false
+#		if is_instance_valid(source):
+#			if source.has_method("switch_to_player"):
+#				source.switch_to_player()
 	else:
 		emit_signal("hurt")
 	emit_signal("health_changed", cur_health)

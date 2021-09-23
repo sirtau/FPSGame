@@ -230,7 +230,7 @@ shape = SubResource( 12 )
 [node name="HealthManager" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 max_health = 300
-starting_health = 300
+starting_health = 150
 gib_at = -20
 
 [node name="CharacterMover" parent="." instance=ExtResource( 5 )]

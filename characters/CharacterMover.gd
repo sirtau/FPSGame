@@ -98,6 +98,7 @@ func _physics_process(delta):
 			jumps_left -= 1
 			if isPlayer:
 				reset_glide_time_left()
+		pressed_jump = false
 			
 		
 	else:
@@ -124,7 +125,7 @@ func _physics_process(delta):
 	
 	if isPlayer:
 		emit_signal("movement_info", unrotatedMoveVelocity, grounded)
-		pressed_jump = false
+		
 
 func freeze():
 	frozen = true
