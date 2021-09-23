@@ -2,7 +2,7 @@
 
 [ext_resource path="res://weapons/ExplosionParticles.tres" type="Material" id=1]
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
 vertex_color_use_as_albedo = true
 params_billboard_mode = 3
@@ -10,12 +10,12 @@ particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="SphereMesh" id=11]
+[sub_resource type="SphereMesh" id=2]
 radial_segments = 4
 rings = 4
 
 [node name="Particles2" type="Particles"]
-material_override = SubResource( 4 )
+material_override = SubResource( 1 )
 cast_shadow = 0
 emitting = false
 amount = 16
@@ -24,4 +24,4 @@ speed_scale = 0.7
 explosiveness = 0.9
 visibility_aabb = AABB( -50, -50, -50, 100, 100, 100 )
 process_material = ExtResource( 1 )
-draw_pass_1 = SubResource( 11 )
+draw_pass_1 = SubResource( 2 )

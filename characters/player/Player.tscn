@@ -404,7 +404,6 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135936, 0.0357596, 0.111642 )
 script = ExtResource( 10 )
 automatic = true
-damage = 25
 ammo = 500
 attack_rate = 0.1
 
@@ -462,7 +461,6 @@ bus = "SFX"
 [node name="Shotgun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
 script = ExtResource( 10 )
-damage = 10
 ammo = 500
 attack_rate = 0.5
 
@@ -698,6 +696,7 @@ __meta__ = {
 }
 
 [node name="StatsDisplay" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 8.58598
 margin_top = 401.97
 margin_right = 150.586
@@ -711,6 +710,7 @@ __meta__ = {
 }
 
 [node name="info" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 483.559
 margin_top = 449.086
 margin_right = 744.56
@@ -737,6 +737,7 @@ anims/hurt = SubResource( 17 )
 anims/start = SubResource( 18 )
 
 [node name="PickupInfo" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 19.0917
 margin_top = 26.6713
 margin_right = 374.092
