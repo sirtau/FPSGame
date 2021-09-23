@@ -170,17 +170,20 @@ transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 9
 transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 94.2926, 68.9998, -42.3338 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -104, 21, 96.3 )
-
-[node name="MachineGunPickup" parent="Player" instance=ExtResource( 20 )]
-
-[node name="RocketLauncherPickup" parent="Player" instance=ExtResource( 9 )]
-
-[node name="ShotgunPickup" parent="Player" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -104, 18, 96.3 )
 
 [node name="Lights" type="Spatial" parent="."]
 
 [node name="Pickups" type="Spatial" parent="."]
+
+[node name="MachineGunPickup" parent="Pickups" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -104, 19, 98.3 )
+
+[node name="RocketLauncherPickup" parent="Pickups" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -101, 19, 96.3 )
+
+[node name="ShotgunPickup" parent="Pickups" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -107, 19, 96.3 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 1 )

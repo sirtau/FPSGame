@@ -12,6 +12,7 @@ var damage_counter = 0
 var hits = 0
 
 
+
 func explode():
 	$Particles.emitting = true
 	$Particles2.emitting = true

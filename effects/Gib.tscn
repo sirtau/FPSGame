@@ -62,6 +62,7 @@ collision_layer = 0
 script = ExtResource( 3 )
 start_move_speed = 40
 grav = 20.0
+velo_retained_on_bounce = 0.9
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )

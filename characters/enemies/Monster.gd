@@ -16,7 +16,7 @@ var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 10
+var pathProcessDelay = 50
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
@@ -25,7 +25,7 @@ var target_pos
 var forward_or_backward = 1
 var infight_counter = 0
 var infight_switch_target_at = 10
-
+var flinchChance = 70
 var our_pos
 var player_pos
 var dir_to_player
@@ -205,23 +205,20 @@ func hurt(damage: int, dir: Vector3, source):
 	
 
 	if source != self:
-		target = source
-	elif source == player:
-		target = player
-		infight_counter = 0
-	elif infight_counter >= infight_switch_target_at:
-		target = source
-		infight_counter = 0
+		if source == player:
+			target = player
+			infight_counter = 0
+		elif infight_counter >= infight_switch_target_at:
+			target = source
+			infight_counter = 0
+			
+		infight_counter += 1	
 	
+	if randi() % 100 < flinchChance:
 		
-		
-	infight_counter += 1	
-
-		
-	
-
-
-	
+		keep_facing()
+		finish_attack()
+		set_state_chase()
 
 
 func start_attack():

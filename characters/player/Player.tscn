@@ -696,7 +696,6 @@ __meta__ = {
 }
 
 [node name="StatsDisplay" type="Label" parent="CanvasLayer"]
-visible = false
 margin_left = 8.58598
 margin_top = 401.97
 margin_right = 150.586
@@ -710,7 +709,6 @@ __meta__ = {
 }
 
 [node name="info" type="Label" parent="CanvasLayer"]
-visible = false
 margin_left = 483.559
 margin_top = 449.086
 margin_right = 744.56

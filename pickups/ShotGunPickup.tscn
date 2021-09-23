@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
-[ext_resource path="res://weapons/raw_assets/shotgun.glb" type="PackedScene" id=2]
+[ext_resource path="res://weapons/raw_assets/Shotgun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -50,7 +50,7 @@ autoplay = "spin"
 anims/spin = SubResource( 2 )
 
 [node name="Graphics" type="Spatial" parent="."]
-transform = Transform( 0.999999, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 0.999999, 0, -2.98023e-08, 0 )
+transform = Transform( 0.999999, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 0.999999, 0, 0, 0 )
 
-[node name="shotgun" parent="Graphics" instance=ExtResource( 2 )]
-transform = Transform( 0.419323, 0, 7.45058e-09, 0, 0.419323, 0, -7.45058e-09, 0, 0.419323, 5.58794e-09, 0, 0.245303 )
+[node name="Cube" parent="Graphics" instance=ExtResource( 3 )]
+transform = Transform( 0.133183, 0, -1.42109e-14, 0, 0.133183, 0, 1.42109e-14, 0, 0.133183, 0.104674, 0, 1.83017e-08 )
