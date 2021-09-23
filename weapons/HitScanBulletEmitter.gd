@@ -20,7 +20,13 @@ func fire():
 	var our_pos = global_transform.origin
 	var result = space_state.intersect_ray(our_pos, our_pos - global_transform.basis.z * distance, 
 		bodies_to_exclude, 1 + 4, true, true)
-	if result and result.collider.has_method("hurt"):
+	if result and result.collider.is_in_group("barrel"):
+		result.collider.hurt(damage, result.normal, source)
+		
+		var hit_effect_inst = hit_effect.instance()
+		result.collider.get_parent().add_child(hit_effect_inst)
+		hit_effect_inst.global_transform.origin = result.position
+	elif result and result.collider.has_method("hurt"):
 		result.collider.hurt(damage, result.normal, source)
 		
 		var parent = result.collider.get_parent()
@@ -28,7 +34,6 @@ func fire():
 		var blood_spray_inst = blood_spray.instance()
 		parent.add_child(blood_spray_inst)
 		blood_spray_inst.global_transform.origin = result.position
-
 	elif result:
 		var hit_effect_inst = hit_effect.instance()
 		result.collider.get_parent().add_child(hit_effect_inst)

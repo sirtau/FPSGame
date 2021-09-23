@@ -16,7 +16,7 @@ var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 20
+var pathProcessDelay = 10
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
@@ -24,6 +24,7 @@ var default_speed_exported
 var target_pos
 var forward_or_backward = 1
 var infight_counter = 0
+var infight_switch_target_at = 10
 
 var our_pos
 var player_pos
@@ -203,12 +204,12 @@ func hurt(damage: int, dir: Vector3, source):
 	character_mover.knockback_force = -dir * 2
 	
 
-	if source != self and infight_counter == 0:
+	if source != self:
 		target = source
 	elif source == player:
 		target = player
 		infight_counter = 0
-	elif infight_counter >= 10:
+	elif infight_counter >= infight_switch_target_at:
 		target = source
 		infight_counter = 0
 	

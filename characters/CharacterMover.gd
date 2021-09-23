@@ -29,6 +29,7 @@ var velocity : Vector3
 var snap_vec : Vector3
 var knockback_force = Vector3.ZERO
 var knockback_multiplier = 20
+
 var grounded : bool
 
 export var ignore_rotation = false

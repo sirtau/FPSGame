@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://environment/explosion_particles_2.tscn" type="PackedScene" id=1]
 [ext_resource path="res://weapons/Explosion.gd" type="Script" id=2]
 [ext_resource path="res://effects/LightFlash.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sounds/DSBAREXP.wav" type="AudioStream" id=4]
 
 [sub_resource type="SphereShape" id=1]
 radius = 2.68031
@@ -41,8 +42,8 @@ color_ramp = SubResource( 6 )
 [sub_resource type="SphereMesh" id=8]
 
 [node name="Explosion" type="Area"]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 7
+collision_mask = 7
 script = ExtResource( 2 )
 
 [node name="LightFlash" parent="." instance=ExtResource( 3 )]
@@ -81,6 +82,11 @@ autostart = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+unit_size = 10.0
+autoplay = true
 
 [connection signal="timeout" from="DeathTimer" to="." method="queue_free"]
 [connection signal="timeout" from="Timer" to="." method="reset_damage_counter"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://environment/Skies/NeutralNightSky.tres" type="Environment" id=1]
 [ext_resource path="res://environment/assets/DarkZone/Rock8.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://environment/assets/DarkZone/Rock6.tscn" type="PackedScene" id=5]
 [ext_resource path="res://pickups/HealthPickup.tscn" type="PackedScene" id=6]
+[ext_resource path="res://environment/Barrel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://pickups/ShotGunPickup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://pickups/RocketLauncherPickup.tscn" type="PackedScene" id=9]
 [ext_resource path="res://environment/assets/DarkZone/Rock2.tscn" type="PackedScene" id=10]
@@ -667,3 +668,57 @@ transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, -
 
 [node name="SuperJumper4" parent="." instance=ExtResource( 21 )]
 transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 37, 54, 142 )
+
+[node name="RigidBody" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -139, 16, 47 )
+
+[node name="RigidBody2" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -138, 16, 47 )
+
+[node name="RigidBody3" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -137, 16, 47 )
+
+[node name="RigidBody5" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -115, 17.8678, 87 )
+
+[node name="RigidBody6" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -113, 17.8678, 87 )
+
+[node name="RigidBody7" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -120, 18, 87 )
+
+[node name="RigidBody8" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -106, 18, 87 )
+
+[node name="RigidBody12" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -109, 18, 87 )
+
+[node name="RigidBody11" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -103, 18, 87 )
+
+[node name="RigidBody13" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -111, 18, 85 )
+
+[node name="RigidBody14" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -101, 18, 85 )
+
+[node name="RigidBody15" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -98, 18, 83 )
+
+[node name="RigidBody16" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -96, 18, 81 )
+
+[node name="RigidBody17" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -94, 18, 79 )
+
+[node name="RigidBody18" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 18, 77 )
+
+[node name="RigidBody9" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -96, 18, 87 )
+
+[node name="RigidBody10" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -94, 18, 87 )
+
+[node name="RigidBody4" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -136, 16, 47 )
