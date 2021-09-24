@@ -1,11 +1,11 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/HealthManager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://characters/player/WeaponManager.gd" type="Script" id=4]
 [ext_resource path="res://weapons/raw_assets/machete.glb" type="PackedScene" id=5]
-[ext_resource path="res://weapons/raw_assets/machinegun.glb" type="PackedScene" id=6]
+[ext_resource path="res://weapons/raw_assets/chaingun.tscn" type="PackedScene" id=6]
 [ext_resource path="res://weapons/raw_assets/shotgun.glb" type="PackedScene" id=7]
 [ext_resource path="res://weapons/raw_assets/rocketlauncher.glb" type="PackedScene" id=8]
 [ext_resource path="res://weapons/HitScanBulletEmitter.tscn" type="PackedScene" id=9]
@@ -27,18 +27,24 @@
 [ext_resource path="res://ui/KLEINTEN.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://characters/player/PickupInfo.gd" type="Script" id=26]
 [ext_resource path="res://characters/player/RayCast.gd" type="Script" id=27]
+[ext_resource path="res://weapons/raw_assets/flamethrower.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Sounds/DSPLPAIN.wav" type="AudioStream" id=29]
 [ext_resource path="res://Sounds/DSPISTOL.wav" type="AudioStream" id=30]
 [ext_resource path="res://weapons/raw_assets/RocketLauncher.tscn" type="PackedScene" id=31]
 [ext_resource path="res://weapons/raw_assets/pussybanger.tscn" type="PackedScene" id=32]
 [ext_resource path="res://weapons/raw_assets/Shotgun.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Shaders/StylizedFire/HoleNoise.png" type="Texture" id=34]
+[ext_resource path="res://Shaders/StylizedFire/FireMask.png" type="Texture" id=35]
+[ext_resource path="res://Shaders/Fire.tscn" type="PackedScene" id=36]
+[ext_resource path="res://weapons/FlameDamageArea.gd" type="Script" id=37]
+[ext_resource path="res://Sounds/DSFLAME_nonloop.wav" type="AudioStream" id=38]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.635682
 height = 0.469689
 
 [sub_resource type="RayShape" id=2]
-length = 0.344817
+length = 0.491476
 
 [sub_resource type="Animation" id=3]
 length = 0.3
@@ -104,10 +110,22 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics/chaingun/Cube001:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0.0689657 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -90 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -119,6 +137,18 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics/chaingun/Cube001:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -180,7 +210,336 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Shader" id=35]
+code = "// This shader is based on Minionsart's stylized fire
+// https://twitter.com/minionsart/status/1132593681452683264?s=20
+
+shader_type spatial;
+render_mode blend_mix;
+
+// This texture must be seamless!
+// Experiment with the different noises provided in the res://Demos/StylizedFire/ folder
+uniform sampler2D noise_texture;
+
+uniform sampler2D texture_mask;
+uniform float emission_intensity = 2.0;
+uniform float time_scale = 3.0;
+uniform vec2 texture_scale = vec2(1.0);
+uniform float edge_softness = 0.1;
+
+varying vec3 world_coord;
+varying float world_x_dot;
+
+
+void vertex() {
+	// Billboard code, taken directly from a spatial material
+	// create a spatial material, enable billboard with billboard keep scale, and then convert
+	// to shader material, and it will create a shader with this code.
+	mat4 mat_world = mat4(normalize(CAMERA_MATRIX[0])*length(WORLD_MATRIX[0]),normalize(CAMERA_MATRIX[1])*length(WORLD_MATRIX[0]),normalize(CAMERA_MATRIX[2])*length(WORLD_MATRIX[2]),WORLD_MATRIX[3]);
+	mat_world = mat_world * mat4( vec4(cos(INSTANCE_CUSTOM.x),-sin(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(sin(INSTANCE_CUSTOM.x), cos(INSTANCE_CUSTOM.x), 0.0, 0.0),vec4(0.0, 0.0, 1.0, 0.0),vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_MATRIX = INV_CAMERA_MATRIX * mat_world;
+	
+	// We map the coordinates on the vertical planes xy and zy
+	// we also calculate how to blend between the two based on where the world space normal
+	// is pointing.
+	world_coord = (mat_world * vec4(VERTEX, 1.0)).rgb;
+	vec4 world_normal = (mat_world * vec4(NORMAL, 0.0));
+	world_x_dot =  abs(dot(normalize(world_normal.rgb), vec3(1.0,0.0,0.0)));
+}
+
+
+void fragment() {
+	
+	// We sample the mask texture based on regular UV
+	// We don't want the particles to show their square shape
+	// so we use a round, black and white, mask texture
+	float mask = texture(texture_mask, UV).r;
+	
+	// We sample the noise both from the xy plane and from the zy plane, adding a time-based
+	// panning. If we didn't do this, we would see the holes of the noise will always be in the
+	// same space in global coordinates. Set the time_scale to zero to see how it would look like.
+	// To add more variation, we could sample from another noise that has a different scale and panning speed.
+	// The additional offset on the zy noise is to avoid mirroring effects when
+	// the view vector is between same-sign x and z axes
+	vec2 time_based_pan = vec2(0.2, 1.0) * (- TIME * time_scale);
+	float noise_xy = texture(noise_texture, world_coord.xy * texture_scale + time_based_pan).r;
+	float noise_zy = texture(noise_texture, world_coord.zy * texture_scale + time_based_pan + vec2(0.7, 0.3)).r;
+	
+	// We blend the noise based on world_x_dot, which is the dot product between
+	// the normal of the billboard plane, and the global x axis. If we face the global
+	// x axis, then we sample from the xy plane, otherwise, we sample from the zy plane
+	float noise = mix(noise_xy, noise_zy, clamp(world_x_dot, 0.0, 1.0));
+	
+	// The particle color is assigned to the vertex color, which is called COLOR
+	ALBEDO = COLOR.rgb;
+	// Assign the same color for emission, multiplied by the emission intensity
+	EMISSION = ALBEDO * emission_intensity;
+	
+	// Instead of blending out the particle, we apply a technique called alpha erosion, where we
+	// subtract an erosion amount from the alpha.
+	float erosion_amount = (1.0 - COLOR.a);
+	float alpha = (noise * mask) - erosion_amount;
+	
+	// Because we perform a subtraction, we ensure that the alpha is always between 0 and 1.
+	// If the alpha goes negative or above 1, a number of visual artifacts appear.
+	alpha = clamp(alpha, 0.0, 1.0);
+	
+	// In order to give this fire a stylized vibe, we use smoothstep to remap the alpha value
+	// We could use step(0.1, alpha), but then there would be an abrupt cut between transparent and
+	// non transparent (exactly as if we discarded the fragment with discard)
+	// smoothstep gives a nice blend on the edges instead
+	ALPHA = smoothstep(0.0, edge_softness, alpha);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=36]
+shader = SubResource( 35 )
+shader_param/emission_intensity = 5.0
+shader_param/time_scale = 3.0
+shader_param/texture_scale = Vector2( 2, 2 )
+shader_param/edge_softness = 2.0
+shader_param/noise_texture = ExtResource( 34 )
+shader_param/texture_mask = ExtResource( 35 )
+
+[sub_resource type="Gradient" id=32]
+offsets = PoolRealArray( 0, 0.751634, 1 )
+colors = PoolColorArray( 0.980957, 0.801817, 0, 1, 1, 0.0352941, 0.427451, 0.478431, 1, 0, 0.447059, 0 )
+
+[sub_resource type="GradientTexture" id=33]
+gradient = SubResource( 32 )
+width = 128
+
+[sub_resource type="Curve" id=37]
+_data = [ Vector2( 0, 0 ), 0.0, 3.65289, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=38]
+width = 128
+curve = SubResource( 37 )
+
+[sub_resource type="ParticlesMaterial" id=39]
+lifetime_randomness = 0.35
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 10, 0 )
+linear_accel = 4.0
+scale = 0.1
+scale_random = 0.19
+scale_curve = SubResource( 38 )
+color_ramp = SubResource( 33 )
+
+[sub_resource type="Shader" id=29]
+code = "// This shader is based on Minionsart's stylized fire
+// https://twitter.com/minionsart/status/1132593681452683264?s=20
+
+shader_type spatial;
+render_mode blend_mix;
+
+// This texture must be seamless!
+// Experiment with the different noises provided in the res://Demos/StylizedFire/ folder
+uniform sampler2D noise_texture;
+
+uniform sampler2D texture_mask;
+uniform float emission_intensity = 2.0;
+uniform float time_scale = 3.0;
+uniform vec2 texture_scale = vec2(1.0);
+uniform float edge_softness = 0.1;
+
+varying vec3 world_coord;
+varying float world_x_dot;
+
+
+void vertex() {
+	// Billboard code, taken directly from a spatial material
+	// create a spatial material, enable billboard with billboard keep scale, and then convert
+	// to shader material, and it will create a shader with this code.
+	mat4 mat_world = mat4(normalize(CAMERA_MATRIX[0])*length(WORLD_MATRIX[0]),normalize(CAMERA_MATRIX[1])*length(WORLD_MATRIX[0]),normalize(CAMERA_MATRIX[2])*length(WORLD_MATRIX[2]),WORLD_MATRIX[3]);
+	mat_world = mat_world * mat4( vec4(cos(INSTANCE_CUSTOM.x),-sin(INSTANCE_CUSTOM.x), 0.0, 0.0), vec4(sin(INSTANCE_CUSTOM.x), cos(INSTANCE_CUSTOM.x), 0.0, 0.0),vec4(0.0, 0.0, 1.0, 0.0),vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_MATRIX = INV_CAMERA_MATRIX * mat_world;
+	
+	// We map the coordinates on the vertical planes xy and zy
+	// we also calculate how to blend between the two based on where the world space normal
+	// is pointing.
+	world_coord = (mat_world * vec4(VERTEX, 1.0)).rgb;
+	vec4 world_normal = (mat_world * vec4(NORMAL, 0.0));
+	world_x_dot =  abs(dot(normalize(world_normal.rgb), vec3(1.0,0.0,0.0)));
+}
+
+
+void fragment() {
+	
+	// We sample the mask texture based on regular UV
+	// We don't want the particles to show their square shape
+	// so we use a round, black and white, mask texture
+	float mask = texture(texture_mask, UV).r;
+	
+	// We sample the noise both from the xy plane and from the zy plane, adding a time-based
+	// panning. If we didn't do this, we would see the holes of the noise will always be in the
+	// same space in global coordinates. Set the time_scale to zero to see how it would look like.
+	// To add more variation, we could sample from another noise that has a different scale and panning speed.
+	// The additional offset on the zy noise is to avoid mirroring effects when
+	// the view vector is between same-sign x and z axes
+	vec2 time_based_pan = vec2(0.2, 1.0) * (- TIME * time_scale);
+	float noise_xy = texture(noise_texture, world_coord.xy * texture_scale + time_based_pan).r;
+	float noise_zy = texture(noise_texture, world_coord.zy * texture_scale + time_based_pan + vec2(0.7, 0.3)).r;
+	
+	// We blend the noise based on world_x_dot, which is the dot product between
+	// the normal of the billboard plane, and the global x axis. If we face the global
+	// x axis, then we sample from the xy plane, otherwise, we sample from the zy plane
+	float noise = mix(noise_xy, noise_zy, clamp(world_x_dot, 0.0, 1.0));
+	
+	// The particle color is assigned to the vertex color, which is called COLOR
+	ALBEDO = COLOR.rgb;
+	// Assign the same color for emission, multiplied by the emission intensity
+	EMISSION = ALBEDO * emission_intensity;
+	
+	// Instead of blending out the particle, we apply a technique called alpha erosion, where we
+	// subtract an erosion amount from the alpha.
+	float erosion_amount = (1.0 - COLOR.a);
+	float alpha = (noise * mask) - erosion_amount;
+	
+	// Because we perform a subtraction, we ensure that the alpha is always between 0 and 1.
+	// If the alpha goes negative or above 1, a number of visual artifacts appear.
+	alpha = clamp(alpha, 0.0, 1.0);
+	
+	// In order to give this fire a stylized vibe, we use smoothstep to remap the alpha value
+	// We could use step(0.1, alpha), but then there would be an abrupt cut between transparent and
+	// non transparent (exactly as if we discarded the fragment with discard)
+	// smoothstep gives a nice blend on the edges instead
+	ALPHA = smoothstep(0.0, edge_softness, alpha);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=30]
+shader = SubResource( 29 )
+shader_param/emission_intensity = 5.0
+shader_param/time_scale = 2.0
+shader_param/texture_scale = Vector2( 1, 1 )
+shader_param/edge_softness = 1.0
+shader_param/noise_texture = ExtResource( 34 )
+shader_param/texture_mask = ExtResource( 35 )
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0, 0.581699, 1 )
+colors = PoolColorArray( 0.980957, 0.801817, 0, 1, 1, 0.0352941, 0.427451, 0.537255, 1, 0, 0.447059, 0 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
+width = 128
+
+[sub_resource type="Curve" id=13]
+_data = [ Vector2( 0, 0 ), 0.0, 3.65289, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=14]
+width = 128
+curve = SubResource( 13 )
+
+[sub_resource type="ParticlesMaterial" id=31]
+trail_divisor = 3
+flag_align_y = true
+direction = Vector3( 0, 0, 1 )
+spread = 14.4
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.0
+linear_accel = 4.0
+scale = 5.0
+scale_curve = SubResource( 14 )
+color_ramp = SubResource( 12 )
+
+[sub_resource type="QuadMesh" id=34]
+size = Vector2( 0.5, 0.5 )
+
+[sub_resource type="Animation" id=40]
+length = 0.1
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -0.107, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics/Fire2:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=41]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics:editor_description")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Graphics/Fire2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=42]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Graphics:translation")
@@ -195,7 +554,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0.0361248 ), Vector3( 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=43]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Graphics:translation")
@@ -222,7 +581,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=20]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Weapons:translation")
@@ -237,7 +596,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=21]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Weapons:translation")
@@ -252,16 +611,16 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( -0.03, 0, 0 ) ]
 }
 
-[sub_resource type="SphereShape" id=13]
+[sub_resource type="SphereShape" id=22]
 radius = 13.0
 
-[sub_resource type="SphereShape" id=14]
+[sub_resource type="SphereShape" id=23]
 radius = 50.0
 
-[sub_resource type="CapsuleShape" id=15]
+[sub_resource type="CapsuleShape" id=24]
 radius = 0.67
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=25]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
@@ -288,7 +647,7 @@ tracks/1/keys = {
 "values": [ Color( 0, 1, 0, 0.14902 ), Color( 0, 1, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=26]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
@@ -315,7 +674,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 0, 0, 0.14902 ), Color( 1, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=27]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
@@ -329,7 +688,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=28]
 size = 24
 font_data = ExtResource( 25 )
 
@@ -345,15 +704,23 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.19659, 0 )
 shape = SubResource( 1 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -3.14315e-06, -1, 0, 1, -3.14315e-06, 0, 0.337583, 0 )
+[node name="CollisionShape5" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -3.14315e-06, -1, 0, 1, -3.14315e-06, 0.21262, 0.337583, 0 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -3.14315e-06, -1, 0, 1, -3.14315e-06, 0, 0.337583, -0.239124 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape4" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -3.14315e-06, -1, 0, 1, -3.14315e-06, 0, 0.337583, 0.258893 )
 shape = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0 )
 current = true
 fov = 68.0
-far = 700.0
+far = 1500.0
 
 [node name="WeaponManager" type="Spatial" parent="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.96046e-08, -0.15642, -0.31398 )
@@ -400,45 +767,49 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MachineGun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
+[node name="Chaingun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135936, 0.0357596, 0.111642 )
+visible = false
 script = ExtResource( 10 )
 automatic = true
 ammo = 500
 attack_rate = 0.1
 
-[node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/MachineGun"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0344829 )
+[node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Chaingun"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112072, -0.0158529, 0.0763614 )
 
-[node name="machinegun" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics" instance=ExtResource( 6 )]
-transform = Transform( 0.149456, 0, 0, 0, 0.149456, 0, 0, 0, 0.149456, 0, 0, 0 )
-visible = false
-
-[node name="MuzzleFlash" type="Spatial" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0384059, 0.0330511, -0.16619 )
+[node name="MuzzleFlash" type="Spatial" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.000394408, 0.0391545, -0.277674 )
 script = ExtResource( 11 )
 
-[node name="muzzleflash1" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" instance=ExtResource( 12 )]
+[node name="muzzleflash1" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics/MuzzleFlash" instance=ExtResource( 12 )]
 transform = Transform( -0.238451, 0, -3.60051e-08, 0, 0.238451, 0, 3.60051e-08, 0, -0.238451, 0, 0, 0 )
 
-[node name="OmniLight" type="OmniLight" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash"]
+[node name="OmniLight" type="OmniLight" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics/MuzzleFlash"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.316218 )
 light_color = Color( 1, 0.843137, 0.227451, 1 )
 
-[node name="pussybanger" parent="Camera/WeaponManager/Weapons/MachineGun/Graphics" instance=ExtResource( 32 )]
+[node name="pussybanger" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics" instance=ExtResource( 32 )]
 transform = Transform( -0.00260289, 0, 0.0191357, 0, 0.0193119, 0, -0.0191357, 0, -0.00260289, -0.0202693, 0.0340899, -0.0236992 )
+visible = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/MachineGun"]
+[node name="chaingun" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics" instance=ExtResource( 6 )]
+transform = Transform( 0.0542119, 0, 0, 0, 0.0542119, 0, 0, 0, 0.0542119, 0, 0, 0 )
+
+[node name="Cube001" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics/chaingun" index="2"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 0.126624, 5.49713e-07, 0, -3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/Chaingun"]
 autoplay = "idle"
 anims/attack = SubResource( 5 )
 anims/idle = SubResource( 6 )
 
-[node name="BulletEmitters" type="Spatial" parent="Camera/WeaponManager/Weapons/MachineGun"]
+[node name="BulletEmitters" type="Spatial" parent="Camera/WeaponManager/Weapons/Chaingun"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0485455, -0.26182 )
 
-[node name="HitScanBulletEmitter" parent="Camera/WeaponManager/Weapons/MachineGun/BulletEmitters" instance=ExtResource( 9 )]
+[node name="HitScanBulletEmitter" parent="Camera/WeaponManager/Weapons/Chaingun/BulletEmitters" instance=ExtResource( 9 )]
 
-[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/MachineGun"]
+[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Chaingun"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -452,7 +823,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/MachineGun"]
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Chaingun"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005245, 0.00536501, 0.028031 )
 stream = ExtResource( 30 )
 max_db = 1.0
@@ -460,6 +831,7 @@ bus = "SFX"
 
 [node name="Shotgun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
+visible = false
 script = ExtResource( 10 )
 ammo = 500
 attack_rate = 0.5
@@ -554,6 +926,80 @@ stream = ExtResource( 17 )
 max_db = 1.0
 bus = "SFX"
 
+[node name="Flamethrower" type="Spatial" parent="Camera/WeaponManager/Weapons"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
+script = ExtResource( 10 )
+automatic = true
+damage = 10
+ammo = 500
+attack_rate = 0.5
+
+[node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Flamethrower"]
+transform = Transform( 0.26418, 0, 0, 0, 0.26418, 0, 0, 0, 0.26418, -0.107, 0, 0 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Cube" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics" instance=ExtResource( 33 )]
+transform = Transform( -1.35713e-09, 0, 0.0310476, 0, 0.0310476, 0, -0.0310476, 0, -1.35713e-09, -0.0209929, 0.0183747, -0.161232 )
+
+[node name="flamethrower" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics" instance=ExtResource( 28 )]
+transform = Transform( -1, 0, -6.2863e-06, 0, 1, 0, 6.2863e-06, 0, -1, -0.0422878, -0.170237, -0.886036 )
+
+[node name="Fire" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics" instance=ExtResource( 36 )]
+transform = Transform( -1, 0, -6.2863e-06, 0, 1, 0, 6.2863e-06, 0, -1, -4.56883e-06, 0.26722, -2.33987 )
+material_override = SubResource( 36 )
+lifetime = 0.2
+randomness = 0.0
+process_material = SubResource( 39 )
+
+[node name="Fire2" type="Particles" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics"]
+transform = Transform( -1, 0, -6.2863e-06, -2.23621e-06, 0.93459, 0.355727, 5.87511e-06, 0.355727, -0.93459, 0.147955, -1.2613, -4.48229 )
+material_override = SubResource( 30 )
+cast_shadow = 0
+amount = 10
+local_coords = false
+draw_order = 1
+process_material = SubResource( 31 )
+draw_pass_1 = SubResource( 34 )
+
+[node name="OmniLight" type="OmniLight" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics/Fire2"]
+visible = false
+light_color = Color( 1, 0.901961, 0.560784, 1 )
+light_energy = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/Flamethrower"]
+autoplay = "idle"
+anims/attack = SubResource( 40 )
+anims/idle = SubResource( 41 )
+
+[node name="BulletEmitters" type="Spatial" parent="Camera/WeaponManager/Weapons/Flamethrower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130388, 0.019293, -0.246466 )
+
+[node name="DamageArea" parent="Camera/WeaponManager/Weapons/Flamethrower/BulletEmitters" instance=ExtResource( 14 )]
+transform = Transform( 10.6803, 0, 0, 0, 5.04207, 0, 0, 0, 13.4795, 0, -0.185096, 0.0280994 )
+script = ExtResource( 37 )
+damage = 10
+
+[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Flamethrower"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -36.0
+margin_top = -36.0
+margin_right = 36.0
+margin_bottom = 36.0
+texture = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Flamethrower"]
+stream = ExtResource( 38 )
+max_db = 1.0
+bus = "SFX"
+
 [node name="RocketLauncher" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0190441, 0.00506032, 0.148012 )
 visible = false
@@ -582,8 +1028,8 @@ transform = Transform( 6.98797e-05, 0, -0.133449, 0, 0.133449, 0, 0.133449, 0, 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
 autoplay = "idle"
-anims/attack = SubResource( 9 )
-anims/idle = SubResource( 10 )
+anims/attack = SubResource( 42 )
+anims/idle = SubResource( 43 )
 
 [node name="BulletEmitters" type="Spatial" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0549468, -0.233666 )
@@ -595,10 +1041,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -36.0
-margin_top = -36.0
-margin_right = 36.0
-margin_bottom = 36.0
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 52.0002
+margin_bottom = 52.0
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_horizontal = 13
+size_flags_vertical = 13
 texture = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -611,22 +1060,22 @@ bus = "SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager"]
 autoplay = "idle"
-anims/idle = SubResource( 11 )
-anims/moving = SubResource( 12 )
+anims/idle = SubResource( 20 )
+anims/moving = SubResource( 21 )
 
 [node name="AlertAreaHearing" type="Area" parent="Camera/WeaponManager"]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="Camera/WeaponManager/AlertAreaHearing"]
-shape = SubResource( 13 )
+shape = SubResource( 22 )
 
 [node name="AlertAreaLos" type="Area" parent="Camera/WeaponManager"]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="Camera/WeaponManager/AlertAreaLos"]
-shape = SubResource( 14 )
+shape = SubResource( 23 )
 
 [node name="FirePoint" type="Spatial" parent="Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.111322 )
@@ -658,7 +1107,7 @@ script = ExtResource( 21 )
 [node name="CollisionShape" type="CollisionShape" parent="PickupManager"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1, 0 )
 visible = false
-shape = SubResource( 15 )
+shape = SubResource( 24 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -730,17 +1179,16 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/HealthEffects"]
 autoplay = "start"
-anims/heal = SubResource( 16 )
-anims/hurt = SubResource( 17 )
-anims/start = SubResource( 18 )
+anims/heal = SubResource( 25 )
+anims/hurt = SubResource( 26 )
+anims/start = SubResource( 27 )
 
 [node name="PickupInfo" type="Label" parent="CanvasLayer"]
-visible = false
 margin_left = 19.0917
 margin_top = 26.6713
 margin_right = 374.092
 margin_bottom = 257.671
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 28 )
 text = "Picked up Machine Gun
 Picked up Machine Gun
 Picked up Machine Gun
@@ -761,10 +1209,11 @@ volume_db = 2.0
 bus = "Grunts"
 
 [connection signal="ammo_changed" from="Camera/WeaponManager" to="CanvasLayer/StatsDisplay" method="update_ammo"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Graphics/MuzzleFlash" method="flash"]
-[connection signal="fired" from="Camera/WeaponManager/Weapons/MachineGun" to="Camera/WeaponManager/Weapons/MachineGun/Gunshot" method="play"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Chaingun" to="Camera/WeaponManager/Weapons/Chaingun/Graphics/MuzzleFlash" method="flash"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Chaingun" to="Camera/WeaponManager/Weapons/Chaingun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
+[connection signal="fired" from="Camera/WeaponManager/Weapons/Flamethrower" to="Camera/WeaponManager/Weapons/Flamethrower/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
@@ -775,3 +1224,5 @@ bus = "Grunts"
 [connection signal="hurt" from="HealthManager" to="CanvasLayer/HealthEffects/AnimationPlayer" method="play" binds= [ "hurt" ]]
 [connection signal="got_pickup" from="PickupManager" to="CanvasLayer/PickupInfo" method="add_pickups_info"]
 [connection signal="timeout" from="CanvasLayer/PickupInfo/RemoveInfoTimer" to="CanvasLayer/PickupInfo" method="remove_pickups_info"]
+
+[editable path="Camera/WeaponManager/Weapons/Chaingun/Graphics/chaingun"]

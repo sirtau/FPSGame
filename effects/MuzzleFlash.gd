@@ -11,7 +11,7 @@ func _ready():
 
 func flash():
 	timer.start()
-#	rotation.z = rand_range(0.0, 2*PI)
+	rotation.z = rand_range(0.0, 2*PI)
 	show()
 
 func end_flash():

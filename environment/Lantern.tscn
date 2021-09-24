@@ -1,13 +1,53 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Shaders/Fire.tscn" type="PackedScene" id=1]
-[ext_resource path="res://effects/SmokeEffect01.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Shaders/StylizedFire/HoleNoise.png" type="Texture" id=3]
 [ext_resource path="res://Shaders/StylizedFire/FireMask.png" type="Texture" id=4]
 [ext_resource path="res://Shaders/StylizedFire/stylized_fire.shader" type="Shader" id=5]
 
 [sub_resource type="PrismMesh" id=1]
 size = Vector3( 0.225, 0.204, 2 )
+
+[sub_resource type="ConcavePolygonShape" id=7]
+data = PoolVector3Array( 0, 0.102, 1, 0.1125, -0.102, 1, -0.1125, -0.102, 1, 0, 0.102, -1, -0.1125, -0.102, -1, 0.1125, -0.102, -1, 0, 0.102, 1, 0, 0.102, -1, 0.1125, -0.102, 1, 0, 0.102, -1, 0.1125, -0.102, -1, 0.1125, -0.102, 1, 0, 0.102, -1, 0, 0.102, 1, -0.1125, -0.102, -1, 0, 0.102, 1, -0.1125, -0.102, 1, -0.1125, -0.102, -1, -0.1125, -0.102, 1, 0.1125, -0.102, 1, -0.1125, -0.102, -1, 0.1125, -0.102, 1, 0.1125, -0.102, -1, -0.1125, -0.102, -1 )
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_vertex_lighting = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0.015873, 0.15873, 0.253968, 0.539683, 0.994709, 1 )
+colors = PoolColorArray( 1, 0, 0, 0.827451, 1, 0.482353, 0, 0.733333, 0.770642, 0.371722, 0, 0.665264, 0, 0, 0, 0.121569, 0.349693, 0.349693, 0.349693, 0.650307, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="Curve" id=11]
+_data = [ Vector2( 0, 0 ), 0.0, 6.5125, 0, 0, Vector2( 1, 0 ), -0.331966, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3( 0, 1, 0 )
+spread = 50.0
+gravity = Vector3( 5, 9, 0 )
+initial_velocity = 5.0
+linear_accel = 18.96
+linear_accel_random = 1.0
+radial_accel_random = 1.0
+scale_random = 1.0
+scale_curve = SubResource( 12 )
+color_ramp = SubResource( 10 )
+anim_offset = 1.0
+anim_offset_random = 1.0
+
+[sub_resource type="SphereMesh" id=14]
+radial_segments = 6
+rings = 3
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 5 )
@@ -32,7 +72,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 3.65289, 0, 0, Vector2( 0.556561, 1 ), 0.0, 0.0,
 width = 128
 curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=15]
 lifetime_randomness = 0.57
 trail_divisor = 2
 emission_shape = 1
@@ -49,12 +89,30 @@ color_ramp = SubResource( 4 )
 [node name="Spatial" type="Spatial"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, -8.74228e-08, -2, 0, 1, -4.37114e-08, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -2.16355e-07, -4.94963, 0, 1, -4.37114e-08, 0, 1, 0 )
 cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="Particles" parent="." instance=ExtResource( 2 )]
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 7 )
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.04673, 0 )
+material_override = SubResource( 8 )
+cast_shadow = 0
+amount = 15
+lifetime = 1.22
+preprocess = 1.0
+explosiveness = 0.07
+randomness = 0.08
+visibility_aabb = AABB( -6, -10, -4, 12, 20, 8 )
+local_coords = false
+draw_order = 2
+process_material = SubResource( 13 )
+draw_pass_1 = SubResource( 14 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.38389, -0.0425186 )
@@ -67,7 +125,9 @@ shadow_color = Color( 0, 0.227451, 1, 1 )
 omni_range = 46.0187
 
 [node name="Fire" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.96329, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.78336, 0 )
 material_override = SubResource( 2 )
+amount = 20
 randomness = 0.0
-process_material = SubResource( 7 )
+local_coords = true
+process_material = SubResource( 15 )

@@ -107,7 +107,8 @@ func _physics_process(delta):
 		
 
 	if knockback_force:
-		knockback_force.y = 0
+		if !isPlayer:
+			knockback_force.y = 0
 		knockback_force = knockback_force * knockback_multiplier
 #		velocity  = knockback_force
 ##		velocity.y  = knockback_force.y

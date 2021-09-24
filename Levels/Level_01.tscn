@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://environment/Skies/NeutralNightSky.tres" type="Environment" id=1]
 [ext_resource path="res://environment/assets/DarkZone/Rock8.tscn" type="PackedScene" id=2]
@@ -14,10 +14,12 @@
 [ext_resource path="res://ChunkGroup.tscn" type="PackedScene" id=12]
 [ext_resource path="res://environment/assets/DarkZone/BrokenPillarGroup.tscn" type="PackedScene" id=13]
 [ext_resource path="res://environment/assets/DarkZone/PillarWhole.tscn" type="PackedScene" id=14]
+[ext_resource path="res://pickups/FlamethrowerAmmoPickup.tscn" type="PackedScene" id=15]
 [ext_resource path="res://environment/assets/DarkZone/PillarHalf.tscn" type="PackedScene" id=16]
+[ext_resource path="res://pickups/FlamethrowerPickup.tscn" type="PackedScene" id=17]
 [ext_resource path="res://characters/enemies/CatMonster.tscn" type="PackedScene" id=18]
 [ext_resource path="res://characters/enemies/KnightMonster.tscn" type="PackedScene" id=19]
-[ext_resource path="res://pickups/MachineGunPickup.tscn" type="PackedScene" id=20]
+[ext_resource path="res://pickups/ChaingunPickup.tscn" type="PackedScene" id=20]
 [ext_resource path="res://SuperJumper.tscn" type="PackedScene" id=21]
 [ext_resource path="res://characters/enemies/BeeDroneMonster.tscn" type="PackedScene" id=22]
 
@@ -37,8 +39,18 @@ filter/ledge_spans = true
 filter/filter_walkable_low_height_spans = true
 
 [sub_resource type="SphereMesh" id=2]
+radius = 0.2
+height = 0.2
+radial_segments = 4
+rings = 1
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.0231214, 0.456647, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="SpatialMaterial" id=5]
 flags_unshaded = true
 flags_do_not_receive_shadows = true
 params_cull_mode = 1
@@ -172,6 +184,19 @@ transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 9
 [node name="Player" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -104, 18, 96.3 )
 
+[node name="CPUParticles" type="CPUParticles" parent="Player"]
+transform = Transform( 1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 1, 1, -1.29997 )
+amount = 400
+lifetime = 5.0
+local_coords = false
+mesh = SubResource( 2 )
+emission_shape = 2
+emission_box_extents = Vector3( 150, 100, 150 )
+direction = Vector3( 0, 0, 0 )
+spread = 41.76
+gravity = Vector3( 0, 1, 0 )
+color_ramp = SubResource( 3 )
+
 [node name="Lights" type="Spatial" parent="."]
 
 [node name="Pickups" type="Spatial" parent="."]
@@ -198,8 +223,8 @@ light_specular = 0.0
 [node name="CSGMesh" type="CSGMesh" parent="."]
 transform = Transform( 377.622, 0, 0, 0, 377.622, 0, 0, 0, 377.622, 0, -38, 0 )
 cast_shadow = 0
-mesh = SubResource( 2 )
-material = SubResource( 3 )
+mesh = SubResource( 4 )
+material = SubResource( 5 )
 
 [node name="Pillars" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.565048, -0.000213623, 0.329163 )
@@ -683,6 +708,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -137, 16, 47 )
 
 [node name="RigidBody5" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -115, 17.8678, 87 )
+
+[node name="ChaingunAmmoPickup" parent="." instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -124, 19, 99 )
+
+[node name="FlamethrowerPickup" parent="." instance=ExtResource( 17 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -124, 19, 102 )
 
 [node name="RigidBody6" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -113, 17.8678, 87 )

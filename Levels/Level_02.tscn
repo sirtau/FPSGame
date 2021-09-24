@@ -19,7 +19,7 @@
 [ext_resource path="res://characters/enemies/BirdMonsterBig.tscn" type="PackedScene" id=17]
 [ext_resource path="res://characters/enemies/CatMonster.tscn" type="PackedScene" id=18]
 [ext_resource path="res://characters/enemies/KnightMonster.tscn" type="PackedScene" id=19]
-[ext_resource path="res://pickups/MachineGunPickup.tscn" type="PackedScene" id=20]
+[ext_resource path="res://pickups/ChaingunPickup.tscn" type="PackedScene" id=20]
 [ext_resource path="res://SuperJumper.tscn" type="PackedScene" id=21]
 
 [sub_resource type="NavigationMesh" id=1]

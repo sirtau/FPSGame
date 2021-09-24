@@ -2104,7 +2104,7 @@ material/0 = null
 material/1 = null
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.999996, -0.0011341, -0.00284522, -0.00296146, -0.120919, -0.992657, 0.000781688, 0.992661, -0.120922, 0.00266299, 1.01513, 0.31244 )
+transform = Transform( 0.995732, -0.0449381, 0.0806195, 0.0596003, -0.353891, -0.933385, 0.070475, 0.934206, -0.349702, 0.0149503, 1.06738, -0.0966644 )
 bone_name = "Head"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment" instance=ExtResource( 2 )]
@@ -2116,7 +2116,7 @@ transform = Transform( 1, -9.8953e-10, -6.98492e-10, 3.49246e-10, 0.550539, -0.8
 shape = SubResource( 5 )
 
 [node name="BoneAttachment2" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.999995, 0.0027618, -0.00132459, -0.00296156, 0.982167, -0.187985, 0.000781734, 0.187988, 0.982171, 0.000613423, 0.240505, -0.000372333 )
+transform = Transform( 0.999541, 0.0222883, -0.0205281, -0.0149401, 0.951894, 0.306061, 0.0263621, -0.305614, 0.95179, 0, 0.237721, 0 )
 bone_name = "Chest"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment2" instance=ExtResource( 2 )]
@@ -2135,7 +2135,7 @@ material/0 = null
 transform = Transform( 1, -9.53198e-09, -6.08636e-08, -3.96959e-08, -0.454068, -1.36607, -9.53198e-09, 0.890967, -0.696198, 0, 0.690309, -0.232496 )
 
 [node name="BoneAttachment3" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 1, -2.04891e-08, 1.04308e-07, -2.23517e-08, -0.996658, 0.0816894, 1.04308e-07, -0.0816897, -0.996658, 0.000613422, 0.240505, -0.000372324 )
+transform = Transform( 0.997197, 0.0347426, -0.0662688, 0.01731, -0.968756, -0.247411, -0.072794, 0.24557, -0.966642, 2.06795e-25, 0.237721, -1.75723e-42 )
 bone_name = "BodyMid"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment3" instance=ExtResource( 2 )]

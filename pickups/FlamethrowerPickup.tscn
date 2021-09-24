@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
-[ext_resource path="res://pickups/raw_assets/machinegunammo.glb" type="PackedScene" id=2]
+[ext_resource path="res://weapons/raw_assets/flamethrower.tscn" type="PackedScene" id=2]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -34,13 +34,13 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.138, 0 ), Vector3( 0, -0.167, 0 ) ]
 }
 
-[node name="MachineGunAmmoPickup" type="Area"]
+[node name="FlamethrowerPickup" type="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 collision_layer = 8
 collision_mask = 0
 script = ExtResource( 1 )
-pickup_type = 1
-ammo = 15
+pickup_type = 4
+ammo = 30
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
@@ -50,7 +50,7 @@ autoplay = "spin"
 anims/spin = SubResource( 2 )
 
 [node name="Graphics" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 0.114564, 0, 2.0031e-08, 0, 0.114564, 0, -2.0031e-08, 0, 0.114564, 0, 0, 0 )
 
-[node name="machinegunammo" parent="Graphics" instance=ExtResource( 2 )]
-transform = Transform( -0.734839, 0, -0.678243, 0, 1, 0, 0.678243, 0, -0.734839, 0, 0, 0 )
+[node name="flamethrower" parent="Graphics" instance=ExtResource( 2 )]
+transform = Transform( 2.19734, 0, -1.7053e-13, 0, 2.19734, 0, 1.7053e-13, 0, 2.19734, -1.37831e-07, 1.35509, 0.788299 )

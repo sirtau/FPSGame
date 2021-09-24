@@ -2584,7 +2584,7 @@ skin = SubResource( 4 )
 material/0 = null
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.990954, 0.12089, 0.0582902, 0.129433, 0.746001, 0.653245, 0.0354865, 0.65488, -0.7549, 0.048276, 0.197991, 0.29862 )
+transform = Transform( -0.989476, -0.132551, -0.0580508, -0.144653, 0.895274, 0.421378, -0.00388244, 0.425341, -0.905025, -0.00381706, 0.232383, 0.270704 )
 bone_name = "Head"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment" instance=ExtResource( 2 )]
@@ -2595,7 +2595,7 @@ weak_spot = true
 shape = SubResource( 5 )
 
 [node name="BoneAttachment2" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.999702, 4.33181e-07, 0.0244508, -0.0244054, 0.0609113, 0.997845, -0.00148931, -0.998144, 0.0608933, 0.0212276, 0.0815735, -0.0320833 )
+transform = Transform( 0.999702, 4.33181e-07, 0.0244508, -0.0244054, 0.0609113, 0.997845, -0.00148931, -0.998144, 0.0608933, 0.0206616, 0.0731055, -0.0334623 )
 bone_name = "Torso"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment2" instance=ExtResource( 2 )]

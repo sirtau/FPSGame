@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://characters/HitBox.gd" type="Script" id=1]
 [ext_resource path="res://Shaders/PSX Shaders/psx_lit.shader" type="Shader" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Shaders/StylizedFire/FireMask.png" type="Texture" id=10]
 [ext_resource path="res://Shaders/StylizedFire/stylized_fire.shader" type="Shader" id=11]
 [ext_resource path="res://Sounds/Sword_Stab_With_Blood_Gore_04.wav" type="AudioStream" id=12]
+[ext_resource path="res://environment/assets/CatHead.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 height = 0.56948
@@ -157,7 +158,7 @@ radius = 0.292751
 height = 0.839349
 
 [sub_resource type="SphereShape" id=16]
-radius = 0.277847
+radius = 0.348538
 
 [sub_resource type="PrismMesh" id=17]
 size = Vector3( 0.1, 0.1, 0.1 )
@@ -1379,6 +1380,9 @@ randomness = 0.74
 draw_order = 1
 process_material = SubResource( 24 )
 draw_pass_1 = SubResource( 25 )
+
+[node name="CatHead" parent="Graphics/Armature/Skeleton/Head" instance=ExtResource( 13 )]
+transform = Transform( 1.70218, 1.67638e-07, -1.49012e-07, -2.98023e-08, 1.52711, 0.751896, 2.68221e-07, -0.751896, 1.52711, -2.98023e-07, -0.052837, 0.200527 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
 transform = Transform( -0.856207, 0.51385, 0.053556, -0.360843, -0.668986, 0.649809, 0.369731, 0.537045, 0.758209, 0.485529, 0.210698, 0.676418 )

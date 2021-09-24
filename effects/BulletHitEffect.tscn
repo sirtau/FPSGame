@@ -89,7 +89,7 @@ autostart = true
 [node name="LightFlash" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0246115, 0 )
 light_energy = 16.0
-light_specular = 0.0
+light_specular = 1.0
 omni_range = 0.501765
 omni_shadow_detail = 0
 script = ExtResource( 3 )

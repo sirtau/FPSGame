@@ -1,0 +1,14 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://environment/raw_assets/gridtext20pc.png" type="Texture" id=2]
+
+[resource]
+resource_name = "Material.006"
+vertex_color_use_as_albedo = true
+params_cull_mode = 2
+albedo_texture = ExtResource( 2 )
+metallic_specular = 1.0
+roughness = 0.0
+uv1_scale = Vector3( 0.1, 0.1, 0.1 )
+uv1_offset = Vector3( -0.4, 0, 0.4 )
+uv1_triplanar = true

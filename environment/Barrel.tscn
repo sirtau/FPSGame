@@ -14,10 +14,10 @@ height = 1.5
 radial_segments = 6
 rings = 0
 
-[sub_resource type="SpatialMaterial" id=9]
+[sub_resource type="SpatialMaterial" id=3]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "damaged"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fire:emitting")
@@ -46,21 +46,21 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 0.980957, 0.801817, 0, 1, 1, 0, 0.447059, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 7 )
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
 width = 128
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.65289, 0, 0, Vector2( 0.556561, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
+[sub_resource type="CurveTexture" id=8]
 width = 128
-curve = SubResource( 4 )
+curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=9]
 lifetime_randomness = 0.35
 emission_shape = 1
 emission_sphere_radius = 0.1
@@ -70,14 +70,14 @@ gravity = Vector3( 0, 0, 0 )
 linear_accel = 4.0
 scale = 5.0
 scale_random = 1.0
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
 
 [node name="Barrel" type="StaticBody" groups=[
 "barrel",
 ]]
 collision_layer = 15
-collision_mask = 0
+collision_mask = 2
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -87,16 +87,16 @@ shape = SubResource( 1 )
 [node name="CSGMesh" type="CSGMesh" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.751873, 0 )
 mesh = SubResource( 2 )
-material = SubResource( 9 )
+material = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/damaged = SubResource( 6 )
+anims/damaged = SubResource( 4 )
 
 [node name="Fire" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0 )
 emitting = false
 one_shot = true
-process_material = SubResource( 8 )
+process_material = SubResource( 9 )
 
 [node name="ExplosionSound" type="AudioStreamPlayer3D" parent="."]
 

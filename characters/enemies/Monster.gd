@@ -6,17 +6,17 @@ onready var anim_player = $Graphics/AnimationPlayer
 onready var health_manager = $HealthManager
 onready var nav : Navigation = get_parent()
 onready var aimer = $AimAtObject
-var dir
+var dir = Vector3.ZERO
 onready var alertGrunt = $AlertGrunt
 onready var bodyCollider = $BodyColliderShape
 onready var footColliderRay = $FootColliderRay
 
-enum STATES {IDLE, CHASE, ATTACK, DEAD, GIBBED}
+enum STATES {IDLE, FIRE, CHASE, ATTACK, DEAD, GIBBED}
 var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 50
+var pathProcessDelay = 30
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
@@ -29,7 +29,8 @@ var flinchChance = 70
 var our_pos
 var player_pos
 var dir_to_player
-
+var pain_sound
+var updating_movement = false
 
 export var sight_angle = 45.0
 export var turn_speed = 360.0
@@ -73,6 +74,8 @@ func _ready():
 	
 	health_manager.connect("dead", self, "set_state_dead")
 	health_manager.connect("gibbed", self, "set_state_gibbed")
+	health_manager.connect("fire_tick", self, "toggle_update_movement")
+	health_manager.connect("fire_ended", self, "fire_end")
 	character_mover.init(self)
 	set_state_idle()
 
@@ -81,6 +84,8 @@ func _process(delta):
 	match cur_state:
 		STATES.IDLE:
 			process_state_idle(delta)
+		STATES.FIRE:
+			process_state_fire(delta)
 		STATES.CHASE:
 			process_state_chase(delta)
 		STATES.ATTACK:
@@ -100,6 +105,13 @@ func set_state_chase():
 		alertGrunt.play()
 	cur_state = STATES.CHASE
 	anim_player.play("walk_loop", 0.2)
+	
+func set_state_fire():
+	if pain_sound != null:
+		if !pain_sound.is_playing():
+			pain_sound.play()
+	cur_state = STATES.FIRE
+	anim_player.play("walk_loop", 0.2)
 
 func set_state_attack():
 	cur_state = STATES.ATTACK
@@ -118,6 +130,8 @@ func set_state_gibbed():
 	bodyCollider.disabled = true
 	footColliderRay.disabled = true
 	timer_queue_free()
+	if !dead:
+		dead = true
 
 
 		
@@ -198,10 +212,10 @@ func process_state_dead(delta):
 	pass
 
 func hurt(damage: int, dir: Vector3, source):
-	if cur_state == STATES.IDLE:
+	if !dead:
 		set_state_chase()
 	health_manager.hurt(damage, dir, source)
-	character_mover.knockback_force = -dir * 2
+	character_mover.knockback_force += -dir * damage / 10
 	
 
 	if source != self:
@@ -213,12 +227,53 @@ func hurt(damage: int, dir: Vector3, source):
 			infight_counter = 0
 			
 		infight_counter += 1	
-	
-	if randi() % 100 < flinchChance:
+	if !dead:
+		if randi() % 100 < flinchChance:
 		
-		keep_facing()
-		finish_attack()
+			keep_facing()
+			finish_attack()
+			set_state_chase()
+
+
+func hurt_fire(damage: int, dir: Vector3, source):
+	if cur_state != STATES.FIRE and !dead:
+		set_state_fire()
+	health_manager.on_fire_start(damage, source)
+	
+	
+
+	if source != self:
+		if source == player:
+			target = player
+			infight_counter = 0
+		elif infight_counter >= infight_switch_target_at:
+			target = source
+			infight_counter = 0
+			
+		infight_counter += 1	
+#
+#	if randi() % 100 < flinchChance:
+#
+#		keep_facing()
+#		finish_attack()
+#		set_state_chase()
+
+func process_state_fire(delta):
+	face_dir(dir, delta)
+	if updating_movement:
+		dir.z = rand_range(0.0, 1.0)
+		dir.x = rand_range(0.0, 1.0)
+		dir = dir.normalized()
+		character_mover.set_move_vec(dir)
+		
+func fire_end():
+	if !dead:
 		set_state_chase()
+
+
+func toggle_update_movement():
+	updating_movement = !updating_movement
+	
 
 
 func start_attack():

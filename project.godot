@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="FPS Game"
-run/main_scene="res://Levels/Level_01.tscn"
+run/main_scene="res://Levels/E1M1.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -157,5 +157,7 @@ quit={
 quality/shadows/filter_mode=0
 quality/reflections/texture_array_reflections=false
 quality/filters/anisotropic_filter_level=1
+quality/filters/msaa=2
+quality/filters/use_debanding=true
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

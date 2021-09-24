@@ -1,10 +1,11 @@
 extends Spatial
 
 
-enum WEAPON_SLOTS {MACHETE, MACHINE_GUN, SHOTGUN, ROCKET_LAUNCHER}
+enum WEAPON_SLOTS {MACHETE, CHAINGUN, SHOTGUN, FLAMETHROWER, ROCKET_LAUNCHER}
 var slots_unlocked = {
 	WEAPON_SLOTS.MACHETE: true,
-	WEAPON_SLOTS.MACHINE_GUN: false,
+	WEAPON_SLOTS.CHAINGUN: false,
+	WEAPON_SLOTS.FLAMETHROWER: false,
 	WEAPON_SLOTS.SHOTGUN: false,
 	WEAPON_SLOTS.ROCKET_LAUNCHER: false,
 }
@@ -30,7 +31,7 @@ func init(_fire_point: Spatial, _bodies_to_exclude: Array):
 			weapon.init(_fire_point, _bodies_to_exclude)
 			
 	
-	weapons[WEAPON_SLOTS.MACHINE_GUN].connect("fired", self, "alert_nearby_enemies")
+	weapons[WEAPON_SLOTS.CHAINGUN].connect("fired", self, "alert_nearby_enemies")
 	weapons[WEAPON_SLOTS.SHOTGUN].connect("fired", self, "alert_nearby_enemies")
 	weapons[WEAPON_SLOTS.ROCKET_LAUNCHER].connect("fired", self, "alert_nearby_enemies")
 	
@@ -99,13 +100,13 @@ func alert_nearby_enemies():
 
 func get_pickup(pickup_type, ammo):
 	match pickup_type:
-		Pickup.PICKUP_TYPES.MACHINE_GUN:
-			if !slots_unlocked[WEAPON_SLOTS.MACHINE_GUN]:
-				slots_unlocked[WEAPON_SLOTS.MACHINE_GUN] = true
-				switch_to_weapon_slot(WEAPON_SLOTS.MACHINE_GUN)
-			weapons[WEAPON_SLOTS.MACHINE_GUN].ammo += ammo
-		Pickup.PICKUP_TYPES.MACHINE_GUN_AMMO:
-			weapons[WEAPON_SLOTS.MACHINE_GUN].ammo += ammo
+		Pickup.PICKUP_TYPES.CHAINGUN:
+			if !slots_unlocked[WEAPON_SLOTS.CHAINGUN]:
+				slots_unlocked[WEAPON_SLOTS.CHAINGUN] = true
+				switch_to_weapon_slot(WEAPON_SLOTS.CHAINGUN)
+			weapons[WEAPON_SLOTS.CHAINGUN].ammo += ammo
+		Pickup.PICKUP_TYPES.CHAINGUN_AMMO:
+			weapons[WEAPON_SLOTS.CHAINGUN].ammo += ammo
 		Pickup.PICKUP_TYPES.SHOTGUN:
 			if !slots_unlocked[WEAPON_SLOTS.SHOTGUN]:
 				slots_unlocked[WEAPON_SLOTS.SHOTGUN] = true
@@ -120,6 +121,13 @@ func get_pickup(pickup_type, ammo):
 			weapons[WEAPON_SLOTS.ROCKET_LAUNCHER].ammo += ammo
 		Pickup.PICKUP_TYPES.ROCKET_LAUNCHER_AMMO:
 			weapons[WEAPON_SLOTS.ROCKET_LAUNCHER].ammo += ammo
+		Pickup.PICKUP_TYPES.FLAMETHROWER:
+			if !slots_unlocked[WEAPON_SLOTS.FLAMETHROWER]:
+				slots_unlocked[WEAPON_SLOTS.FLAMETHROWER] = true
+				switch_to_weapon_slot(WEAPON_SLOTS.FLAMETHROWER)
+			weapons[WEAPON_SLOTS.FLAMETHROWER].ammo += ammo
+		Pickup.PICKUP_TYPES.FLAMETHROWER_AMMO:
+			weapons[WEAPON_SLOTS.FLAMETHROWER].ammo += ammo
 	emit_ammo_changed_signal()
 
 func emit_ammo_changed_signal():

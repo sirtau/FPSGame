@@ -10,14 +10,18 @@ func _ready():
 func add_pickups_info(pickup_type, amount:int):
 	$RemoveInfoTimer.start()
 	match pickup_type:
-		Pickup.PICKUP_TYPES.MACHINE_GUN:
-			pickups_info.push_back("Picked up Machine Gun")
-		Pickup.PICKUP_TYPES.MACHINE_GUN_AMMO:
-			pickups_info.push_back("Picked up Machine Gun Ammo " + str(amount))
+		Pickup.PICKUP_TYPES.CHAINGUN:
+			pickups_info.push_back("Picked up Chaingun")
+		Pickup.PICKUP_TYPES.CHAINGUN_AMMO:
+			pickups_info.push_back("Picked up Chaingun Ammo " + str(amount))
 		Pickup.PICKUP_TYPES.SHOTGUN:
 			pickups_info.push_back("Picked up Shotgun")
 		Pickup.PICKUP_TYPES.SHOTGUN_AMMO:
 			pickups_info.push_back("Picked up Shotgun Ammo " + str(amount))
+		Pickup.PICKUP_TYPES.FLAMETHROWER:
+			pickups_info.push_back("Picked up Flamethrower")
+		Pickup.PICKUP_TYPES.SHOTGUN_AMMO:
+			pickups_info.push_back("Picked up Flamethrower Ammo " + str(amount))
 		Pickup.PICKUP_TYPES.ROCKET_LAUNCHER:
 			pickups_info.push_back("Picked up Rocket Launcher")
 		Pickup.PICKUP_TYPES.ROCKET_LAUNCHER_AMMO:

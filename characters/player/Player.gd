@@ -121,6 +121,7 @@ func _input(event):
 func hurt(damage, dir, source):
 	damageSound.play()
 	health_manager.hurt(damage, dir, source)
+	character_mover.knockback_force = -dir * damage / 4
 
 	
 

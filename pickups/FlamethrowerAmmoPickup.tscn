@@ -1,0 +1,138 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://pickups/Pickup.gd" type="Script" id=2]
+
+[sub_resource type="SphereShape" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "spin"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Graphics:translation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.138, 0 ), Vector3( 0, -0.167, 0 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CylinderMesh" id=4]
+material = SubResource( 3 )
+height = 0.5
+radial_segments = 6
+rings = 0
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 1, 0.632813, 0, 1 )
+
+[sub_resource type="CylinderMesh" id=6]
+material = SubResource( 5 )
+height = 0.5
+radial_segments = 6
+rings = 0
+
+[node name="ChaingunAmmoPickup" type="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+collision_layer = 8
+collision_mask = 0
+script = ExtResource( 2 )
+pickup_type = 5
+ammo = 50
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "spin"
+anims/spin = SubResource( 2 )
+
+[node name="Graphics" type="Spatial" parent="."]
+
+[node name="Spatial" type="Spatial" parent="Graphics"]
+transform = Transform( 0.225, 0, 0, 0, 0.225, 0, 0, 0, 0.225, 0, 0, 0.2 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Graphics/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.734763, 0 )
+mesh = SubResource( 4 )
+
+[node name="CSGMesh2" type="CSGMesh" parent="Graphics/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.234763, 0 )
+mesh = SubResource( 6 )
+
+[node name="CSGMesh3" type="CSGMesh" parent="Graphics/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.265237, 0 )
+mesh = SubResource( 4 )
+
+[node name="CSGMesh4" type="CSGMesh" parent="Graphics/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.765237, 0 )
+mesh = SubResource( 6 )
+
+[node name="CSGMesh5" type="CSGMesh" parent="Graphics/Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26524, 0 )
+mesh = SubResource( 4 )
+
+[node name="Spatial2" type="Spatial" parent="Graphics"]
+transform = Transform( 0.225, 0, 0, 0, 0.225, 0, 0, 0, 0.225, 0.2, 0, -0.16 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Graphics/Spatial2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.734763, 0 )
+mesh = SubResource( 4 )
+
+[node name="CSGMesh2" type="CSGMesh" parent="Graphics/Spatial2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.234763, 0 )
+mesh = SubResource( 6 )
+
+[node name="CSGMesh3" type="CSGMesh" parent="Graphics/Spatial2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.265237, 0 )
+mesh = SubResource( 4 )
+
+[node name="CSGMesh4" type="CSGMesh" parent="Graphics/Spatial2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.765237, 0 )
+mesh = SubResource( 6 )
+
+[node name="CSGMesh5" type="CSGMesh" parent="Graphics/Spatial2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26524, 0 )
+mesh = SubResource( 4 )
+
+[node name="Spatial3" type="Spatial" parent="Graphics"]
+transform = Transform( 0.225, 0, 0, 0, 0.225, 0, 0, 0, 0.225, -0.23, 0, -0.16 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Graphics/Spatial3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.734763, 0 )
+mesh = SubResource( 4 )
+
+[node name="CSGMesh2" type="CSGMesh" parent="Graphics/Spatial3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.234763, 0 )
+mesh = SubResource( 6 )
+
+[node name="CSGMesh3" type="CSGMesh" parent="Graphics/Spatial3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.265237, 0 )
+mesh = SubResource( 4 )
+
+[node name="CSGMesh4" type="CSGMesh" parent="Graphics/Spatial3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.765237, 0 )
+mesh = SubResource( 6 )
+
+[node name="CSGMesh5" type="CSGMesh" parent="Graphics/Spatial3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26524, 0 )
+mesh = SubResource( 4 )
