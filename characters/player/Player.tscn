@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
@@ -38,6 +38,8 @@
 [ext_resource path="res://Shaders/Fire.tscn" type="PackedScene" id=36]
 [ext_resource path="res://weapons/FlameDamageArea.gd" type="Script" id=37]
 [ext_resource path="res://Sounds/DSFLAME_nonloop.wav" type="AudioStream" id=38]
+[ext_resource path="res://characters/player/Shields.gd" type="Script" id=39]
+[ext_resource path="res://ui/AmmoDisplay.gd" type="Script" id=40]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.635682
@@ -691,6 +693,12 @@ tracks/0/keys = {
 size = 36
 font_data = ExtResource( 25 )
 
+[sub_resource type="StyleBoxFlat" id=37]
+bg_color = Color( 0, 0.321569, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=38]
+bg_color = Color( 0.109804, 0, 0, 1 )
+
 [node name="Player" type="KinematicBody" groups=[
 "characters",
 "player",
@@ -1144,10 +1152,10 @@ __meta__ = {
 }
 
 [node name="HPDisplay" type="Label" parent="UI"]
-margin_left = 287.852
-margin_top = 442.091
-margin_right = 368.852
-margin_bottom = 511.091
+margin_left = 288.0
+margin_top = 442.0
+margin_right = 369.0
+margin_bottom = 511.0
 custom_fonts/font = ExtResource( 22 )
 text = "100
 "
@@ -1156,29 +1164,29 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AMMODisplay" type="Label" parent="UI"]
-margin_left = 458.014
-margin_top = 444.763
-margin_right = 539.014
-margin_bottom = 513.763
+[node name="AmmoDisplay" type="Label" parent="UI"]
+margin_left = 453.707
+margin_top = 444.673
+margin_right = 534.707
+margin_bottom = 513.673
 custom_fonts/font = ExtResource( 22 )
 text = "100
 "
-script = ExtResource( 24 )
+script = ExtResource( 40 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-ui_type = 1
 
 [node name="StatsLabels" type="Label" parent="UI"]
-margin_left = 302.997
-margin_top = 406.617
-margin_right = 365.997
-margin_bottom = 475.617
+margin_left = 303.0
+margin_top = 407.0
+margin_right = 563.0
+margin_bottom = 476.0
 custom_fonts/font = ExtResource( 22 )
 text = "HP:     AMMO:
 "
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -1230,12 +1238,34 @@ __meta__ = {
 [node name="RemoveInfoTimer" type="Timer" parent="UI/PickupInfo"]
 wait_time = 2.0
 
+[node name="Shields" type="ProgressBar" parent="UI"]
+margin_left = 2.0
+margin_top = 419.0
+margin_right = 186.0
+margin_bottom = 479.0
+custom_styles/fg = SubResource( 37 )
+custom_styles/bg = SubResource( 38 )
+max_value = 3.0
+value = 3.0
+percent_visible = false
+script = ExtResource( 39 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="DamageSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 29 )
 volume_db = 2.0
 bus = "Grunts"
 
-[connection signal="ammo_changed" from="Camera/WeaponManager" to="UI/HPDisplay" method="update_ammo"]
+[node name="ShieldRechargeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShieldRecharger" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="shield_upated" from="." to="UI/Shields" method="_on_Player_shield_upated"]
+[connection signal="ammo_changed" from="Camera/WeaponManager" to="UI/AmmoDisplay" method="_on_WeaponManager_ammo_changed"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Chaingun" to="Camera/WeaponManager/Weapons/Chaingun/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Chaingun" to="Camera/WeaponManager/Weapons/Chaingun/Graphics/MuzzleFlash" method="flash"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Shotgun" to="Camera/WeaponManager/Weapons/Shotgun/Gunshot" method="play"]
@@ -1251,5 +1281,7 @@ bus = "Grunts"
 [connection signal="hurt" from="HealthManager" to="UI/HealthEffects/AnimationPlayer" method="play" binds= [ "hurt" ]]
 [connection signal="got_pickup" from="PickupManager" to="UI/PickupInfo" method="add_pickups_info"]
 [connection signal="timeout" from="UI/PickupInfo/RemoveInfoTimer" to="UI/PickupInfo" method="remove_pickups_info"]
+[connection signal="timeout" from="ShieldRechargeTimer" to="." method="start_recharge_shields"]
+[connection signal="timeout" from="ShieldRecharger" to="." method="recharge_shield"]
 
 [editable path="Camera/WeaponManager/Weapons/Chaingun/Graphics/chaingun"]

@@ -17,9 +17,6 @@ export(UI_TYPES) var ui_type
 func _init():
 	cur_ui_type = ui_type
 
-func update_ammo(amnt):
-	ammo = amnt
-	update_display()
 
 func update_health(amnt):
 	health = amnt
@@ -29,8 +26,13 @@ func update_display():
 	if cur_ui_type == UI_TYPES.HP:
 		
 		text = str(health)
-	elif cur_ui_type == UI_TYPES.AAMO:
+	elif cur_ui_type == UI_TYPES.AMMO:
 		var ammo_amnt = str(ammo)
 		if ammo < 0:
 			ammo_amnt = ""
 		text += "     " + ammo_amnt
+
+
+func _on_WeaponManager_ammo_changed(amnt):
+	ammo = amnt
+	update_display()

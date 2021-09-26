@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://pickups/raw_assets/PickupLight.tscn" type="PackedScene" id=1]
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=2]
 
 [sub_resource type="SphereShape" id=1]
@@ -136,3 +137,6 @@ mesh = SubResource( 6 )
 [node name="CSGMesh5" type="CSGMesh" parent="Graphics/Spatial3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26524, 0 )
 mesh = SubResource( 4 )
+
+[node name="PickupLight" parent="Graphics" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, -7.81465e-14, 0, 1, 0, 7.81465e-14, 0, 1, 0, 0.0758399, -0.54 )

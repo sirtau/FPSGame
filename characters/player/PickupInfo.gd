@@ -45,3 +45,5 @@ func update_display():
 	text = ""
 	for pickups_info_text in pickups_info:
 		text += pickups_info_text + "\n"
+
+

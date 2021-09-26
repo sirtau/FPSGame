@@ -13,7 +13,7 @@
 [ext_resource path="res://Shaders/StylizedFire/stylized_fire.shader" type="Shader" id=11]
 
 [sub_resource type="SphereShape" id=1]
-radius = 0.567905
+radius = 0.812323
 
 [sub_resource type="Animation" id=2]
 resource_name = "flicker"

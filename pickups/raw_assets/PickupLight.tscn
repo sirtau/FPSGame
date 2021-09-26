@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="PickupLight" type="OmniLight"]
+transform = Transform( 1, 0, -7.81465e-14, 0, 1, 0, 7.81465e-14, 0, 1, 0, 0, 0 )
+light_color = Color( 0, 0.0156863, 1, 1 )
+light_energy = 5.0
+light_indirect_energy = 3.0
+light_specular = 1.0
+omni_range = 1.0

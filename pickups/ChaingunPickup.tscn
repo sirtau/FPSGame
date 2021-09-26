@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
+[ext_resource path="res://pickups/raw_assets/PickupLight.tscn" type="PackedScene" id=2]
 [ext_resource path="res://weapons/raw_assets/chaingun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
@@ -53,3 +54,5 @@ transform = Transform( 0.114564, 0, 2.0031e-08, 0, 0.114564, 0, -2.0031e-08, 0, 
 
 [node name="chaingun" parent="Graphics" instance=ExtResource( 3 )]
 transform = Transform( 1.42524, 0, -5.68434e-14, 0, 1.42524, 0, 5.68434e-14, 0, 1.42524, 0, 0, 0 )
+
+[node name="PickupLight" parent="Graphics" instance=ExtResource( 2 )]

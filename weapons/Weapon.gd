@@ -62,6 +62,7 @@ func attack(attack_input_just_pressed: bool, attack_input_held: bool):
 	can_attack = false
 	attack_timer.start()
 
+
 func finish_attack():
 	can_attack = true
 

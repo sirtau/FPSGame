@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
 [ext_resource path="res://weapons/raw_assets/RocketLauncher.tscn" type="PackedScene" id=2]
+[ext_resource path="res://pickups/raw_assets/PickupLight.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -53,3 +54,6 @@ transform = Transform( 0.566481, 0, 0, 0, 0.566482, 0, 0, 0, 0.566481, 0, 0, 0 )
 
 [node name="RocketLauncher_02" parent="Graphics" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, -1.42109e-14, 0, 1, 0, 1.42109e-14, 0, 1, -0.710574, 0, -6.21203e-08 )
+
+[node name="PickupLight" parent="Graphics" instance=ExtResource( 3 )]
+transform = Transform( 1.76528, 0, -1.37951e-13, 0, 1.76528, 0, 1.37951e-13, 0, 1.76528, 0, 0.020722, 0 )

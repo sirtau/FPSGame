@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
+[ext_resource path="res://pickups/raw_assets/PickupLight.tscn" type="PackedScene" id=2]
 [ext_resource path="res://weapons/raw_assets/Shotgun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
@@ -54,3 +55,6 @@ transform = Transform( 0.999999, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 0.999
 
 [node name="Cube" parent="Graphics" instance=ExtResource( 3 )]
 transform = Transform( 0.133183, 0, -1.42109e-14, 0, 0.133183, 0, 1.42109e-14, 0, 0.133183, 0.104674, 0, 1.83017e-08 )
+
+[node name="PickupLight" parent="Graphics" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, -8.52651e-14, 0, 1, 0, 8.52651e-14, 0, 1, 0, -0.480582, 0 )

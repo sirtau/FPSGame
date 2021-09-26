@@ -46,7 +46,7 @@ func init(_fire_point: Spatial, _bodies_to_exclude: Array):
 func attack(attack_input_just_pressed: bool, attack_input_held: bool):
 	if cur_weapon.has_method("attack"):
 		cur_weapon.attack(attack_input_just_pressed, attack_input_held)
-
+		
 func switch_to_next_weapon():
 	cur_slot = (cur_slot + 1) % slots_unlocked.size()
 	if !slots_unlocked[cur_slot]:

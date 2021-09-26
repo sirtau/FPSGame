@@ -30,8 +30,6 @@ func restart_game():
 	print(player)
 
 
-
-
 func get_pickup(pickup_type, ammo):
 	match pickup_type:
 		Pickup.PICKUP_TYPES.BLUE_KEY:
