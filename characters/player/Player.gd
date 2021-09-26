@@ -43,6 +43,7 @@ func _ready():
 	pickup_manager.max_player_health = health_manager.max_health
 	health_manager.connect("health_changed", pickup_manager, "update_player_health")
 	pickup_manager.connect("got_pickup", weapon_manager, "get_pickup")
+	pickup_manager.connect("got_pickup", character_mover, "get_pickup")
 	pickup_manager.connect("got_pickup", health_manager, "get_pickup")
 	pickup_manager.connect("got_pickup", GameManager, "get_pickup")
 	health_manager.init()

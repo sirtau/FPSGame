@@ -11,14 +11,14 @@ export var gravity = 60
 export var max_buffer := 20.0
 var jump_buffer = max_buffer
 
-export var max_glide_time := 3.0
+export var max_glide_time := 0.0
 var glide_time_left = max_glide_time
 
 
 var dir : Vector3
 var cur_move_vec : Vector3
 var wall_jump_pressed = false
-export var max_jumps = 2
+export var max_jumps = 1
 var jumps_left = max_jumps
 export var isPlayer = false
 
@@ -191,3 +191,14 @@ func reset_glide_time_left():
 
 func update_drag():
 	drag = float(move_accel) / max_speed
+
+
+func get_pickup(pickup_type, ammo):
+	match pickup_type:
+		Pickup.PICKUP_TYPES.ICARUS_BOOTS:
+			upgrade_jump()
+
+	
+func upgrade_jump():
+	max_jumps += 1
+	max_glide_time += 1.0
