@@ -7,6 +7,9 @@ var has_yellow_key = false
 var icarus_boots_level = 0
 var shield_level = 0
 
+var level_1 = "res://Levels/E1M1.tscn"
+var level_2 = "res://Levels/E1M2.tscn"
+
 signal upgrade_boots_level
 signal upgrade_shield_level
 

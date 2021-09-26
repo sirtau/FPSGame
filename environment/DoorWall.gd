@@ -15,6 +15,7 @@ onready var animPlayer = $AnimationPlayer
 func _ready():
 	if lock_type != LOCK_TYPE.NONE:
 		locked = true
+	
 		
 
 func _process(delta):
@@ -28,7 +29,9 @@ func _process(delta):
 			
 
 func interact():
-
+#	if lock_type == LOCK_TYPE.BLUE:
+#		if !GameManager.has_blue_key:
+#			return
 
 	if can_open:
 		open_door()

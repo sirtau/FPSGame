@@ -15,7 +15,7 @@ radius = 0.627774
 height = 0.358803
 
 [sub_resource type="RayShape" id=2]
-length = 0.4
+length = 0.642906
 
 [sub_resource type="Animation" id=15]
 resource_name = "die"
@@ -240,7 +240,7 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.94
 shape = SubResource( 1 )
 
 [node name="FootColliderRay" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.440809, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.640809, 0 )
 shape = SubResource( 2 )
 
 [node name="Graphics" parent="." instance=ExtResource( 13 )]

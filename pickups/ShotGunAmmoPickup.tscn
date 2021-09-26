@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
 [ext_resource path="res://Shaders/PSX Shaders/psx_lit.shader" type="Shader" id=2]
+[ext_resource path="res://pickups/raw_assets/PickupLight.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -9,7 +10,7 @@
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:rotation_degrees")
+tracks/0/path = NodePath("../ShotGunAmmoPickup/Graphics:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -21,7 +22,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Graphics:translation")
+tracks/1/path = NodePath("../ShotGunAmmoPickup/Graphics:translation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -92,7 +93,7 @@ autoplay = "spin"
 anims/spin = SubResource( 2 )
 
 [node name="Graphics" type="Spatial" parent="."]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, -2.98023e-08, 0 )
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0 )
 
 [node name="shotgunammo" type="Spatial" parent="Graphics"]
 
@@ -100,3 +101,6 @@ transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, -2.980
 mesh = SubResource( 5 )
 material/0 = null
 material/1 = null
+
+[node name="PickupLight" parent="Graphics" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, -7.10543e-14, 0, 1, 0, 7.10543e-14, 0, 1, 0, 0.209038, 0 )

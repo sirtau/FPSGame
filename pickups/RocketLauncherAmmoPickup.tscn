@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://pickups/Pickup.gd" type="Script" id=1]
 [ext_resource path="res://pickups/raw_assets/rocket.glb" type="PackedScene" id=2]
+[ext_resource path="res://pickups/raw_assets/PickupLight.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -10,7 +11,7 @@ resource_name = "spin"
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:rotation_degrees")
+tracks/0/path = NodePath("../RocketLauncherAmmoPickup/Graphics:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -22,7 +23,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Graphics:translation")
+tracks/1/path = NodePath("../RocketLauncherAmmoPickup/Graphics:translation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -53,10 +54,12 @@ anims/spin = SubResource( 2 )
 transform = Transform( 0.999999, 0, 1.74845e-07, 0, 1, 0, -1.74845e-07, 0, 0.999999, 0, -2.98023e-08, 0 )
 
 [node name="rocket" parent="Graphics" instance=ExtResource( 2 )]
-transform = Transform( 0.480678, 0, -1.49012e-08, 0, 0.480678, 0, 1.49012e-08, 0, 0.480678, 0, 0, 0 )
+transform = Transform( 0.480678, 0, -1.49012e-08, 0, 0.480678, 0, 1.49012e-08, 0, 0.480678, 0, 0.156946, 0 )
 
 [node name="rocket2" parent="Graphics" instance=ExtResource( 2 )]
-transform = Transform( 0.480678, 0, 0, 0, 0.480678, 0, 0, 0, 0.480678, 7.45058e-09, 0, -0.19367 )
+transform = Transform( 0.480678, 0, -1.42109e-14, 0, 0.480678, 0, 1.42109e-14, 0, 0.480678, 1.99743e-09, 0, -0.162482 )
 
 [node name="rocket3" parent="Graphics" instance=ExtResource( 2 )]
-transform = Transform( 0.480678, 0, 0, 0, 0.480678, 0, 0, 0, 0.480678, 0, 0, 0.198291 )
+transform = Transform( 0.480678, 0, -1.42109e-14, 0, 0.480678, 0, 1.42109e-14, 0, 0.480678, 7.6927e-09, 0, 0.154294 )
+
+[node name="PickupLight" parent="Graphics" instance=ExtResource( 3 )]
