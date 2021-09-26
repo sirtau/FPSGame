@@ -1,10 +1,10 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
 [ext_resource path="res://characters/HealthManager.tscn" type="PackedScene" id=3]
 [ext_resource path="res://characters/player/WeaponManager.gd" type="Script" id=4]
-[ext_resource path="res://weapons/raw_assets/machete.glb" type="PackedScene" id=5]
+[ext_resource path="res://weapons/raw_assets/SwordMesh.tscn" type="PackedScene" id=5]
 [ext_resource path="res://weapons/raw_assets/chaingun.tscn" type="PackedScene" id=6]
 [ext_resource path="res://weapons/raw_assets/shotgun.glb" type="PackedScene" id=7]
 [ext_resource path="res://weapons/raw_assets/rocketlauncher.glb" type="PackedScene" id=8]
@@ -24,7 +24,7 @@
 [ext_resource path="res://ui/KleintenDynFont.tres" type="DynamicFont" id=22]
 [ext_resource path="res://ui/crypt_domino_1b.png" type="Texture" id=23]
 [ext_resource path="res://characters/player/StatsDisplay.gd" type="Script" id=24]
-[ext_resource path="res://ui/Fonts/Pixeltype.ttf" type="DynamicFontData" id=25]
+[ext_resource path="res://ui/Fonts/game_over.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://characters/player/PickupInfo.gd" type="Script" id=26]
 [ext_resource path="res://characters/player/RayCast.gd" type="Script" id=27]
 [ext_resource path="res://weapons/raw_assets/flamethrower.tscn" type="PackedScene" id=28]
@@ -40,6 +40,8 @@
 [ext_resource path="res://Sounds/DSFLAME_nonloop.wav" type="AudioStream" id=38]
 [ext_resource path="res://characters/player/Shields.gd" type="Script" id=39]
 [ext_resource path="res://ui/AmmoDisplay.gd" type="Script" id=40]
+[ext_resource path="res://characters/player/UI.gd" type="Script" id=41]
+[ext_resource path="res://characters/player/HSlider.gd" type="Script" id=42]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.635682
@@ -58,10 +60,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0.0223615, -0.0678529 ), Vector3( 0.0107346, 0.0558048, 0.0326105 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 0.0223615, -0.0678529 ), Vector3( 0.0250645, 0.123495, -0.0442107 ), Vector3( -0.0770024, -0.13739, -0.161528 ), Vector3( 0, 0.0223615, -0.0678529 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Graphics:rotation_degrees")
@@ -70,10 +72,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.2, 0.25, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 12.7196, -1.83446, -8.27648 ), Vector3( -75.5392, 91.6505, -93.5219 ), Vector3( -60.6162, 179.095, -173.647 ), Vector3( -65.3987, 85.1477, -83.4015 ), Vector3( -39.233, 32.5454, -35.7915 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 12.7196, -1.83446, -8.27648 ), Vector3( 43.8483, -17.7599, -28.5943 ), Vector3( -69.2015, 78.441, -76.4217 ), Vector3( 12.7196, -1.83446, -8.27648 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -88,7 +90,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( -0.119844, -0.103951, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Graphics:rotation_degrees")
@@ -100,7 +102,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 0, -26.238 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -689,15 +691,116 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="DynamicFont" id=36]
-size = 36
+[sub_resource type="Animation" id=36]
+resource_name = "shield_off"
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 1, 0.14902 ), Color( 0, 0, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "shield_on"
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 1, 0 ), Color( 0, 0, 1, 0.14902 ) ]
+}
+
+[sub_resource type="Animation" id=38]
+resource_name = "shield_overdrive"
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.647059, 0, 1, 0 ), Color( 0.85098, 0, 1, 0.2 ), Color( 0.85098, 0, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="DynamicFont" id=40]
+size = 32
 font_data = ExtResource( 25 )
 
-[sub_resource type="StyleBoxFlat" id=37]
+[sub_resource type="StyleBoxFlat" id=41]
 bg_color = Color( 0, 0.321569, 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=38]
-bg_color = Color( 0.109804, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=42]
+bg_color = Color( 0.27451, 0, 0, 1 )
 
 [node name="Player" type="KinematicBody" groups=[
 "characters",
@@ -736,31 +839,33 @@ script = ExtResource( 4 )
 [node name="Weapons" type="Spatial" parent="Camera/WeaponManager"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0237014, 0, 0 )
 
-[node name="Machete" type="Spatial" parent="Camera/WeaponManager/Weapons"]
+[node name="Sword" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.173936, -0.0278969, 0.0647341 )
-visible = false
 script = ExtResource( 10 )
-damage = 50
+damage = 10
 ammo = -1
-attack_rate = 0.3
 
-[node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Machete"]
+[node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Sword"]
+transform = Transform( 0.896965, 0.442101, 0, -0.442101, 0.896965, 0, 0, 0, 1, -0.119844, -0.103951, 0 )
 
-[node name="machete" parent="Camera/WeaponManager/Weapons/Machete/Graphics" instance=ExtResource( 5 )]
-transform = Transform( 0.182366, 0, 0, 0, 0.182366, 0, 0, 0, 0.182366, 0, 0, 0 )
+[node name="SwordMesh" parent="Camera/WeaponManager/Weapons/Sword/Graphics" instance=ExtResource( 5 )]
+transform = Transform( -1, 0, -6.34988e-06, 0, 1, 0, 6.34988e-06, 0, -1, 0, 0, 0 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/Machete"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/Sword"]
 autoplay = "idle"
 anims/attack = SubResource( 3 )
 anims/idle = SubResource( 4 )
 
-[node name="BulletEmitters" type="Spatial" parent="Camera/WeaponManager/Weapons/Machete"]
+[node name="BulletEmitters" type="Spatial" parent="Camera/WeaponManager/Weapons/Sword"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.128213, 0, -0.441101 )
 
-[node name="DamageArea" parent="Camera/WeaponManager/Weapons/Machete/BulletEmitters" instance=ExtResource( 14 )]
-transform = Transform( 3.4608, 0, 0, 0, 3.58728, 0, 0, 0, 1.97329, 0, -0.484261, 0.0280994 )
+[node name="DamageArea" parent="Camera/WeaponManager/Weapons/Sword/BulletEmitters" instance=ExtResource( 14 )]
+transform = Transform( 11.7256, 0, 0, 0, 3.58728, 0, 0, 0, 6.66979, 0, -0.484261, 0.0280994 )
+collision_mask = 3
 
-[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Machete"]
+[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Sword"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -780,7 +885,7 @@ visible = false
 script = ExtResource( 10 )
 automatic = true
 damage = 10
-ammo = 500
+ammo = 0
 attack_rate = 0.1
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Chaingun"]
@@ -840,7 +945,7 @@ bus = "SFX"
 [node name="Shotgun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
 script = ExtResource( 10 )
-ammo = 500
+ammo = 0
 attack_rate = 0.5
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Shotgun"]
@@ -939,7 +1044,7 @@ visible = false
 script = ExtResource( 10 )
 automatic = true
 damage = 10
-ammo = 500
+ammo = 0
 attack_rate = 0.5
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Flamethrower"]
@@ -1014,7 +1119,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0190441, 0.00506032, 0.14801
 visible = false
 script = ExtResource( 10 )
 damage = 50
-ammo = 500
+ammo = 0
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0361248 )
@@ -1117,6 +1222,7 @@ visible = false
 shape = SubResource( 32 )
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource( 41 )
 
 [node name="RestartMessage" type="Label" parent="UI"]
 visible = false
@@ -1124,18 +1230,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -70.0191
-margin_top = 113.808
-margin_right = 249.981
-margin_bottom = 149.808
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = -151.181
+margin_top = 37.7515
+margin_right = 168.82
+margin_bottom = 73.7515
 custom_fonts/font = ExtResource( 22 )
 text = "Press 'R' to restart"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="UI/RestartMessage"]
+visible = false
 show_behind_parent = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1152,10 +1260,15 @@ __meta__ = {
 }
 
 [node name="HPDisplay" type="Label" parent="UI"]
-margin_left = 288.0
-margin_top = 442.0
-margin_right = 369.0
-margin_bottom = 511.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 3.09775
+margin_top = -25.7336
+margin_right = 84.0977
+margin_bottom = 43.2664
+rect_scale = Vector2( 1.25, 1.25 )
 custom_fonts/font = ExtResource( 22 )
 text = "100
 "
@@ -1164,11 +1277,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HPLabel" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -46.9625
+margin_top = -21.5677
+margin_right = 12.0375
+margin_bottom = 47.4323
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = ExtResource( 22 )
+text = "HP:
+"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AmmoDisplay" type="Label" parent="UI"]
-margin_left = 453.707
-margin_top = 444.673
-margin_right = 534.707
-margin_bottom = 513.673
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 112.246
+margin_top = -22.9752
+margin_right = 193.246
+margin_bottom = 46.0248
 custom_fonts/font = ExtResource( 22 )
 text = "100
 "
@@ -1177,16 +1312,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StatsLabels" type="Label" parent="UI"]
-margin_left = 303.0
-margin_top = 407.0
-margin_right = 563.0
-margin_bottom = 476.0
+[node name="AmmoLabel" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 60.1877
+margin_top = -19.8929
+margin_right = 119.188
+margin_bottom = 49.1071
+rect_scale = Vector2( 0.75, 0.75 )
 custom_fonts/font = ExtResource( 22 )
-text = "HP:     AMMO:
+text = "AMMO:
 "
+align = 2
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -1204,6 +1344,7 @@ __meta__ = {
 }
 
 [node name="HealthEffects" type="ColorRect" parent="UI"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 1, 0, 0.14902 )
@@ -1218,20 +1359,36 @@ anims/heal = SubResource( 33 )
 anims/hurt = SubResource( 34 )
 anims/start = SubResource( 35 )
 
+[node name="ShieldEffect" type="ColorRect" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.85098, 0, 1, 0 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/ShieldEffect"]
+autoplay = "start"
+anims/shield_off = SubResource( 36 )
+anims/shield_on = SubResource( 37 )
+anims/shield_overdrive = SubResource( 38 )
+anims/start = SubResource( 39 )
+
 [node name="PickupInfo" type="Label" parent="UI"]
 margin_left = 7.50997
 margin_top = 11.526
 margin_right = 362.51
 margin_bottom = 242.526
-custom_fonts/font = SubResource( 36 )
-text = "Picked up Machine Gun
-Picked up Machine Gun
-Picked up Machine Gun
-Picked up Machine Gun
-Picked up Machine Gun
-"
+custom_fonts/font = SubResource( 40 )
+text = "Picked Up Item
+Picked Up Item
+Picked Up Item
+Picked Up Item
+Picked Up Item"
 script = ExtResource( 26 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -1239,16 +1396,55 @@ __meta__ = {
 wait_time = 2.0
 
 [node name="Shields" type="ProgressBar" parent="UI"]
-margin_left = 2.0
-margin_top = 419.0
-margin_right = 186.0
-margin_bottom = 479.0
-custom_styles/fg = SubResource( 37 )
-custom_styles/bg = SubResource( 38 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -158.89
+margin_top = -20.1563
+margin_right = -38.8899
+margin_bottom = -0.15625
+custom_styles/fg = SubResource( 41 )
+custom_styles/bg = SubResource( 42 )
 max_value = 3.0
-value = 3.0
 percent_visible = false
 script = ExtResource( 39 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EscapeMenu" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0627451, 0.0509804, 0.0509804, 0.341176 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="EscapeMenu"]
+margin_left = 105.241
+margin_top = 10.9464
+margin_right = 222.241
+margin_bottom = 24.9464
+text = "Mouse Sensitivity:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSlider" type="HSlider" parent="EscapeMenu"]
+margin_left = 71.9003
+margin_top = 28.1895
+margin_right = 271.9
+margin_bottom = 44.1895
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 2
+min_value = 0.1
+max_value = 1.0
+step = 0.1
+value = 0.3
+script = ExtResource( 42 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1281,6 +1477,7 @@ wait_time = 0.1
 [connection signal="hurt" from="HealthManager" to="UI/HealthEffects/AnimationPlayer" method="play" binds= [ "hurt" ]]
 [connection signal="got_pickup" from="PickupManager" to="UI/PickupInfo" method="add_pickups_info"]
 [connection signal="timeout" from="UI/PickupInfo/RemoveInfoTimer" to="UI/PickupInfo" method="remove_pickups_info"]
+[connection signal="value_changed" from="EscapeMenu/HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="timeout" from="ShieldRechargeTimer" to="." method="start_recharge_shields"]
 [connection signal="timeout" from="ShieldRecharger" to="." method="recharge_shield"]
 

@@ -172,7 +172,7 @@ shape = SubResource( 2 )
 material/0 = SubResource( 5 )
 
 [node name="ArmUL" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="1"]
-transform = Transform( -0.762324, 0.633694, 0.131512, -0.647055, -0.750495, -0.134449, 0.0134993, -0.187589, 0.982155, 0.176714, 1.53707, 0.0319174 )
+transform = Transform( -0.762323, 0.647196, 8.20133e-07, -0.52914, -0.623267, 0.575803, 0.372658, 0.438947, 0.817589, 0.176714, 1.48577, -0.135291 )
 bone_name = "upper_arml"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/ArmUL" instance=ExtResource( 2 )]
@@ -182,7 +182,7 @@ transform = Transform( 1, -2.98023e-08, 3.72529e-07, 1.49012e-08, -1.49012e-07, 
 shape = SubResource( 6 )
 
 [node name="ArmUR" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="2"]
-transform = Transform( -0.762324, -0.633694, -0.131512, 0.647056, -0.750495, -0.134449, -0.0134993, -0.187589, 0.982155, -0.176714, 1.53707, 0.0319174 )
+transform = Transform( -0.762323, -0.647196, -8.04094e-07, 0.52914, -0.623267, 0.575803, -0.372658, 0.438947, 0.817589, -0.176714, 1.48577, -0.135291 )
 bone_name = "upper_armr"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/ArmUR" instance=ExtResource( 2 )]
@@ -192,7 +192,7 @@ transform = Transform( 1, -2.98023e-08, 3.72529e-07, 1.49012e-08, -1.49012e-07, 
 shape = SubResource( 6 )
 
 [node name="ArmLR" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="3"]
-transform = Transform( -0.756538, -0.422012, 0.499557, 0.632508, -0.666219, 0.395078, 0.166086, 0.614865, 0.770945, -0.450458, 1.21287, -0.0491177 )
+transform = Transform( -0.998522, -0.0543442, -6.79123e-07, 0.0332622, -0.611173, 0.790798, -0.0429755, 0.78963, 0.612077, -0.456291, 1.21653, 0.0543261 )
 bone_name = "lower_armr"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/ArmLR" instance=ExtResource( 2 )]
@@ -214,7 +214,7 @@ transform = Transform( 0.925593, -0.167741, 0.339322, 0.378519, 0.410176, -0.829
 shape = SubResource( 7 )
 
 [node name="ArmLL" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="4"]
-transform = Transform( -0.756538, 0.422012, -0.499557, -0.632508, -0.666219, 0.395078, -0.166086, 0.614865, 0.770945, 0.450458, 1.21287, -0.0491177 )
+transform = Transform( -0.998522, 0.0543442, 6.6465e-07, -0.0332621, -0.611173, 0.790798, 0.0429756, 0.78963, 0.612077, 0.456291, 1.21653, 0.054326 )
 bone_name = "lower_arml"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/ArmLL" instance=ExtResource( 2 )]
@@ -236,7 +236,7 @@ transform = Transform( 0.908501, -0.167741, -0.382739, -0.288722, 0.410176, -0.8
 shape = SubResource( 7 )
 
 [node name="LegUL" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="5"]
-transform = Transform( -0.997098, 0.0758014, 7.51019e-06, -0.0701911, -0.923389, 0.377397, 0.0286076, 0.376308, 0.926052, 0.131876, 0.963462, 1.31768e-07 )
+transform = Transform( -0.782999, 0.14838, 0.604046, 0.0548854, -0.95086, 0.304714, 0.619573, 0.271751, 0.736382, 0.131876, 0.936301, 1.36788e-07 )
 bone_name = "upperlegl"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/LegUL" instance=ExtResource( 2 )]
@@ -246,7 +246,7 @@ transform = Transform( 1, -2.98023e-08, 3.27826e-07, 0, -1.04308e-07, -0.999999,
 shape = SubResource( 8 )
 
 [node name="LegUR" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="6"]
-transform = Transform( -0.997098, -0.0757999, -9.92417e-06, 0.0749913, -0.986498, -0.145602, 0.0110326, -0.145175, 0.989343, -0.131876, 0.963462, 1.37255e-07 )
+transform = Transform( -0.782998, -0.148381, -0.604045, -0.0548847, -0.950859, 0.304716, -0.619573, 0.271751, 0.736382, -0.131876, 0.936301, 1.36788e-07 )
 bone_name = "upperlegr"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/LegUR" instance=ExtResource( 2 )]
@@ -256,7 +256,7 @@ transform = Transform( 1, -2.98023e-08, 3.27826e-07, 0, -1.04308e-07, -0.999999,
 shape = SubResource( 8 )
 
 [node name="LegLR" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="7"]
-transform = Transform( -0.999404, 0.0337987, -1.01046e-05, -0.0316466, -0.935749, -0.351245, -0.011875, -0.351037, 0.936285, -0.163526, 0.55155, -0.0606177 )
+transform = Transform( -0.786344, 0.178841, -0.591314, -0.0264676, -0.966051, -0.256985, -0.617197, -0.186425, 0.76439, -0.193832, 0.539271, 0.11347 )
 bone_name = "lowerlegr"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/LegLR" instance=ExtResource( 2 )]
@@ -266,7 +266,7 @@ transform = Transform( 1, -2.98023e-08, 3.27826e-07, 0, -1.04308e-07, -0.999999,
 shape = SubResource( 9 )
 
 [node name="LegLL" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="8"]
-transform = Transform( -0.999404, -0.0337985, 8.1608e-06, 0.0330797, -0.978085, -0.205565, 0.00694901, -0.20545, 0.978642, 0.163527, 0.577902, 0.157127 )
+transform = Transform( -0.786345, -0.178843, 0.591314, 0.0264683, -0.966051, -0.256987, 0.617196, -0.186426, 0.76439, 0.193832, 0.539271, 0.113469 )
 bone_name = "lowerlegl"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/LegLL" instance=ExtResource( 2 )]
@@ -276,7 +276,7 @@ transform = Transform( 1, -2.98023e-08, 3.27826e-07, 0, -1.04308e-07, -0.999999,
 shape = SubResource( 9 )
 
 [node name="Hip" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="9"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.942362, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.915201, 0 )
 bone_name = "hip"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/Hip" instance=ExtResource( 2 )]
@@ -286,7 +286,7 @@ transform = Transform( 1, -2.98023e-08, 3.27826e-07, 0, -1.04308e-07, -0.999999,
 shape = SubResource( 10 )
 
 [node name="Body" type="BoneAttachment" parent="Graphics/Armature/Skeleton" index="10"]
-transform = Transform( 1, 1.6015e-08, 2.37729e-07, 4.46805e-09, 0.996303, -0.0859121, -2.38226e-07, 0.0859121, 0.996303, 0, 1.16693, 0 )
+transform = Transform( 1, 0, 2.38418e-07, -8.6824e-08, 0.931334, 0.364166, -2.22047e-07, -0.364166, 0.931334, 0, 1.13977, 0 )
 bone_name = "body"
 
 [node name="HitBox" parent="Graphics/Armature/Skeleton/Body" instance=ExtResource( 2 )]

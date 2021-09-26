@@ -1,9 +1,9 @@
 extends Spatial
 
 
-enum WEAPON_SLOTS {MACHETE, CHAINGUN, SHOTGUN, FLAMETHROWER, ROCKET_LAUNCHER}
+enum WEAPON_SLOTS {SWORD, CHAINGUN, SHOTGUN, FLAMETHROWER, ROCKET_LAUNCHER}
 var slots_unlocked = {
-	WEAPON_SLOTS.MACHETE: true,
+	WEAPON_SLOTS.SWORD: true,
 	WEAPON_SLOTS.CHAINGUN: false,
 	WEAPON_SLOTS.FLAMETHROWER: false,
 	WEAPON_SLOTS.SHOTGUN: false,
@@ -39,7 +39,7 @@ func init(_fire_point: Spatial, _bodies_to_exclude: Array):
 		weapon.connect("fired", self, "emit_ammo_changed_signal")
 		weapon.source = self
 	
-	switch_to_weapon_slot(WEAPON_SLOTS.MACHETE)
+	switch_to_weapon_slot(WEAPON_SLOTS.SWORD)
 
 	
 
@@ -132,8 +132,6 @@ func get_pickup(pickup_type, ammo):
 
 func emit_ammo_changed_signal():
 	emit_signal("ammo_changed", cur_weapon.ammo)
-
-
 
 
 

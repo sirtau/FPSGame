@@ -56,4 +56,4 @@ transform = Transform( 0.566481, 0, 0, 0, 0.566482, 0, 0, 0, 0.566481, 0, 0, 0 )
 transform = Transform( 1, 0, -1.42109e-14, 0, 1, 0, 1.42109e-14, 0, 1, -0.710574, 0, -6.21203e-08 )
 
 [node name="PickupLight" parent="Graphics" instance=ExtResource( 3 )]
-transform = Transform( 1.76528, 0, -1.37951e-13, 0, 1.76528, 0, 1.37951e-13, 0, 1.76528, 0, 0.020722, 0 )
+transform = Transform( 1.76528, 0, -1.37951e-13, 0, 1.76528, 0, 1.37951e-13, 0, 1.76528, 0, 0.471296, 0 )

@@ -27,8 +27,7 @@ func _physics_process(delta):
 		var collider = collision.collider
 		if collider.has_method("shield_enabled"):
 			if collider.shielded:
-				direction = -direction
-				remove_exclusions(selfbodies)
+				return_to_source()
 				
 				
 				return
@@ -57,4 +56,7 @@ func explode():
 
 func setSource(_source):
 	source = _source
-	
+
+func return_to_source():
+	direction = -direction
+	remove_exclusions(selfbodies)

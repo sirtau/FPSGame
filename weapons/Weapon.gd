@@ -19,6 +19,7 @@ var can_attack = true
 
 signal fired
 signal out_of_ammo
+signal update_ammo
 
 func _ready():
 	attack_timer = Timer.new()
@@ -28,6 +29,7 @@ func _ready():
 	add_child(attack_timer)
 
 func init(_fire_point: Spatial, _bodies_to_exclude: Array):
+	emit_signal("update_ammo", ammo)
 	fire_point = _fire_point
 	bodies_to_exclude = _bodies_to_exclude
 	for bullet_emitter in bullet_emitters:

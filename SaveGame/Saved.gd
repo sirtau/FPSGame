@@ -1,7 +1,8 @@
 extends Node
 
 var invert_mouse = -1
-
+var mouse_sens = 0.3
+var difficulty = 1.0
 
 var save_data = {}
 const SAVEGAME = "user://Savegame.json"

@@ -109,7 +109,7 @@ func _physics_process(delta):
 	if knockback_force:
 #		if !isPlayer:
 		grounded = false
-		knockback_force.y = .3
+		knockback_force.y = .1
 		knockback_force = knockback_force * knockback_multiplier
 #		velocity  = knockback_force
 ##		velocity.y  = knockback_force.y

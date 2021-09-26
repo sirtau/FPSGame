@@ -41,7 +41,9 @@ color_ramp = SubResource( 6 )
 
 [sub_resource type="SphereMesh" id=8]
 
-[node name="Explosion" type="Area"]
+[node name="Explosion" type="Area" groups=[
+"projectiles",
+]]
 collision_layer = 7
 collision_mask = 7
 script = ExtResource( 2 )

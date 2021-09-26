@@ -2585,7 +2585,7 @@ skin = SubResource( 4 )
 material/0 = null
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( -0.997594, -0.0614343, -0.0321583, -0.0689797, 0.831926, 0.550581, -0.0070708, 0.551476, -0.834162, 0.0113084, 0.191741, 0.292619 )
+transform = Transform( -0.952291, 0.0291449, -0.303802, -0.126512, 0.868181, 0.479851, 0.277739, 0.495391, -0.823072, 0.0456993, 0.920304, -0.620511 )
 bone_name = "Head"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment" instance=ExtResource( 2 )]
@@ -2596,7 +2596,7 @@ weak_spot = true
 shape = SubResource( 5 )
 
 [node name="BoneAttachment2" type="BoneAttachment" parent="Graphics/Armature/Skeleton"]
-transform = Transform( 0.999702, 4.33181e-07, 0.0244508, -0.0244054, 0.0609113, 0.997845, -0.00148931, -0.998144, 0.0608933, 0.0212276, 0.0815735, -0.0320833 )
+transform = Transform( 0.999703, -0.0238345, 0.00530621, -0.0233998, -0.873037, 0.487094, -0.00697741, -0.487073, -0.873334, 0.035023, 0.590829, -0.807196 )
 bone_name = "Torso"
 
 [node name="HitBox2" parent="Graphics/Armature/Skeleton/BoneAttachment2" instance=ExtResource( 2 )]
@@ -2646,7 +2646,7 @@ max_speed = 10
 ignore_rotation = true
 
 [node name="AimAtObject" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88661, 0.926648 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.48321, -0.951672 )
 script = ExtResource( 6 )
 
 [node name="FireballSpawner" parent="AimAtObject" instance=ExtResource( 7 )]

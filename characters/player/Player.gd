@@ -15,9 +15,10 @@ var hotkeys = {
 	KEY_0: 9,
 }
 
-var mouse_sens = 0.2
+
 var move_vec = Vector3()
 var godmode = false
+var in_menu = false
 
 export var camera_roll_multiplier := .3
 
@@ -30,6 +31,8 @@ onready var interactRay : RayCast = $Camera/InteractRay
 onready var damageSound = $DamageSound
 onready var shieldrechargeStartTimer = $ShieldRechargeTimer
 onready var shieldRecharger = $ShieldRecharger
+onready var shieldEffect = $UI/ShieldEffect/AnimationPlayer
+onready var escape_menu = $EscapeMenu
 
 signal shield_enabled
 signal shield_disabled
@@ -37,7 +40,7 @@ signal shield_upated
 
 var is_on_floor = false
 
-var max_shield = 3.0
+var max_shield = 0.0
 var cur_shield = max_shield 
 var can_shield = true
 var shielded = false
@@ -58,6 +61,7 @@ func _ready():
 	pickup_manager.connect("got_pickup", character_mover, "get_pickup")
 	pickup_manager.connect("got_pickup", health_manager, "get_pickup")
 	pickup_manager.connect("got_pickup", GameManager, "get_pickup")
+	pickup_manager.connect("got_pickup", self, "get_pickup")
 	health_manager.init()
 	health_manager.connect("dead", self, "kill")
 	health_manager.connect("dead", GameManager, "player_dead")
@@ -65,6 +69,8 @@ func _ready():
 	
 
 func _process(_delta):
+	if Input.is_action_just_pressed("escape"):
+		mouse_mode_toggle()
 	
 	if shielded:
 		decrease_shields(_delta)
@@ -75,10 +81,6 @@ func _process(_delta):
 		handle_use()
 	if Input.is_action_just_pressed("godmode"):
 		toggle_godmode()
-		
-	
-	if Input.is_action_just_pressed("escape"):
-		mouse_mode_toggle()
 		
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
@@ -97,50 +99,53 @@ func _process(_delta):
 		return
 	
 	move_vec = Vector3()
-	if Input.is_action_pressed("move_forwards"):
-		move_vec += Vector3.FORWARD
-	if Input.is_action_pressed("move_backwards"):
-		move_vec += Vector3.BACK
-	if Input.is_action_pressed("move_left"):
-		rotateDirection = -1
-		move_vec += Vector3.LEFT
-	elif Input.is_action_pressed("move_right"):
-		move_vec += Vector3.RIGHT
-		rotateDirection = 1
-	else:
-		rotateDirection = 0
+	if !in_menu:
+		if Input.is_action_pressed("move_forwards"):
+			move_vec += Vector3.FORWARD
+		if Input.is_action_pressed("move_backwards"):
+			move_vec += Vector3.BACK
+		if Input.is_action_pressed("move_left"):
+			rotateDirection = -1
+			move_vec += Vector3.LEFT
+		elif Input.is_action_pressed("move_right"):
+			move_vec += Vector3.RIGHT
+			rotateDirection = 1
+		else:
+			rotateDirection = 0
 	
 	
-	character_mover.set_move_vec(move_vec)
-	if Input.is_action_pressed("jump"):
-		character_mover.glide(_delta)
+		character_mover.set_move_vec(move_vec)
+		if Input.is_action_pressed("jump"):
+			character_mover.glide(_delta)
 
-	if Input.is_action_just_pressed("jump"):
-		character_mover.jump()
-	
-	weapon_manager.attack(Input.is_action_just_pressed("attack"), 
-		Input.is_action_pressed("attack"))
+		if Input.is_action_just_pressed("jump"):
+			character_mover.jump()
+		
+		weapon_manager.attack(Input.is_action_just_pressed("attack"), 
+			Input.is_action_pressed("attack"))
 
-	if Input.is_action_just_pressed("shield"):
-		if can_shield:
-			shield_enabled()
-	if Input.is_action_just_released("shield"):
-		if can_shield:
-			shield_disabled()
+		if Input.is_action_just_pressed("shield"):
+			if can_shield:
+				shield_enabled()
+		if Input.is_action_just_released("shield"):
+			if can_shield:
+				shield_disabled()
+				shieldEffect.play("shield_off")
 	
 func _input(event):
-	if event is InputEventMouseMotion:
-		rotation_degrees.y -= mouse_sens * event.relative.x
-		camera.rotation_degrees.x += mouse_sens * event.relative.y * Saved.invert_mouse
-		camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
-	if event is InputEventKey and event.pressed:
-		if event.scancode in hotkeys:
-			weapon_manager.switch_to_weapon_slot(hotkeys[event.scancode])
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == BUTTON_WHEEL_DOWN:
-			weapon_manager.switch_to_next_weapon()
-		if event.button_index == BUTTON_WHEEL_UP:
-			weapon_manager.switch_to_last_weapon()
+	if !in_menu:
+		if event is InputEventMouseMotion:
+			rotation_degrees.y -= Saved.mouse_sens * event.relative.x
+			camera.rotation_degrees.x += Saved.mouse_sens * event.relative.y * Saved.invert_mouse
+			camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -90, 90)
+		if event is InputEventKey and event.pressed:
+			if event.scancode in hotkeys:
+				weapon_manager.switch_to_weapon_slot(hotkeys[event.scancode])
+		if event is InputEventMouseButton and event.pressed:
+			if event.button_index == BUTTON_WHEEL_DOWN:
+				weapon_manager.switch_to_next_weapon()
+			if event.button_index == BUTTON_WHEEL_UP:
+				weapon_manager.switch_to_last_weapon()
 		
 func hurt(damage, dir, source):
 	if shielded:
@@ -155,8 +160,13 @@ func hurt(damage, dir, source):
 func mouse_mode_toggle():
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		in_menu = true
+		escape_menu.show()
+		
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		in_menu = false
+		escape_menu.hide()
 
 func heal(amount):
 	health_manager.heal(amount)
@@ -197,13 +207,16 @@ func _on_HealthManager_gibbed():
 
 func shield_enabled():
 	if cur_shield <= 0:
+		
 		if can_shield == true:
 			can_shield = false
+			shieldEffect.play("shield_overdrive")
 		return
 	if can_shield:
 		if cur_shield > 0:
 			if shielded == false:
 				shielded = true
+				shieldEffect.play("shield_on")
 				shieldrechargeStartTimer.stop()
 				shieldRecharger.stop()
 				emit_signal("shield_enabled")
@@ -214,6 +227,7 @@ func shield_enabled():
 func shield_disabled():
 	shielded = false
 	shieldrechargeStartTimer.start()
+	shieldEffect.play("shield_off")
 	emit_signal("shield_disabled")
 
 
@@ -241,6 +255,23 @@ func decrease_shields(delta):
 			can_shield = false
 		shield_disabled()
 		
+
+func get_pickup(pickup_type, ammo):
+	match pickup_type:
+		Pickup.PICKUP_TYPES.SHIELD_UPGRADE:
+			max_shield += 0.5
+			cur_shield = max_shield
+			can_shield = true
+			update_shields()
+
 	
 func update_shields():
 	emit_signal("shield_upated", cur_shield)
+	
+
+func update_mouse_sens(new_sens):
+	Saved.mouse_sens = new_sens
+
+
+func _on_HSlider_value_changed(value):
+	update_mouse_sens(value)

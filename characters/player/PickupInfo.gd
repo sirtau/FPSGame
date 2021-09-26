@@ -26,12 +26,19 @@ func add_pickups_info(pickup_type, amount:int):
 			pickups_info.push_back("Picked up Rocket Launcher")
 		Pickup.PICKUP_TYPES.ROCKET_LAUNCHER_AMMO:
 			pickups_info.push_back("Picked up Rocket Launcher Ammo " + str(amount))
+		Pickup.PICKUP_TYPES.HEALTH:
+			pickups_info.push_back("Picked up Health +" + str(amount))
 		Pickup.PICKUP_TYPES.BLUE_KEY:
 			pickups_info.push_back("Picked up Blue Key")
 		Pickup.PICKUP_TYPES.GREEN_KEY:
 			pickups_info.push_back("Picked up Green Key")
 		Pickup.PICKUP_TYPES.YELLOW_KEY:
 			pickups_info.push_back("Picked up Yellow Key")
+		Pickup.PICKUP_TYPES.SHIELD_UPGRADE:
+			pickups_info.push_back("Shield Upgrade: +1 Sec")
+		Pickup.PICKUP_TYPES.ICARUS_BOOTS:
+			pickups_info.push_back("Pegasus Boots Upgraded.")
+			pickups_info.push_back("+1 Second Glide and +1 Mid-Air Jump Added")
 	while pickups_info.size() >= MAX_LINES:
 		pickups_info.pop_front()
 	update_display()
