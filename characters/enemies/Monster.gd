@@ -11,12 +11,16 @@ onready var alertGrunt = $AlertGrunt
 onready var bodyCollider = $BodyColliderShape
 onready var footColliderRay = $FootColliderRay
 
+enum MONSTER_TYPE {DEMON, CAT, MECHA}
+
+export(MONSTER_TYPE) var type
+
 enum STATES {IDLE, FIRE, CHASE, ATTACK, DEAD, GIBBED}
 var cur_state = STATES.IDLE
 var target = null
 var player = null
 var path = []
-var pathProcessDelay = 30
+var pathProcessDelay = 10
 var pathProcessOffset = randi() % pathProcessDelay
 var pathFound = false
 var goal_pos 
@@ -24,7 +28,7 @@ var default_speed_exported
 var target_pos
 var forward_or_backward = 1
 var infight_counter = 0
-var infight_switch_target_at = 10
+var infight_switch_target_at = 5
 var flinchChance = 70
 var our_pos
 var player_pos

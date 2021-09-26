@@ -4,16 +4,22 @@ var can_open = true
 var can_close = true
 var crusher_active = false
 var reset = false
+var locked = false
+
+enum LOCK_TYPE {NONE, BLUE, GREEN, YELLOW}
+
+export(LOCK_TYPE) var lock_type
 
 onready var animPlayer = $AnimationPlayer
-#		if animPlayer.current_animation_position == 0:
+
+func _ready():
+	if lock_type != LOCK_TYPE.NONE:
+		locked = true
+		
 
 func _process(delta):
 	if reset == true:
-#		print("resetting")
-		print(animPlayer.current_animation_position)
 		if animPlayer.current_animation_position == 0:
-#			print("Reset Position")
 			
 			animPlayer.playback_speed = 1
 			set_can_close()
@@ -22,6 +28,7 @@ func _process(delta):
 			
 
 func interact():
+
 
 	if can_open:
 		open_door()

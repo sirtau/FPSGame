@@ -88,7 +88,9 @@ surfaces/0 = {
 "vertex_count": 36
 }
 
-[node name="Rocket" type="KinematicBody"]
+[node name="Rocket" type="KinematicBody" groups=[
+"projectiles",
+]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0683095 )
 collision_layer = 5
 collision_mask = 5

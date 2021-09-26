@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://characters/enemies/raw_assets/BeeDrone/EyeRed.material" type="Material" id=1]
 [ext_resource path="res://characters/HitBox.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://characters/enemies/raw_assets/BeeDrone/Cape.material" type="Material" id=10]
 [ext_resource path="res://characters/enemies/raw_assets/BeeDrone/Metal.material" type="Material" id=11]
 [ext_resource path="res://characters/enemies/raw_assets/BeeDrone/BlackMetal.material" type="Material" id=12]
+[ext_resource path="res://Sounds/DSBSPWLK.wav" type="AudioStream" id=13]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Cube"
@@ -1896,6 +1897,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0601062, 0 )
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 3 )
+type = 2
 attack_angle = 360.0
 attack_range = 30.0
 attack_rate = 5.0
@@ -1911,12 +1913,12 @@ bones/0/name = "Chest"
 bones/0/parent = -1
 bones/0/rest = Transform( 0.999541, 0.0222883, -0.0205281, -0.0149401, 0.951894, 0.306061, 0.0263621, -0.305614, 0.95179, 0, 0.237721, 0 )
 bones/0/enabled = true
-bones/0/bound_children = [  ]
+bones/0/bound_children = [ NodePath("BoneAttachment2") ]
 bones/1/name = "Head"
 bones/1/parent = 0
 bones/1/rest = Transform( 0.996242, -0.0150026, 0.0853085, 0.0573882, -0.623375, -0.779814, 0.0648784, 0.781779, -0.620171, 9.31323e-10, 0.819622, 0.161615 )
 bones/1/enabled = true
-bones/1/bound_children = [  ]
+bones/1/bound_children = [ NodePath("BoneAttachment") ]
 bones/2/name = "Face"
 bones/2/parent = 1
 bones/2/rest = Transform( 1, -2.01497e-09, -1.78392e-10, 6.43636e-10, 0.400548, -0.916276, 1.91772e-09, 0.916276, 0.400548, 7.45058e-09, 0.456441, 3.72529e-08 )
@@ -2071,7 +2073,7 @@ bones/32/name = "BodyMid"
 bones/32/parent = -1
 bones/32/rest = Transform( 0.997197, 0.0347426, -0.0662688, 0.01731, -0.968756, -0.247411, -0.072794, 0.24557, -0.966642, 2.06795e-25, 0.237721, -1.75723e-42 )
 bones/32/enabled = true
-bones/32/bound_children = [  ]
+bones/32/bound_children = [ NodePath("BoneAttachment3") ]
 bones/33/name = "BodyLower"
 bones/33/parent = 32
 bones/33/rest = Transform( 0.999975, 0.00225814, -0.00670857, 0.000996856, 0.893377, 0.449306, 0.00700788, -0.449302, 0.893353, -4.65661e-10, 0.414524, -1.37093e-09 )
@@ -2179,6 +2181,8 @@ shape = SubResource( 18 )
 
 [node name="HealthManager" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+max_health = 100
+starting_health = 150
 gib_at = -50
 
 [node name="CharacterMover" parent="." instance=ExtResource( 5 )]
@@ -2192,6 +2196,8 @@ script = ExtResource( 6 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="AlertGrunt" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 13 )
+unit_size = 10.0
 
 [node name="DestroyTimer" type="Timer" parent="."]
 

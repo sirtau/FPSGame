@@ -135,38 +135,36 @@ extents = Vector3( 2.03278, 1.4498, 0.322666 )
 [sub_resource type="BoxShape" id=7]
 extents = Vector3( 1.79639, 0.437761, 0.227342 )
 
-[node name="Spatial" type="Spatial"]
-
-[node name="DoorWall" type="StaticBody" parent="." groups=[
+[node name="DoorWall" type="StaticBody" groups=[
 "Doors",
 ]]
 script = ExtResource( 2 )
 
-[node name="brickwall" type="MeshInstance" parent="DoorWall"]
+[node name="brickwall" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="DoorWall"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Closed"
 anims/Closed = SubResource( 2 )
 anims/DoorDown = SubResource( 3 )
 anims/DoorUp = SubResource( 4 )
 anims/Open = SubResource( 5 )
 
-[node name="CollisionShape" type="CollisionShape" parent="DoorWall"]
+[node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51341, 0 )
 shape = SubResource( 6 )
 
-[node name="Crusher" type="Area" parent="DoorWall"]
+[node name="Crusher" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 4
 script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="DoorWall/Crusher"]
+[node name="CollisionShape" type="CollisionShape" parent="Crusher"]
 shape = SubResource( 7 )
 
-[node name="Timer" type="Timer" parent="DoorWall/Crusher"]
+[node name="Timer" type="Timer" parent="Crusher"]
 wait_time = 0.2
 
-[connection signal="crushed_something" from="DoorWall/Crusher" to="DoorWall" method="_on_Crusher_crushed_something"]
-[connection signal="timeout" from="DoorWall/Crusher/Timer" to="DoorWall/Crusher" method="crush"]
+[connection signal="crushed_something" from="Crusher" to="." method="_on_Crusher_crushed_something"]
+[connection signal="timeout" from="Crusher/Timer" to="Crusher" method="crush"]
