@@ -28,7 +28,7 @@ var default_speed_exported
 var target_pos
 var forward_or_backward = 1
 var infight_counter = 0
-var infight_switch_target_at = 5
+var infight_switch_target_at = 2
 var flinchChance = 70
 var our_pos
 var player_pos
@@ -216,20 +216,16 @@ func process_state_dead(delta):
 	pass
 
 func hurt(damage: int, dir: Vector3, source):
-	if !dead:
-		set_state_chase()
-	health_manager.hurt(damage, dir, source)
-	character_mover.knockback_force += -dir * damage / 10
+	if source != self:	
+		health_manager.hurt(damage, dir, source)
+		character_mover.knockback_force += -dir * damage / 10
 	
 
-	if source != self:
-		if source == player:
-			target = player
-			infight_counter = 0
-		elif infight_counter >= infight_switch_target_at:
+		
+		if infight_counter == 0:
 			target = source
+		elif infight_counter >= infight_switch_target_at:
 			infight_counter = 0
-			
 		infight_counter += 1	
 	if !dead:
 		if randi() % 100 < flinchChance:
@@ -237,30 +233,14 @@ func hurt(damage: int, dir: Vector3, source):
 			keep_facing()
 			finish_attack()
 			set_state_chase()
+	if !dead:
+		set_state_chase()
 
 
 func hurt_fire(damage: int, dir: Vector3, source):
 	if cur_state != STATES.FIRE and !dead:
 		set_state_fire()
 	health_manager.on_fire_start(damage, source)
-	
-	
-
-	if source != self:
-		if source == player:
-			target = player
-			infight_counter = 0
-		elif infight_counter >= infight_switch_target_at:
-			target = source
-			infight_counter = 0
-			
-		infight_counter += 1	
-#
-#	if randi() % 100 < flinchChance:
-#
-#		keep_facing()
-#		finish_attack()
-#		set_state_chase()
 
 func process_state_fire(delta):
 	face_dir(dir, delta)

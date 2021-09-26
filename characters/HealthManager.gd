@@ -75,7 +75,8 @@ func heal(amount: int):
 	emit_signal("healed")
 	emit_signal("health_changed", cur_health)
 
-func on_fire_start(damge, _source):
+func on_fire_start(damage, _source):
+	cur_health -= damage
 	if fire_timer.is_stopped() == true:
 		fire_timer.start()
 	source = _source
@@ -88,6 +89,7 @@ func on_fire_end():
 	fireParticles.hide()
 	
 	emit_signal("fire_ended")
+	
 	
 func take_fire_damage():
 	if current_ticks == max_ticks:

@@ -44,6 +44,7 @@ func _ready():
 	health_manager.connect("health_changed", pickup_manager, "update_player_health")
 	pickup_manager.connect("got_pickup", weapon_manager, "get_pickup")
 	pickup_manager.connect("got_pickup", health_manager, "get_pickup")
+	pickup_manager.connect("got_pickup", GameManager, "get_pickup")
 	health_manager.init()
 	health_manager.connect("dead", self, "kill")
 	health_manager.connect("dead", GameManager, "player_dead")

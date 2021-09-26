@@ -4,9 +4,6 @@ signal got_pickup
 
 var max_player_health = 0
 var cur_player_health = 0
-var red_key = false
-var blue_key = false
-var green_key = false
 
 func update_player_health(amnt):
 	cur_player_health = amnt

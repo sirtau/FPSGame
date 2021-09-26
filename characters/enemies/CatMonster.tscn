@@ -550,7 +550,7 @@ tracks/49/keys = {
 } ]
 }
 tracks/50/type = "method"
-tracks/50/path = NodePath("..")
+tracks/50/path = NodePath("../../CatMonster9")
 tracks/50/interp = 1
 tracks/50/loop_wrap = true
 tracks/50/imported = false
@@ -1614,7 +1614,7 @@ tracks/49/keys = {
 } ]
 }
 tracks/50/type = "method"
-tracks/50/path = NodePath("..")
+tracks/50/path = NodePath("../../CatMonster9")
 tracks/50/interp = 1
 tracks/50/loop_wrap = true
 tracks/50/imported = false
@@ -2651,9 +2651,8 @@ script = ExtResource( 6 )
 
 [node name="FireballSpawner" parent="AimAtObject" instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
-damage = 1
 speed = 20
-fireballScale = 0.01
+fireballScale = 0.1
 
 [node name="AlertGrunt" type="AudioStreamPlayer3D" parent="."]
 

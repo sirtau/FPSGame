@@ -21,3 +21,16 @@ func restart_game():
 	for projectile in projectiles:
 		projectile.queue_free()
 	get_tree().reload_current_scene()
+
+
+
+
+func get_pickup(pickup_type, ammo):
+	match pickup_type:
+		Pickup.PICKUP_TYPES.BLUE_KEY:
+			has_blue_key = true
+		Pickup.PICKUP_TYPES.YELLOW_KEY:
+			has_yellow_key = true
+		Pickup.PICKUP_TYPES.GREEN_KEY:
+			has_green_key = true
+	print(has_green_key, has_blue_key, has_yellow_key)
