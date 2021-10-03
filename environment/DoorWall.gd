@@ -1,5 +1,7 @@
 extends Spatial
 
+onready var HoverTimeout = $HoverTimeout
+onready var interact_messages = $InteractMessages
 var can_open = true
 var can_close = true
 var crusher_active = false
@@ -66,3 +68,11 @@ func _on_Crusher_crushed_something():
 	animPlayer.playback_speed = -1
 	reset = true
 	set_false()
+
+func show_hover():
+	interact_messages.show()
+	HoverTimeout.start()
+
+
+func _on_HoverTimeout_timeout():
+	interact_messages.hide()

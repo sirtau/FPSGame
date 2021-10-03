@@ -218,7 +218,7 @@ func process_state_dead(delta):
 func hurt(damage: int, dir: Vector3, source):
 	if source != self:	
 		health_manager.hurt(damage, dir, source)
-		character_mover.knockback_force = -dir * damage / 4
+#		character_mover.knockback_force = -dir * damage / 4
 	
 
 		

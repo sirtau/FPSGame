@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=87 format=2]
 
 [ext_resource path="res://characters/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://characters/CharacterMover.tscn" type="PackedScene" id=2]
@@ -19,7 +19,7 @@
 [ext_resource path="res://Sounds/DSSHOTGN.wav" type="AudioStream" id=17]
 [ext_resource path="res://Sounds/DSRLAUNC.wav" type="AudioStream" id=18]
 [ext_resource path="res://weapons/crosshairs/crosshair001.png" type="Texture" id=19]
-[ext_resource path="res://weapons/crosshairs/crosshair026.png" type="Texture" id=20]
+[ext_resource path="res://characters/player/UIComponents/GlideTimeLeft.gd" type="Script" id=20]
 [ext_resource path="res://characters/player/PickupManager.gd" type="Script" id=21]
 [ext_resource path="res://ui/KleintenDynFont.tres" type="DynamicFont" id=22]
 [ext_resource path="res://ui/crypt_domino_1b.png" type="Texture" id=23]
@@ -28,7 +28,7 @@
 [ext_resource path="res://characters/player/PickupInfo.gd" type="Script" id=26]
 [ext_resource path="res://characters/player/RayCast.gd" type="Script" id=27]
 [ext_resource path="res://weapons/raw_assets/flamethrower.tscn" type="PackedScene" id=28]
-[ext_resource path="res://Sounds/DSPLPAIN.wav" type="AudioStream" id=29]
+[ext_resource path="res://Sounds/hurt_sound_01.wav" type="AudioStream" id=29]
 [ext_resource path="res://Sounds/DSPISTOL.wav" type="AudioStream" id=30]
 [ext_resource path="res://weapons/raw_assets/RocketLauncher.tscn" type="PackedScene" id=31]
 [ext_resource path="res://weapons/raw_assets/pussybanger.tscn" type="PackedScene" id=32]
@@ -37,11 +37,13 @@
 [ext_resource path="res://Shaders/StylizedFire/FireMask.png" type="Texture" id=35]
 [ext_resource path="res://Shaders/Fire.tscn" type="PackedScene" id=36]
 [ext_resource path="res://weapons/FlameDamageArea.gd" type="Script" id=37]
-[ext_resource path="res://Sounds/DSFLAME_nonloop.wav" type="AudioStream" id=38]
+[ext_resource path="res://characters/player/gameover_01font.tres" type="DynamicFont" id=38]
 [ext_resource path="res://characters/player/Shields.gd" type="Script" id=39]
 [ext_resource path="res://ui/AmmoDisplay.gd" type="Script" id=40]
 [ext_resource path="res://characters/player/UI.gd" type="Script" id=41]
 [ext_resource path="res://characters/player/HSlider.gd" type="Script" id=42]
+[ext_resource path="res://characters/player/UIComponents/JumpsLeft.gd" type="Script" id=43]
+[ext_resource path="res://Sounds/DSFLAME_nonloop.wav" type="AudioStream" id=44]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.635682
@@ -63,7 +65,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0.0223615, -0.0678529 ), Vector3( 0.0250645, 0.123495, -0.0442107 ), Vector3( -0.0770024, -0.13739, -0.161528 ), Vector3( 0, 0.0223615, -0.0678529 ) ]
+"values": [ Vector3( 0, 0.0223615, -0.0678529 ), Vector3( 0.0250645, 0.123495, -0.0442107 ), Vector3( -0.577688, -0.1963, -0.156282 ), Vector3( 0, 0.0223615, -0.0678529 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Graphics:rotation_degrees")
@@ -75,7 +77,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 12.7196, -1.83446, -8.27648 ), Vector3( 43.8483, -17.7599, -28.5943 ), Vector3( -69.2015, 78.441, -76.4217 ), Vector3( 12.7196, -1.83446, -8.27648 ) ]
+"values": [ Vector3( 12.7196, -1.83446, -8.27648 ), Vector3( 43.8483, -17.7599, -28.5943 ), Vector3( -25.9599, 145.701, -115.868 ), Vector3( 12.7196, -1.83446, -8.27648 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -717,7 +719,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 1, 0.14902 ), Color( 0, 0, 1, 0 ) ]
+"values": [ Color( 0, 0, 1, 0.196078 ), Color( 0, 0, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=37]
@@ -746,7 +748,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 1, 0 ), Color( 0, 0, 1, 0.14902 ) ]
+"values": [ Color( 0, 0, 1, 0 ), Color( 0, 0, 1, 0.196078 ) ]
 }
 
 [sub_resource type="Animation" id=38]
@@ -846,10 +848,11 @@ damage = 10
 ammo = -1
 
 [node name="Graphics" type="Spatial" parent="Camera/WeaponManager/Weapons/Sword"]
-transform = Transform( 0.896965, 0.442101, 0, -0.442101, 0.896965, 0, 0, 0, 1, -0.119844, -0.103951, 0 )
+transform = Transform( 0.990092, 0.136901, -0.0312263, -0.140417, 0.9653, -0.22018, -1.56462e-07, 0.222383, 0.974959, 0, 0.0223615, -0.0678529 )
 
 [node name="SwordMesh" parent="Camera/WeaponManager/Weapons/Sword/Graphics" instance=ExtResource( 5 )]
-transform = Transform( -1, 0, -6.34988e-06, 0, 1, 0, 6.34988e-06, 0, -1, 0, 0, 0 )
+transform = Transform( -1, 4.12062e-09, -6.35079e-06, 1.08323e-08, 1, 1.49012e-08, 6.34858e-06, -1.49012e-08, -1, 0, 0, 0 )
+cast_shadow = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager/Weapons/Sword"]
 autoplay = "idle"
@@ -864,17 +867,17 @@ transform = Transform( 11.7256, 0, 0, 0, 3.58728, 0, 0, 0, 6.66979, 0, -0.484261
 collision_mask = 3
 
 [node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Sword"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -36.0
-margin_top = -36.0
-margin_right = 36.0
-margin_bottom = 36.0
+margin_left = -18.0
+margin_top = -18.0
+margin_right = 54.0
+margin_bottom = 54.0
+rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 19 )
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -884,7 +887,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.135936, 0.0357596, 0.111642 
 visible = false
 script = ExtResource( 10 )
 automatic = true
-damage = 10
+damage = 13
 ammo = 0
 attack_rate = 0.1
 
@@ -909,6 +912,9 @@ visible = false
 [node name="chaingun" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics" instance=ExtResource( 6 )]
 transform = Transform( 0.0542119, 0, 0, 0, 0.0542119, 0, 0, 0, 0.0542119, 0, 0, 0 )
 
+[node name="Cube" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics/chaingun" index="0"]
+cast_shadow = 0
+
 [node name="Cube001" parent="Camera/WeaponManager/Weapons/Chaingun/Graphics/chaingun" index="2"]
 transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 0.126624, 5.49713e-07, 0, -3 )
 
@@ -922,25 +928,27 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0485455, -0.26182 )
 
 [node name="HitScanBulletEmitter" parent="Camera/WeaponManager/Weapons/Chaingun/BulletEmitters" instance=ExtResource( 9 )]
 
-[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Chaingun"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -36.0
-margin_top = -36.0
-margin_right = 36.0
-margin_bottom = 36.0
-texture = ExtResource( 19 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Chaingun"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005245, 0.00536501, 0.028031 )
 stream = ExtResource( 30 )
 max_db = 1.0
 bus = "SFX"
+
+[node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Chaingun"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -18.0
+margin_top = -18.0
+margin_right = 54.0
+margin_bottom = 54.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Shotgun" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
@@ -954,6 +962,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.107, 0, 7.61896e-05 )
 [node name="shotgun" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics" instance=ExtResource( 7 )]
 transform = Transform( 0.137906, 0, -1.33227e-15, 0, 0.137906, 0, 8.88178e-16, 0, 0.137906, 0, -0.000802994, 0.0218234 )
 visible = false
+
+[node name="Shotgun" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics/shotgun" index="0"]
+cast_shadow = 0
 
 [node name="MuzzleFlash" type="Spatial" parent="Camera/WeaponManager/Weapons/Shotgun/Graphics"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0204415, -0.241044 )
@@ -1019,24 +1030,26 @@ transform = Transform( 0.999779, 0.00304169, -0.0208021, -0.00231597, 0.999391, 
 [node name="HitScanBulletEmitter10" parent="Camera/WeaponManager/Weapons/Shotgun/BulletEmitters" instance=ExtResource( 9 )]
 transform = Transform( 0.999977, -0.00456138, 0.00508204, 0.00429015, 0.99863, 0.0521598, -0.005313, -0.0521368, 0.998626, 0, 0, 0 )
 
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Shotgun"]
+stream = ExtResource( 17 )
+max_db = 1.0
+bus = "SFX"
+
 [node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Shotgun"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -36.0
-margin_top = -36.0
-margin_right = 36.0
-margin_bottom = 36.0
+margin_left = -18.0
+margin_top = -18.0
+margin_right = 54.0
+margin_bottom = 54.0
+rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 19 )
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Shotgun"]
-stream = ExtResource( 17 )
-max_db = 1.0
-bus = "SFX"
 
 [node name="Flamethrower" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130691, 0.0411246, 0.139673 )
@@ -1055,6 +1068,7 @@ __meta__ = {
 
 [node name="Cube" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics" instance=ExtResource( 33 )]
 transform = Transform( -1.35713e-09, 0, 0.0310476, 0, 0.0310476, 0, -0.0310476, 0, -1.35713e-09, -0.0209929, 0.0183747, -0.161232 )
+cast_shadow = 0
 
 [node name="flamethrower" parent="Camera/WeaponManager/Weapons/Flamethrower/Graphics" instance=ExtResource( 28 )]
 transform = Transform( -1, 0, -6.2863e-06, 0, 1, 0, 6.2863e-06, 0, -1, -0.0422878, -0.170237, -0.886036 )
@@ -1095,24 +1109,27 @@ transform = Transform( 10.6803, 0, 0, 0, 5.04207, 0, 0, 0, 13.4795, 0, -0.185096
 script = ExtResource( 37 )
 damage = 10
 
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Flamethrower"]
+stream = ExtResource( 44 )
+max_db = 1.0
+pitch_scale = 0.8
+bus = "SFX"
+
 [node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/Flamethrower"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -36.0
-margin_top = -36.0
-margin_right = 36.0
-margin_bottom = 36.0
+margin_left = -18.0
+margin_top = -18.0
+margin_right = 54.0
+margin_bottom = 54.0
+rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 19 )
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/Flamethrower"]
-stream = ExtResource( 38 )
-max_db = 1.0
-bus = "SFX"
 
 [node name="RocketLauncher" type="Spatial" parent="Camera/WeaponManager/Weapons"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0190441, 0.00506032, 0.148012 )
@@ -1127,6 +1144,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0361248 )
 [node name="rocketlauncher" parent="Camera/WeaponManager/Weapons/RocketLauncher/Graphics" instance=ExtResource( 8 )]
 transform = Transform( 0.109183, 0, 0, 0, 0.109183, 0, 0, 0, 0.109183, 0, 0, 0 )
 visible = false
+
+[node name="RocketLauncher" parent="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/rocketlauncher" index="0"]
+cast_shadow = 0
 
 [node name="MuzzleFlash" type="Spatial" parent="Camera/WeaponManager/Weapons/RocketLauncher/Graphics"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0613885, -0.195539 )
@@ -1150,27 +1170,26 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0549468, -0.233666 )
 
 [node name="RocketSpawner" parent="Camera/WeaponManager/Weapons/RocketLauncher/BulletEmitters" instance=ExtResource( 15 )]
 
+[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002341, -0.0679184, -0.008339 )
+stream = ExtResource( 18 )
+bus = "SFX"
+
 [node name="Crosshair" type="TextureRect" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 52.0002
-margin_bottom = 52.0
+margin_left = -18.0
+margin_top = -18.0
+margin_right = 54.0
+margin_bottom = 54.0
 rect_scale = Vector2( 0.5, 0.5 )
-size_flags_horizontal = 13
-size_flags_vertical = 13
-texture = ExtResource( 20 )
+texture = ExtResource( 19 )
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Gunshot" type="AudioStreamPlayer3D" parent="Camera/WeaponManager/Weapons/RocketLauncher"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002341, -0.0679184, -0.008339 )
-stream = ExtResource( 18 )
-bus = "SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera/WeaponManager"]
 autoplay = "idle"
@@ -1200,7 +1219,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.111322 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0447669, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -20 )
-collision_mask = 130055
+collision_mask = 15
 collide_with_areas = true
 script = ExtResource( 27 )
 
@@ -1231,11 +1250,11 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -151.181
-margin_top = 37.7515
+margin_top = 159.114
 margin_right = 168.82
-margin_bottom = 73.7515
+margin_bottom = 195.114
 custom_fonts/font = ExtResource( 22 )
-text = "Press 'R' to restart"
+text = "Press F5 to restart"
 align = 1
 valign = 1
 __meta__ = {
@@ -1312,6 +1331,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="JumpsLeft" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -293.046
+margin_top = -68.6736
+margin_right = -212.046
+margin_bottom = 0.326416
+custom_fonts/font = ExtResource( 22 )
+text = "100
+"
+script = ExtResource( 43 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AmmoLabel" type="Label" parent="UI"]
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1330,6 +1366,73 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AmmoLabel2" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -316.636
+margin_top = -81.3235
+margin_right = -197.636
+margin_bottom = -12.3234
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = ExtResource( 22 )
+text = "Jumps Left:
+"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoLabel5" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 166.568
+margin_top = -476.127
+margin_right = 367.568
+margin_bottom = -407.127
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = ExtResource( 22 )
+text = "ESC to Toggle Menu"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoLabel3" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -315.389
+margin_top = -36.3743
+margin_right = -196.389
+margin_bottom = 32.6257
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = ExtResource( 22 )
+text = "Glide Time:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoLabel4" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -157.565
+margin_top = -36.3743
+margin_right = -38.5651
+margin_bottom = 32.6257
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = ExtResource( 22 )
+text = "Shield:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="info" type="Label" parent="UI"]
 visible = false
 margin_left = 507.613
@@ -1344,7 +1447,6 @@ __meta__ = {
 }
 
 [node name="HealthEffects" type="ColorRect" parent="UI"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 1, 0, 0.14902 )
@@ -1362,7 +1464,7 @@ anims/start = SubResource( 35 )
 [node name="ShieldEffect" type="ColorRect" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.85098, 0, 1, 0 )
+color = Color( 0, 0, 1, 0 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -1413,30 +1515,78 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Glide" type="ProgressBar" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -316.212
+margin_top = -21.6546
+margin_right = -196.212
+margin_bottom = -1.65454
+custom_styles/fg = SubResource( 41 )
+custom_styles/bg = SubResource( 42 )
+max_value = 5.0
+step = 0.1
+percent_visible = false
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="EscapeMenu" type="ColorRect" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -1.49829
+margin_bottom = -1.49829
 color = Color( 0.0627451, 0.0509804, 0.0509804, 0.341176 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="EscapeMenu"]
-margin_left = 105.241
-margin_top = 10.9464
-margin_right = 222.241
-margin_bottom = 24.9464
+margin_left = 177.909
+margin_top = 9.44809
+margin_right = 294.909
+margin_bottom = 23.4481
+custom_fonts/font = ExtResource( 38 )
 text = "Mouse Sensitivity:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="INFO2" type="Label" parent="EscapeMenu"]
+anchor_left = 2.38419e-08
+anchor_top = -0.00156072
+anchor_bottom = -0.00156072
+margin_left = 210.133
+margin_top = 63.9424
+margin_right = 794.133
+margin_bottom = 528.943
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = ExtResource( 38 )
+text = "I to Invert Mouse
+
+WASD - MOVE
+SPACE - JUMP
+HOLD SPACE - Use Glide (start with 0) 
+PRESS SPACE AGAIN - Jump! Maybe?
+HOLD RIGHT CLICK - Shield (Start at 0)
+LEFT CLICK SHOOTS
+MOUSE WHEEL / NUMBERS TO CHANGE WEAPON
+
+Recommend starting with level 1 then 2. Try either!
+No wins states. Just explore."
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="HSlider" type="HSlider" parent="EscapeMenu"]
-margin_left = 71.9003
-margin_top = 28.1895
-margin_right = 271.9
-margin_bottom = 44.1895
+margin_left = 184.844
+margin_top = 54.4099
+margin_right = 384.844
+margin_bottom = 70.4099
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 2
@@ -1449,9 +1599,53 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Level1Start" type="Button" parent="EscapeMenu"]
+margin_left = 23.7599
+margin_top = 151.471
+margin_right = 179.76
+margin_bottom = 193.471
+custom_fonts/font = ExtResource( 38 )
+text = "Level 1 Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level2Start" type="Button" parent="EscapeMenu"]
+margin_left = 23.0108
+margin_top = 218.333
+margin_right = 183.011
+margin_bottom = 260.333
+custom_fonts/font = ExtResource( 38 )
+text = "Level 2 Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level3Start" type="Button" parent="EscapeMenu"]
+margin_left = 23.7595
+margin_top = 275.082
+margin_right = 183.76
+margin_bottom = 317.082
+custom_fonts/font = ExtResource( 38 )
+text = "Level 3 Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level4Start" type="Button" parent="EscapeMenu"]
+margin_left = 23.0105
+margin_top = 341.944
+margin_right = 183.012
+margin_bottom = 383.944
+custom_fonts/font = ExtResource( 38 )
+text = "Level 4 Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="DamageSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 29 )
-volume_db = 2.0
+volume_db = 3.0
 bus = "Grunts"
 
 [node name="ShieldRechargeTimer" type="Timer" parent="."]
@@ -1469,7 +1663,9 @@ wait_time = 0.1
 [connection signal="fired" from="Camera/WeaponManager/Weapons/Flamethrower" to="Camera/WeaponManager/Weapons/Flamethrower/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Gunshot" method="play"]
 [connection signal="fired" from="Camera/WeaponManager/Weapons/RocketLauncher" to="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/MuzzleFlash" method="flash"]
+[connection signal="glide_time_left" from="CharacterMover" to="UI/Glide" method="_on_CharacterMover_glide_time_left"]
 [connection signal="movement_info" from="CharacterMover" to="." method="_on_CharacterMover_movement_info"]
+[connection signal="update_jumps_left" from="CharacterMover" to="UI/JumpsLeft" method="_on_CharacterMover_update_jumps_left"]
 [connection signal="dead" from="HealthManager" to="UI/RestartMessage" method="show"]
 [connection signal="gibbed" from="HealthManager" to="." method="_on_HealthManager_gibbed"]
 [connection signal="healed" from="HealthManager" to="UI/HealthEffects/AnimationPlayer" method="play" binds= [ "heal" ]]
@@ -1478,7 +1674,13 @@ wait_time = 0.1
 [connection signal="got_pickup" from="PickupManager" to="UI/PickupInfo" method="add_pickups_info"]
 [connection signal="timeout" from="UI/PickupInfo/RemoveInfoTimer" to="UI/PickupInfo" method="remove_pickups_info"]
 [connection signal="value_changed" from="EscapeMenu/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="EscapeMenu/Level1Start" to="." method="_on_Level1Start_pressed"]
+[connection signal="pressed" from="EscapeMenu/Level2Start" to="." method="_on_Level2Start_pressed"]
+[connection signal="pressed" from="EscapeMenu/Level3Start" to="." method="_on_Level3Start_pressed"]
+[connection signal="pressed" from="EscapeMenu/Level4Start" to="." method="_on_Level4Start_pressed"]
 [connection signal="timeout" from="ShieldRechargeTimer" to="." method="start_recharge_shields"]
 [connection signal="timeout" from="ShieldRecharger" to="." method="recharge_shield"]
 
 [editable path="Camera/WeaponManager/Weapons/Chaingun/Graphics/chaingun"]
+[editable path="Camera/WeaponManager/Weapons/Shotgun/Graphics/shotgun"]
+[editable path="Camera/WeaponManager/Weapons/RocketLauncher/Graphics/rocketlauncher"]

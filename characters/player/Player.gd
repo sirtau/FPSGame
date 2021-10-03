@@ -39,6 +39,7 @@ signal shield_disabled
 signal shield_upated
 
 var is_on_floor = false
+var collidingWith = null
 
 var max_shield = 0.0
 var cur_shield = max_shield 
@@ -69,6 +70,10 @@ func _ready():
 	
 
 func _process(_delta):
+	
+	collidingWith = interactRay.get_collider()
+	handle_ui_hover()
+	
 	if Input.is_action_just_pressed("escape"):
 		mouse_mode_toggle()
 	
@@ -148,7 +153,7 @@ func _input(event):
 				weapon_manager.switch_to_last_weapon()
 		
 func hurt(damage, dir, source):
-	if shielded:
+	if shielded or godmode:
 		return
 		
 	damageSound.play()
@@ -184,8 +189,6 @@ func _on_CharacterMover_movement_info(vel : Vector3, _info):
 	 
 	
 func handle_use():
-	var collidingWith = interactRay.get_collider()
-
 	if collidingWith != null:
 		if collidingWith.has_method("hurt"):
 			collidingWith.hurt(500, Vector3.UP, self)
@@ -193,6 +196,15 @@ func handle_use():
 			collidingWith.interact()
 	pass
 	
+
+
+func handle_ui_hover():
+	if collidingWith != null:
+		if collidingWith.has_method("show_hover"):
+			collidingWith.show_hover()
+
+	
+
 
 func toggle_godmode():
 	if godmode == true:
@@ -256,10 +268,10 @@ func decrease_shields(delta):
 		shield_disabled()
 		
 
-func get_pickup(pickup_type, ammo):
+func get_pickup(pickup_type, _ammo):
 	match pickup_type:
 		Pickup.PICKUP_TYPES.SHIELD_UPGRADE:
-			max_shield += 0.5
+			max_shield += 1
 			cur_shield = max_shield
 			can_shield = true
 			update_shields()
@@ -275,3 +287,17 @@ func update_mouse_sens(new_sens):
 
 func _on_HSlider_value_changed(value):
 	update_mouse_sens(value)
+
+
+func _on_Level1Start_pressed():
+	GameManager.start_level_1()
+
+
+func _on_Level2Start_pressed():
+	GameManager.start_level_2()
+
+func _on_Level3Start_pressed():
+	GameManager.start_level_3()
+	
+func _on_Level4Start_pressed():
+	GameManager.start_level_4()

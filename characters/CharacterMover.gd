@@ -36,6 +36,8 @@ export var ignore_rotation = false
 var unrotatedMoveVelocity
 onready var parental = get_parent()
 signal movement_info
+signal update_jumps_left
+signal glide_time_left
 
 var frozen = false
 
@@ -45,6 +47,8 @@ func _ready():
 	jumps_left = max_jumps
 	jump_buffer = max_buffer
 	glide_time_left = max_glide_time
+	emit_signal("update_jumps_left", jumps_left)
+	emit_signal("glide_time_left", glide_time_left)
 
 		
 
@@ -90,6 +94,8 @@ func _physics_process(delta):
 		velocity.y = -1
 		if jumps_left < max_jumps:
 			reset_jump_counter()
+		if glide_time_left < max_glide_time:
+			reset_glide_time_left()
 
 
 	if pressed_jump:
@@ -97,6 +103,7 @@ func _physics_process(delta):
 			velocity.y = jump_force
 			snap_vec = Vector3.ZERO
 			jumps_left -= 1
+			emit_signal("update_jumps_left", jumps_left)
 			if isPlayer:
 				reset_glide_time_left()
 		pressed_jump = false
@@ -153,12 +160,14 @@ func handle_jump_buffer_decrease(delta):
 		
 	if jump_buffer <= 0:
 		jumps_left -= 1
+		emit_signal("update_jumps_left", jumps_left)
 		
 		
 
 func reset_jump_counter():
 	if jumps_left < max_jumps:
 			jumps_left = max_jumps
+			emit_signal("update_jumps_left", jumps_left)
 
 
 func bounce_pad():
@@ -173,9 +182,11 @@ func bounce_pad():
 func reset_jumps_and_buffer():
 	jump_buffer = max_buffer
 	jumps_left = max_jumps
+	emit_signal("update_jumps_left", jumps_left)
 
 func reset_jumps():
 	jumps_left = max_jumps
+	emit_signal("update_jumps_left", jumps_left)
 
 func glide(delta):
 	if glide_time_left < 0:
@@ -183,10 +194,12 @@ func glide(delta):
 	if velocity.y <= 0.01:
 		velocity.y = 0
 		glide_time_left -= delta
+		emit_signal("glide_time_left", glide_time_left)
 	
 
 func reset_glide_time_left():
 	glide_time_left = max_glide_time
+	emit_signal("glide_time_left", glide_time_left)
 
 
 func update_drag():
@@ -202,3 +215,4 @@ func get_pickup(pickup_type, ammo):
 func upgrade_jump():
 	max_jumps += 1
 	max_glide_time += 1.0
+	emit_signal("glide_time_left", glide_time_left)

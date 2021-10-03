@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://environment/raw_assets/WallSteel.material" type="Material" id=1]
 [ext_resource path="res://environment/DoorWall.gd" type="Script" id=2]
 [ext_resource path="res://environment/Crusher.gd" type="Script" id=3]
+[ext_resource path="res://Sounds/Effects/dd2bios8.wav" type="AudioStream" id=4]
+[ext_resource path="res://ui/etointeract_text.png" type="Texture" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "brickwall"
@@ -33,6 +35,20 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("DoorMovingSound")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "stop"
+} ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -83,6 +99,26 @@ tracks/2/keys = {
 "method": "stop_crushing"
 } ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath("DoorMovingSound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "stop"
+}, {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "DoorUp"
@@ -112,6 +148,23 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 3.4, 0 ) ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("DoorMovingSound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+} ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Open"
@@ -128,12 +181,33 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector3( 0, 3.4, 0 ) ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath("DoorMovingSound")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "stop"
+} ]
+}
 
 [sub_resource type="BoxShape" id=6]
 extents = Vector3( 2.03278, 1.4498, 0.322666 )
 
 [sub_resource type="BoxShape" id=7]
 extents = Vector3( 1.79639, 0.437761, 0.227342 )
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+albedo_texture = ExtResource( 5 )
+
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
 
 [node name="DoorWall" type="StaticBody" groups=[
 "Doors",
@@ -166,5 +240,23 @@ shape = SubResource( 7 )
 [node name="Timer" type="Timer" parent="Crusher"]
 wait_time = 0.2
 
+[node name="DoorMovingSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+unit_size = 10.0
+
+[node name="InteractMessages" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.547494, 0.353677 )
+visible = false
+
+[node name="CSGMesh" type="CSGMesh" parent="InteractMessages"]
+mesh = SubResource( 9 )
+
+[node name="CSGMesh2" type="CSGMesh" parent="InteractMessages"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -0.734126 )
+mesh = SubResource( 9 )
+
+[node name="HoverTimeout" type="Timer" parent="."]
+
 [connection signal="crushed_something" from="Crusher" to="." method="_on_Crusher_crushed_something"]
 [connection signal="timeout" from="Crusher/Timer" to="Crusher" method="crush"]
+[connection signal="timeout" from="HoverTimeout" to="." method="_on_HoverTimeout_timeout"]

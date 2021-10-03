@@ -9,6 +9,8 @@ var shield_level = 0
 
 var level_1 = "res://Levels/E1M1.tscn"
 var level_2 = "res://Levels/E1M2.tscn"
+var level_3 = "res://Levels/DarkZone-BaseLevel.tscn"
+var level_4 = "res://Levels/Overworld.tscn"
 
 signal upgrade_boots_level
 signal upgrade_shield_level
@@ -25,15 +27,36 @@ func initalize_game():
 func player_dead():
 	playerAlive = false
 
+func start_level_1():
+	initalize_game()
+	remove_projectiles()
+	get_tree().change_scene(level_1)
+	var player = get_tree().get_nodes_in_group("player")
+	
+func start_level_2():
+	initalize_game()
+	remove_projectiles()
+	get_tree().change_scene(level_2)
+	var player = get_tree().get_nodes_in_group("player")
+	
+func start_level_3():
+	initalize_game()
+	remove_projectiles()
+	get_tree().change_scene(level_2)
+	var player = get_tree().get_nodes_in_group("player")
+
+func start_level_4():
+	initalize_game()
+	remove_projectiles()
+	get_tree().change_scene(level_2)
+	var player = get_tree().get_nodes_in_group("player")
 
 func restart_game():
 	initalize_game()
-	var projectiles = get_tree().get_nodes_in_group("projectiles")
-	for projectile in projectiles:
-		projectile.queue_free()
+	remove_projectiles()
 	get_tree().reload_current_scene()
 	var player = get_tree().get_nodes_in_group("player")
-	print(player)
+	
 
 
 func get_pickup(pickup_type, ammo):
@@ -52,4 +75,10 @@ func get_pickup(pickup_type, ammo):
 			emit_signal("upgrade_shield_level")
 			
 			
-	print(has_green_key, has_blue_key, has_yellow_key, icarus_boots_level)
+
+
+
+func remove_projectiles():
+	var projectiles = get_tree().get_nodes_in_group("projectiles")
+	for projectile in projectiles:
+		projectile.queue_free()

@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="FPS Game"
-run/main_scene="res://Levels/E1M2.tscn"
+run/main_scene="res://Levels/E1M1.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -48,8 +48,9 @@ GameManager="*res://Scripts/GameManager.gd"
 
 [display]
 
-window/size/width=320
-window/size/height=240
+window/size/width=640
+window/size/height=480
+window/size/fullscreen=true
 window/size/test_width=1280
 window/size/test_height=960
 window/per_pixel_transparency/allowed=true
@@ -119,7 +120,7 @@ attack={
 }
 restart={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777248,"unicode":0,"echo":false,"script":null)
  ]
 }
 invert_mouse={
@@ -158,6 +159,7 @@ godmode={
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
 quality/shadows/filter_mode=0
 quality/reflections/texture_array_reflections=false
 quality/filters/anisotropic_filter_level=1

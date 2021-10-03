@@ -19,14 +19,10 @@ func stop_crushing():
 	damageTimer.stop()
 
 func crush():
-	
-	
 	var query = PhysicsShapeQueryParameters.new()
 	query.set_transform(global_transform)
-
 	damageSphere(query, collider, 1, space_state, results)
-
-			
+	
 	
 func damageSphere(query, collider, dmg_multiplier, space_state, results):
 	var outputDamage = damage * dmg_multiplier

@@ -53,8 +53,7 @@ func explode():
 	explosion_inst.damage = explosion_damage
 	get_tree().get_root().add_child(explosion_inst)
 	explosion_inst.global_transform.origin = global_transform.origin
-	if source == null:
-		print("ERROR NULL FK")
+
 	explosion_inst.source = source
 	explosion_inst.explode()
 	
